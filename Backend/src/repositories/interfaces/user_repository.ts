@@ -1,0 +1,9 @@
+import { User } from '@prisma/client';
+import { Result } from '@src/utils/result';
+
+export interface UserRepository {
+  getUserById(userId: number): Promise<Result<User>>;
+  getUserByAuthId(authId: string): Promise<Result<User>>;
+  createUser(user: Omit<User, 'id'>): Promise<Result<User>>;
+  updateUser(userId: number, data: Partial<User>): Promise<Result<User>>;
+}

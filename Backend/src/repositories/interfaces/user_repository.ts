@@ -6,4 +6,5 @@ export interface UserRepository {
   getUserByAuthId(authId: string): Promise<Result<User>>;
   createUser(user: Omit<User, 'id'>): Promise<Result<User>>;
   updateUser(userId: number, data: Partial<User>): Promise<Result<User>>;
+  deleteUserByAuthId(authId: string): Promise<Result<boolean>>;
 }

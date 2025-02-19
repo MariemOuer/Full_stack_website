@@ -30,9 +30,9 @@ model Event {
   location  String
   partySize Int      @default(1)
 
-  userId Int?
+  creatorId Int? @map("userId")
 
-  createdBy User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdBy User? @relation(fields: [creatorId], references: [id], onDelete: SetNull)
 
   guests GuestList[]
   budget Budget?

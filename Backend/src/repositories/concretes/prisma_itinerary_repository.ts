@@ -1,11 +1,11 @@
 import { Failure, Ok, Result } from '@src/utils/result';
 import { ItineraryRepository } from '../interfaces/itinerary_repository';
 
-import prisma from '@src/utils/prisma';
+import prisma from '@src/utils/constants/prisma';
 import { Itinerary } from '@prisma/client';
 
 export class PrismaItineraryRepository implements ItineraryRepository {
-  async getItineraryById(itineraryId: number): Promise<Result<Itinerary>> {
+  async getItineraryById(itineraryId: string): Promise<Result<Itinerary>> {
     try {
       const itinerary: Itinerary = await prisma.itinerary.findUniqueOrThrow({ where: { id: itineraryId } });
       return Ok(itinerary);
@@ -21,7 +21,7 @@ export class PrismaItineraryRepository implements ItineraryRepository {
       return Failure(error as Error);
     }
   }
-  async deleteItineraryById(itineraryId: number): Promise<Result<boolean>> {
+  async deleteItineraryById(itineraryId: string): Promise<Result<boolean>> {
     try {
       await prisma.itinerary.delete({ where: { id: itineraryId } });
       return Ok(true);
@@ -29,7 +29,7 @@ export class PrismaItineraryRepository implements ItineraryRepository {
       return Failure(error as Error);
     }
   }
-  async updateItinerary(itineraryId: number, data: Partial<Itinerary>): Promise<Result<Itinerary>> {
+  async updateItinerary(itineraryId: string, data: Partial<Itinerary>): Promise<Result<Itinerary>> {
     try {
       const itinerary: Itinerary = await prisma.itinerary.update({ where: { id: itineraryId }, data: data });
       return Ok(itinerary);

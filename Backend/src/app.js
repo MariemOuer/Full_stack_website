@@ -1,7 +1,8 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 const express = require('express');
 const cors = require('cors');
-const usersRoutes = require('./routes/users_routes');
-const eventsRoutes = require('./routes/events_routes');
 
 const app = express();
 
@@ -9,6 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api', [usersRoutes, eventsRoutes]);
+app.use('/api', routes);
 app.listen(5000);
 module.exports = app;

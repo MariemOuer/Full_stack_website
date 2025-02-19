@@ -19,7 +19,7 @@ model User {
 }
 
 model Itinerary {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   title     String
   date      DateTime
   location  String
@@ -42,7 +42,7 @@ enum GuestStatus {
 model Guest {
   id          Int         @id @default(autoincrement())
   userId      Int
-  itineraryId Int
+  itineraryId String
   status      GuestStatus @default(INVITED)
 
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -60,5 +60,5 @@ model Budget {
   additionalCost    Decimal @default(0) @db.Decimal(10, 2)
 
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
-  itineraryId Int       @unique
+  itineraryId String    @unique
 }

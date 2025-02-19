@@ -1,7 +1,7 @@
 import { Guest, GuestStatus } from '@prisma/client';
 import { Failure, Ok, Result } from '@src/utils/result';
 import { GuestRepository } from '../interfaces/guest_repository';
-import prisma from '@src/utils/prisma';
+import prisma from '@src/utils/constants/prisma';
 
 export class PrismaGuestRepository implements GuestRepository {
   async updateGuestStatusById(id: number, status: GuestStatus): Promise<Result<Guest>> {
@@ -16,7 +16,7 @@ export class PrismaGuestRepository implements GuestRepository {
     }
   }
 
-  async deleteGuestByIds(userId: number, itineraryId: number): Promise<Result<boolean>> {
+  async deleteGuestByIds(userId: number, itineraryId: string): Promise<Result<boolean>> {
     try {
       await prisma.guest.delete({
         where: { userId_itineraryId: { userId: userId, itineraryId: itineraryId } },
@@ -27,7 +27,7 @@ export class PrismaGuestRepository implements GuestRepository {
     }
   }
 
-  async getAllGuestsForItinerary(itineraryId: number): Promise<Result<Guest[]>> {
+  async getAllGuestsForItinerary(itineraryId: string): Promise<Result<Guest[]>> {
     try {
       const guests: Guest[] = await prisma.guest.findMany({ where: { itineraryId: itineraryId } });
       return Ok(guests);

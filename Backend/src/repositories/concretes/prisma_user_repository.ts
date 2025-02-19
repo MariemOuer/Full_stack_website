@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { Failure, Ok, Result } from '@src/utils/result';
 import { UserRepository } from '../interfaces/user_repository';
-import prisma from '@src/utils/prisma';
+import prisma from '@src/utils/constants/prisma';
 
 export class PrismaUserRepository implements UserRepository {
   async deleteUserByAuthId(authId: string): Promise<Result<boolean>> {

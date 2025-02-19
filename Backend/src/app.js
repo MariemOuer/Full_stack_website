@@ -1,5 +1,7 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
+const usersRoutes = require('./routes/users_routes');
+const eventsRoutes = require('./routes/events_routes');
 
 const app = express();
 
@@ -7,8 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Import routes
-const testRoutes = require("./routes/test");
-app.use("/api", testRoutes);
-
+app.use('/api', [usersRoutes, eventsRoutes]);
+app.listen(5000);
 module.exports = app;

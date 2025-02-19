@@ -3,7 +3,7 @@ import { Result, Ok, Failure } from '@src/utils/result';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-class EmailService {
+export class ResendEmailService {
   async sendInvitationEmail(senderEmail: string, recipientEmails: string[], content: string, inviteLink: string): Promise<Result<boolean>> {
     try {
       const response = await resend.emails.send({
@@ -23,5 +23,3 @@ class EmailService {
     }
   }
 }
-
-export default new EmailService();

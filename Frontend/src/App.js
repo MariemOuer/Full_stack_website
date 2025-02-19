@@ -1,12 +1,11 @@
 // src/App.js
 // import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
-import LoginView from "./Views/LoginView";
-import SignupView from "./Views/SignupView";
-import DashboardView from "./Views/DashboardView";
-import UsersView from "./Views/UsersView";
-
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import LoginView from './views/LoginView';
+import SignupView from './views/SignupView';
+import DashboardView from './views/DashboardView';
+import UsersView from './views/UsersView';
 
 function App() {
   const { currentUser } = useAuth();
@@ -15,24 +14,12 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route
-          path="/login"
-          element={!currentUser ? <LoginView /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/signup"
-          element={!currentUser ? <SignupView /> : <Navigate to="/" />}
-        />
+        <Route path="/login" element={!currentUser ? <LoginView /> : <Navigate to="/" />} />
+        <Route path="/signup" element={!currentUser ? <SignupView /> : <Navigate to="/" />} />
 
         {/* Private Routes (only if logged in) */}
-        <Route
-          path="/"
-          element={currentUser ? <DashboardView /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/dogs"
-          element={currentUser ? <UsersView /> : <Navigate to="/login" />}
-        />
+        <Route path="/" element={currentUser ? <DashboardView /> : <Navigate to="/login" />} />
+        <Route path="/dogs" element={currentUser ? <UsersView /> : <Navigate to="/login" />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />

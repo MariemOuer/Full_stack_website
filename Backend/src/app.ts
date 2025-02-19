@@ -1,4 +1,6 @@
+import routes from './routes/routes';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const express = require('express');

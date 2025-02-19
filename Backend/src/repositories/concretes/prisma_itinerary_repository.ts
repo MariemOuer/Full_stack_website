@@ -37,7 +37,7 @@ export class PrismaItineraryRepository implements ItineraryRepository {
       return Failure(error as Error);
     }
   }
-  async getAllItinerarysForUserId(userId: number): Promise<Result<Itinerary[]>> {
+  async getAllCreatedItinerariesForUserId(userId: number): Promise<Result<Itinerary[]>> {
     try {
       const itineraries: Itinerary[] = await prisma.itinerary.findMany({ where: { creatorId: userId } });
       return Ok(itineraries);

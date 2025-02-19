@@ -16,7 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "backend": "cd ../Backend && npx prisma generate && node src/app.js",
+    "backend": "cd ../Backend && npx ts-node -r tsconfig-paths/register src/app.ts",
     "frontend": "cd ../Frontend && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "ts-node": "^10.9.2"
   }
 }

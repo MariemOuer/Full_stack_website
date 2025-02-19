@@ -6,5 +6,5 @@ export interface ItineraryRepository {
   createItinerary(itinerary: Omit<Itinerary, 'id'>): Promise<Result<Itinerary>>;
   deleteItineraryById(itineraryId: string): Promise<Result<boolean>>;
   updateItinerary(itineraryId: string, data: Partial<Itinerary>): Promise<Result<Itinerary>>;
-  getAllItinerarysForUserId(userId: number): Promise<Result<Itinerary[]>>;
+  getAllCreatedItinerariesForUserId(userId: number): Promise<Result<Itinerary[]>>;
 }

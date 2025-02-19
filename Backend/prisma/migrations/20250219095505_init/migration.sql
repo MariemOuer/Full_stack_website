@@ -14,7 +14,7 @@ CREATE TABLE `User` (
 
 -- CreateTable
 CREATE TABLE `Itinerary` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,
     `date` DATETIME(3) NOT NULL,
     `location` VARCHAR(191) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `Itinerary` (
 CREATE TABLE `Guest` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `userId` INTEGER NOT NULL,
-    `itineraryId` INTEGER NOT NULL,
+    `itineraryId` VARCHAR(191) NOT NULL,
     `status` ENUM('INVITED', 'CONFIRMED', 'DECLINED') NOT NULL DEFAULT 'INVITED',
 
     UNIQUE INDEX `Guest_userId_itineraryId_key`(`userId`, `itineraryId`),
@@ -43,7 +43,7 @@ CREATE TABLE `Budget` (
     `cateringCost` DECIMAL(10, 2) NOT NULL DEFAULT 0,
     `entertainmentCost` DECIMAL(10, 2) NOT NULL DEFAULT 0,
     `additionalCost` DECIMAL(10, 2) NOT NULL DEFAULT 0,
-    `itineraryId` INTEGER NOT NULL,
+    `itineraryId` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Budget_itineraryId_key`(`itineraryId`),
     PRIMARY KEY (`id`)

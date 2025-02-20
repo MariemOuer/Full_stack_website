@@ -1,6 +1,6 @@
-export const standardOccasioInviteBody = '';
+export const STANDARD_OCCASIO_INVITE_BODY = '';
 
-export const standardOccasioNotifyBody = '';
+export const STANDARD_OCCASIO_NOTIFY_BODY = '';
 
 export const INVITATION_EMAIL_TEMPLATE = (eventTitle: string, eventDate: string, location: string) => `
   <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; background-color: #f9f9f9; border-radius: 8px;">

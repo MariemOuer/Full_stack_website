@@ -4,6 +4,14 @@ import { UserRepository } from '../interfaces/user_repository';
 import PRISMA from '@src/utils/constants/prisma';
 
 class PrismaUserRepository implements UserRepository {
+  async getUserByEmail(email: string): Promise<Result<User>> {
+    try {
+      const user: User = await PRISMA.user.findUniqueOrThrow({ where: { email: email } });
+      return Result.ok(user);
+    } catch (error) {
+      return Result.error(error as Error);
+    }
+  }
   async getUserByItineraryId(itineraryUUID: string): Promise<Result<User>> {
     try {
       const user: User = await PRISMA.user.findFirstOrThrow({

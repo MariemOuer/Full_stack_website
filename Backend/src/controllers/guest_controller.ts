@@ -90,4 +90,6 @@ router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'decline/:invitationUUID', async 
   );
 });
 
+router.post;
+
 export default router;

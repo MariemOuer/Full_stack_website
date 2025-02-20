@@ -19,12 +19,6 @@ export function getOkValueFromResult<K>(result: Result<K>): K {
   return (result as Ok<K>).value;
 }
 
-export function getErrorFromResult<K>(result: Result<K>): Result<K> {
-  return result.isError()
-    ? Result.error<K>(result.error)
-    : Result.error<K>(new Error(`Cannot get error from Ok result. The Ok returned: ${JSON.stringify((result as Ok<K>).value)}`));
-}
-
 export function adaptResultForReturn<K, T>(result: Result<T>): Result<K> {
   return result as unknown as Result<K>;
 }

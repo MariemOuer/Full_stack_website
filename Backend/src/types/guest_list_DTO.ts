@@ -1,6 +1,6 @@
-import { GuestStatus } from "@prisma/client";
+import { GuestStatus } from '@prisma/client';
 
-export type GuestList = {
+export type GuestListDTO = {
   itineraryUUID: string;
   itineraryPartySize: number;
   guests: Array<{

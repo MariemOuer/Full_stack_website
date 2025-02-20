@@ -1,6 +1,6 @@
 import { Address } from 'nodemailer/lib/mailer';
 
-export type EmailResponse = {
+export type EmailResponseDTO = {
   successfulEmails: Array<string | Address>;
   failedEmails: Array<string | Address>;
   smtpResponse: string;

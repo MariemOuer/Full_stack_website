@@ -5,6 +5,7 @@ import { ResendEmailService } from '@src/services/api/email/concretes/resend_ema
 import { Request, Response } from 'express';
 import { Result } from '@src/utils/result';
 import { Itinerary } from '@prisma/client';
+import { consumeResult } from '@src/utils/result_consumer_helpers';
 
 const router = express.Router();
 
@@ -16,11 +17,11 @@ router.get('/created-by/:userId', async (request: Request<{ userId: string }>, r
   const userId = Number(request.params.userId);
   const result: Result<Itinerary[]> = await itinerariesService.fetchAllCreatedItinerariesFromUser(userId);
 
-  if ('error' in result) {
-    return response.status(400).json({ error: result.error.message });
-  }
-
-  return response.json(result.value);
+  return consumeResult(
+    result,
+    (itineraries) => response.json(itineraries),
+    (error) => response.status(400).json({ error: error.message })
+  );
 });
 
 export default router;

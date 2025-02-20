@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { Result, Ok, Failure } from '@src/utils/result';
+import { Result } from '@src/utils/result';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,9 +17,9 @@ export class ResendEmailService {
         `,
       });
 
-      return Ok(true);
+      return Result.ok(true);
     } catch (error) {
-      return Failure(error as Error);
+      return Result.error(error as Error);
     }
   }
 }

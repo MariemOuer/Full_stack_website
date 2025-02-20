@@ -5,9 +5,9 @@ import prisma from '@src/utils/constants/prisma';
 import { Itinerary } from '@prisma/client';
 
 export class PrismaItineraryRepository implements ItineraryRepository {
-  async getItineraryById(itineraryId: string): Promise<Result<Itinerary>> {
+  async getItineraryById(itineraryUUID: string): Promise<Result<Itinerary>> {
     try {
-      const itinerary: Itinerary = await prisma.itinerary.findUniqueOrThrow({ where: { id: itineraryId } });
+      const itinerary: Itinerary = await prisma.itinerary.findUniqueOrThrow({ where: { id: itineraryUUID } });
       return Ok(itinerary);
     } catch (error) {
       return Failure(error as Error);
@@ -21,17 +21,17 @@ export class PrismaItineraryRepository implements ItineraryRepository {
       return Failure(error as Error);
     }
   }
-  async deleteItineraryById(itineraryId: string): Promise<Result<boolean>> {
+  async deleteItineraryById(itineraryUUID: string): Promise<Result<boolean>> {
     try {
-      await prisma.itinerary.delete({ where: { id: itineraryId } });
+      await prisma.itinerary.delete({ where: { id: itineraryUUID } });
       return Ok(true);
     } catch (error) {
       return Failure(error as Error);
     }
   }
-  async updateItinerary(itineraryId: string, data: Partial<Itinerary>): Promise<Result<Itinerary>> {
+  async updateItinerary(itineraryUUID: string, data: Partial<Itinerary>): Promise<Result<Itinerary>> {
     try {
-      const itinerary: Itinerary = await prisma.itinerary.update({ where: { id: itineraryId }, data: data });
+      const itinerary: Itinerary = await prisma.itinerary.update({ where: { id: itineraryUUID }, data: data });
       return Ok(itinerary);
     } catch (error) {
       return Failure(error as Error);

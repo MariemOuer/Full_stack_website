@@ -3,6 +3,8 @@ import { ItineraryService } from '@src/services/repository_services/itinerary_se
 import { PrismaItineraryRepository } from '@src/repositories/concretes/prisma_itinerary_repository';
 import { ResendEmailService } from '@src/services/api/email/concretes/resend_email_service';
 import { Request, Response } from 'express';
+import { Result } from '@src/utils/result';
+import { Itinerary } from '@prisma/client';
 
 const router = express.Router();
 
@@ -12,7 +14,7 @@ const itinerariesService = new ItineraryService({ itineraryRepository: itinerary
 
 router.get('/created-by/:userId', async (request: Request<{ userId: string }>, response: Response): Promise<any> => {
   const userId = Number(request.params.userId);
-  const result = await itinerariesService.fetchAllCreatedItinerariesFromUser(userId);
+  const result: Result<Itinerary[]> = await itinerariesService.fetchAllCreatedItinerariesFromUser(userId);
 
   if ('error' in result) {
     return response.status(400).json({ error: result.error.message });

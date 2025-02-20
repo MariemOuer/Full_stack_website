@@ -1,3 +1,3 @@
-const standardOccasioEmail: string = '';
+const standardOccasioEmail: string = "";
 
 export default standardOccasioEmail;

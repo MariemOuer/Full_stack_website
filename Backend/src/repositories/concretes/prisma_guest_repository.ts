@@ -1,10 +1,13 @@
-import { Guest, GuestStatus } from '@prisma/client';
-import { Result } from '@src/utils/result';
-import { GuestRepository } from '../interfaces/guest_repository';
-import prisma from '@src/utils/constants/prisma';
+import { Guest, GuestStatus } from "@prisma/client";
+import { Result } from "@src/utils/result";
+import { GuestRepository } from "../interfaces/guest_repository";
+import prisma from "@src/utils/constants/prisma";
 
-export class PrismaGuestRepository implements GuestRepository {
-  async updateGuestStatusById(id: number, status: GuestStatus): Promise<Result<Guest>> {
+class PrismaGuestRepository implements GuestRepository {
+  async updateGuestStatusById(
+    id: number,
+    status: GuestStatus,
+  ): Promise<Result<Guest>> {
     try {
       const guest: Guest = await prisma.guest.update({
         where: { id: id },
@@ -16,10 +19,15 @@ export class PrismaGuestRepository implements GuestRepository {
     }
   }
 
-  async deleteGuestByIds(userId: number, itineraryId: string): Promise<Result<boolean>> {
+  async deleteGuestByIds(
+    userId: number,
+    itineraryId: string,
+  ): Promise<Result<boolean>> {
     try {
       await prisma.guest.delete({
-        where: { userId_itineraryId: { userId: userId, itineraryId: itineraryId } },
+        where: {
+          userId_itineraryId: { userId: userId, itineraryId: itineraryId },
+        },
       });
       return Result.ok(true);
     } catch (error) {
@@ -27,9 +35,13 @@ export class PrismaGuestRepository implements GuestRepository {
     }
   }
 
-  async getAllGuestsForItinerary(itineraryId: string): Promise<Result<Guest[]>> {
+  async getAllGuestsForItinerary(
+    itineraryId: string,
+  ): Promise<Result<Guest[]>> {
     try {
-      const guests: Guest[] = await prisma.guest.findMany({ where: { itineraryId: itineraryId } });
+      const guests: Guest[] = await prisma.guest.findMany({
+        where: { itineraryId: itineraryId },
+      });
       return Result.ok(guests);
     } catch (error) {
       return Result.error(error as Error);
@@ -38,14 +50,16 @@ export class PrismaGuestRepository implements GuestRepository {
 
   async getAllGuestsForUser(userId: number): Promise<Result<Guest[]>> {
     try {
-      const guests: Guest[] = await prisma.guest.findMany({ where: { userId: userId } });
+      const guests: Guest[] = await prisma.guest.findMany({
+        where: { userId: userId },
+      });
       return Result.ok(guests);
     } catch (error) {
       return Result.error(error as Error);
     }
   }
 
-  async createGuest(guest: Omit<Guest, 'id'>): Promise<Result<Guest>> {
+  async createGuest(guest: Omit<Guest, "id">): Promise<Result<Guest>> {
     try {
       const createdGuest: Guest = await prisma.guest.create({ data: guest });
       return Result.ok(createdGuest);
@@ -54,3 +68,5 @@ export class PrismaGuestRepository implements GuestRepository {
     }
   }
 }
+
+export default new PrismaGuestRepository();

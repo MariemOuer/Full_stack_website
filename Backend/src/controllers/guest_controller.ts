@@ -1,22 +1,25 @@
-import { Guest } from '@prisma/client';
-import { PrismaGuestRepository } from '@src/repositories/concretes/prisma_guest_repository';
-import { PrismaItineraryRepository } from '@src/repositories/concretes/prisma_itinerary_repository';
-import { PrismaUserRepository } from '@src/repositories/concretes/prisma_user_repository';
+import prisma_guest_repository from '@src/repositories/concretes/prisma_guest_repository';
+import prisma_itinerary_repository from '@src/repositories/concretes/prisma_itinerary_repository';
+import prisma_user_repository from '@src/repositories/concretes/prisma_user_repository';
+
 import { GuestService } from '@src/services/repository_services/guest_service';
+import { GuestList } from '@src/types/guest_list_result';
+import { guestListRelativeRoute } from '@src/utils/constants/route_constants';
 import { Result } from '@src/utils/result';
 import { consumeResult } from '@src/utils/result_consumer_helpers';
 import express, { Request, Response } from 'express';
 
 const router = express.Router();
 
-const guestRepository = new PrismaGuestRepository();
-const itineraryRepository = new PrismaItineraryRepository();
-const userRepository = new PrismaUserRepository();
-const guestService = new GuestService({ guestRepository: guestRepository, itineraryRepository: itineraryRepository, userRepository: userRepository });
+const guestService = new GuestService({
+  guestRepository: prisma_guest_repository,
+  itineraryRepository: prisma_itinerary_repository,
+  userRepository: prisma_user_repository,
+});
 
-router.get('/guest-list/:itineraryUUID', async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
+router.get(guestListRelativeRoute, async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
   const { itineraryUUID } = request.params;
-  const result: Result<Guest[]> = await guestService.getGuestListForItineraryId(itineraryUUID);
+  const result: Result<GuestList> = await guestService.fetchGuestListForItineraryId(itineraryUUID);
 
   return consumeResult(
     result,

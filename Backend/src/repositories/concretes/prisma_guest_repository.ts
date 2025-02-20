@@ -4,7 +4,7 @@ import { GuestRepository } from '../interfaces/guest_repository';
 import PRISMA from '@src/utils/constants/prisma';
 
 class PrismaGuestRepository implements GuestRepository {
-  async updateGuestStatusById(id: number, status: GuestStatus): Promise<Result<Guest>> {
+  async updateGuestStatusByUUID(id: string, status: GuestStatus): Promise<Result<Guest>> {
     try {
       const guest: Guest = await PRISMA.guest.update({
         where: { id: id },

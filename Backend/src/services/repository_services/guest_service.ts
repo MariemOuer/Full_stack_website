@@ -1,4 +1,4 @@
-import { Guest, Itinerary, User } from '@prisma/client';
+import { Guest, GuestStatus, Itinerary, User } from '@prisma/client';
 import { GuestRepository } from '@src/repositories/interfaces/guest_repository';
 import { ItineraryRepository } from '@src/repositories/interfaces/itinerary_repository';
 import { UserRepository } from '@src/repositories/interfaces/user_repository';
@@ -57,6 +57,14 @@ export class GuestService {
   async inviteAllGuests(guestEmails: string[], itineraryUUID: string): Promise<Result<EmailResponseDTO>> {
     const inviteURL = OCCASIO_BASE_ROUTE + GUEST_BASE_ROUTE + PROCESS_INVITATION_RELATIVE_ROUTE + itineraryUUID;
     return await this, this.emailService.sendEmails(guestEmails, inviteURL);
+  }
+
+  async acceptInvitation(invitationUUID: string): Promise<Result<Guest>> {
+    return await this.guestRepository.updateGuestStatusByUUID(invitationUUID, GuestStatus.CONFIRMED);
+  }
+
+  async declineInvitation(invitationUUID: string): Promise<Result<Guest>> {
+    return await this.guestRepository.updateGuestStatusByUUID(invitationUUID, GuestStatus.DECLINED);
   }
 
   private createGuestListResult(users: User[], guests: Guest[], itinerary: Itinerary): Result<GuestListDTO> {

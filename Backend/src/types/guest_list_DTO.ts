@@ -4,7 +4,7 @@ export type GuestListDTO = {
   itineraryUUID: string;
   itineraryPartySize: number;
   guests: Array<{
-    id: number;
+    id: string | number;
     email: string;
     phoneNumber: string | null;
     name: string;

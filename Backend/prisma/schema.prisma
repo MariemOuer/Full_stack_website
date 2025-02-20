@@ -40,7 +40,7 @@ enum GuestStatus {
 }
 
 model Guest {
-  id          Int         @id @default(autoincrement())
+  id          String      @id @default(uuid())
   userId      Int
   itineraryId String
   status      GuestStatus @default(INVITED)

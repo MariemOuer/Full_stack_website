@@ -1,3 +1,4 @@
+import { Guest } from '@prisma/client';
 import prisma_guest_repository from '@src/repositories/concretes/prisma_guest_repository';
 import prisma_itinerary_repository from '@src/repositories/concretes/prisma_itinerary_repository';
 import prisma_user_repository from '@src/repositories/concretes/prisma_user_repository';
@@ -5,7 +6,12 @@ import gmail_smtp_email_service from '@src/services/external/email/concretes/gma
 import { GuestService } from '@src/services/repository_services/guest_service';
 import { EmailResponseDTO } from '@src/types/email_response_DTO';
 import { GuestListDTO } from '@src/types/guest_list_DTO';
-import { GUEST_LIST_RELATIVE_ROUTE, INVITE_ALL_RELATIVE_ROUTE, NOTIFY_ALL_RELATIVE_ROUTE } from '@src/utils/constants/route_constants';
+import {
+  GUEST_LIST_RELATIVE_ROUTE,
+  INVITE_ALL_RELATIVE_ROUTE,
+  NOTIFY_ALL_RELATIVE_ROUTE,
+  PROCESS_INVITATION_RELATIVE_ROUTE,
+} from '@src/utils/constants/route_constants';
 import { Result } from '@src/utils/result';
 import { consumeResult, getOkValueFromResult } from '@src/utils/result_consumer_helpers';
 import express, { Request, Response } from 'express';
@@ -56,6 +62,30 @@ router.post(INVITE_ALL_RELATIVE_ROUTE, async (request: Request, response: Respon
   return consumeResult(
     emailResult,
     () => response.json(emailResult),
+    (error) => response.status(400).json({ error: error.message })
+  );
+});
+
+router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'accept/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
+  const { invitationUUID } = request.params;
+
+  const acceptResult: Result<Guest> = await guestService.acceptInvitation(invitationUUID);
+
+  return consumeResult(
+    acceptResult,
+    () => response.json(acceptResult),
+    (error) => response.status(400).json({ error: error.message })
+  );
+});
+
+router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'decline/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
+  const { invitationUUID } = request.params;
+
+  const declineResult: Result<Guest> = await guestService.declineInvitation(invitationUUID);
+
+  return consumeResult(
+    declineResult,
+    () => response.json(declineResult),
     (error) => response.status(400).json({ error: error.message })
   );
 });

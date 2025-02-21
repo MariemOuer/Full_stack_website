@@ -11,10 +11,30 @@
   "license": "ISC",
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
+    "@prisma/client": "^6.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mysql2": "^3.12.0",
-    "react-router-dom": "^7.1.5"
+    "nodemailer": "^6.10.0",
+    "prettier": "^3.5.1",
+    "react-router-dom": "^7.1.5",
+    "resend": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "@types/nodemailer": "^6.4.17",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
+    "eslint": "^9.20.1",
+    "nodemon": "^3.1.9",
+    "prisma": "^6.4.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

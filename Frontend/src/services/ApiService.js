@@ -1,9 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
 // New API base URL
 // e.g. https://occasio-pr46tuikx-mariem-ouertatanis-projects.vercel.app/api
-const baseURL =
-  "https://occasio-pr46tuikx-mariem-ouertatanis-projects.vercel.app/api";
+// const baseURL =
+//   "https://occasio-pr46tuikx-mariem-ouertatanis-projects.vercel.app/api";
+
+const baseURL = 'http://localhost:5000/api';
 
 export const apiService = {
   // GET

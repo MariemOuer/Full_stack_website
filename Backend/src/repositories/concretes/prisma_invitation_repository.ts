@@ -15,11 +15,13 @@ class PrismaInvitationRepository implements InvitationRepository {
     );
   }
   async updateInvitationStatusByUUID(id: string, status: InvitationStatus): Promise<Result<Invitation>> {
-    return safeExecutePrismaOperation(() =>
-      PRISMA.invitation.update({
-        where: { id: id, rsvpDeadline: { gt: new Date() } },
-        data: { status: status },
-      })
+    return safeExecutePrismaOperation(
+      () =>
+        PRISMA.invitation.update({
+          where: { id: id, rsvpDeadline: { gt: new Date() } },
+          data: { status: status },
+        }),
+      new Map([['P2025', 'Invitation is past the RSVP deadline']])
     );
   }
 

@@ -35,7 +35,7 @@ router.get(INVITATION_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Re
   return consumeResult(
     result,
     (invitations) => response.json(invitations),
-    (error) => response.status(400).json({ error: error.message })
+    () => response.status(400).json(result)
   );
 });
 
@@ -46,7 +46,7 @@ router.post(NOTIFY_ALL_RELATIVE_ROUTE + ':itineraryUUID', async (request: Reques
     //Must find the invite list first
     const invitationsResult: Result<InvitationListDTO> = await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
     if (invitationsResult.isError()) {
-      return response.status(400).json({ error: invitationsResult.error.message });
+      return invitationsResult;
     }
 
     const invitationEmails: string[] = getOkValueFromResult(invitationsResult).invitations.map((invitation) => invitation.email);
@@ -58,7 +58,7 @@ router.post(NOTIFY_ALL_RELATIVE_ROUTE + ':itineraryUUID', async (request: Reques
   return consumeResult(
     result,
     () => response.json(result),
-    (error) => response.status(400).json({ error: error.message })
+    () => response.status(400).json(result)
   );
 });
 
@@ -72,7 +72,7 @@ router.post(INVITE_ALL_RELATIVE_ROUTE, async (request: Request, response: Respon
   return consumeResult(
     result,
     () => response.json(result),
-    (error) => response.status(400).json({ error: error.message })
+    () => response.status(400).json(result)
   );
 });
 
@@ -86,7 +86,7 @@ router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'accept/:invitationUUID', async (
   return consumeResult(
     result,
     () => response.json(result),
-    (error) => response.status(400).json({ error: error.message })
+    () => response.status(400).json(result)
   );
 });
 
@@ -114,7 +114,7 @@ router.post(REVOKE_INVITATION_RELATIVE_ROUTE + ':invitationUUID', async (request
   return consumeResult(
     result,
     () => response.json({ revokedInvitation: result }),
-    (error) => response.status(400).json({ error: error.message })
+    () => response.status(400).json(result)
   );
 });
 

@@ -5,8 +5,8 @@ import { UserRepository } from '@src/repositories/interfaces/user_repository';
 import { InvitationListDTO } from '@src/types/invitation_list_DTO';
 import { STANDARD_OCCASIO_NOTIFY_BODY } from '@src/utils/constants/email_constants';
 import { INVITATION_BASE_ROUTE, OCCASIO_BASE_ROUTE, PROCESS_INVITATION_RELATIVE_ROUTE } from '@src/utils/constants/route_constants';
-import { Result } from '@src/utils/result/result';
-import { adaptResultForReturn, getOkValueFromResult } from '@src/utils/result/result_consumer_helpers';
+import { Failure, Result } from '@src/utils/result/result';
+import { getOkValueFromResult } from '@src/utils/result/result_consumer_helpers';
 import { EmailService } from '../external/email/interfaces/email_service';
 import { EmailResponseDTO } from '@src/types/email_response_DTO';
 import { UserInfo } from '@src/types/user_info';
@@ -34,16 +34,16 @@ export class InvitationService {
     this.emailService = emailService;
   }
 
-  async fetchInvitationListForItineraryId(itineraryUUID: string): Promise<Result<InvitationListDTO>> {
+  async fetchInvitationListForItineraryId(itineraryUUID: string): Promise<any> {
     const invitationResult = await this.invitationRepository.getAllInvitationsForItinerary(itineraryUUID);
-    if (invitationResult.isError()) return adaptResultForReturn(invitationResult);
+    if (invitationResult instanceof Failure) return invitationResult as Failure<InvitationListDTO, typeof invitationResult.error>;
 
     const itineraryResult = await this.itineraryRepository.getItineraryById(itineraryUUID);
-    if (itineraryResult.isError()) return adaptResultForReturn(itineraryResult);
+    if (itineraryResult instanceof Failure) return itineraryResult as Failure<InvitationListDTO, typeof itineraryResult.error>;
 
     const invitations = getOkValueFromResult(invitationResult);
     const userResult = await this.userRepository.getUsersByIds(invitations.map((invitation) => invitation.userId));
-    if (userResult.isError()) return adaptResultForReturn(userResult);
+    if (userResult instanceof Failure) return userResult as Failure<InvitationListDTO, typeof userResult.error>;
 
     const users = getOkValueFromResult(userResult);
     const itinerary = getOkValueFromResult(itineraryResult);
@@ -56,34 +56,29 @@ export class InvitationService {
   }
 
   async inviteAllInvitations(userInfos: UserInfo[], itineraryUUID: string, rsvpDeadline: Date): Promise<Result<EmailResponseDTO>> {
-    const userResults = await Promise.all(userInfos.map(async (userInfo) => await this.fetchOrCreateUserByEmail(userInfo)));
-
-    for (const result of userResults) {
-      if (result.isError()) {
-        return adaptResultForReturn(result);
-      }
+    const userResults: Result<User>[] = [];
+    for (const userInfo of userInfos) {
+      const userResult = await this.fetchOrCreateUserByEmail(userInfo);
+      if (userResult instanceof Failure) return userResult;
+      userResults.push(userResult);
     }
 
-    const invitationResults = await Promise.all(
-      userResults.map((userResult) => {
-        const user: User = getOkValueFromResult(userResult);
-        return this.invitationRepository.createInvitation({
-          userId: user.id,
-          itineraryId: itineraryUUID,
-          status: 'INVITED',
-          rsvpDeadline: rsvpDeadline,
-        });
-      })
-    );
+    const invitationResults: Result<Invitation>[] = [];
+    for (const userResult of userResults) {
+      const user = getOkValueFromResult(userResult);
+      const invitationResult = await this.invitationRepository.createInvitation({
+        userId: user.id,
+        itineraryId: itineraryUUID,
+        status: 'INVITED',
+        rsvpDeadline,
+      });
 
-    for (const result of invitationResults) {
-      if (result.isError()) {
-        return adaptResultForReturn(result);
-      }
+      if (invitationResult instanceof Failure) return invitationResult;
+      invitationResults.push(invitationResult);
     }
 
-    const inviteURL = OCCASIO_BASE_ROUTE + INVITATION_BASE_ROUTE + PROCESS_INVITATION_RELATIVE_ROUTE + itineraryUUID;
-    return await this.emailService.sendEmails(
+    const inviteURL = `${OCCASIO_BASE_ROUTE}${INVITATION_BASE_ROUTE}${PROCESS_INVITATION_RELATIVE_ROUTE}${itineraryUUID}`;
+    return this.emailService.sendEmails(
       userInfos.map((userInfo) => userInfo.email),
       inviteURL
     );

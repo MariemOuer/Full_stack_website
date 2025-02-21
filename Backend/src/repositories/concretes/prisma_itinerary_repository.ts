@@ -7,10 +7,12 @@ import { safeExecutePrismaOperation } from '@src/utils/prisma/prisma_helpers';
 
 class PrismaItineraryRepository implements ItineraryRepository {
   async getItineraryById(itineraryUUID: string): Promise<Result<Itinerary>> {
-    return safeExecutePrismaOperation(() =>
-      PRISMA.itinerary.findUniqueOrThrow({
-        where: { id: itineraryUUID },
-      })
+    return safeExecutePrismaOperation(
+      () =>
+        PRISMA.itinerary.findUniqueOrThrow({
+          where: { id: itineraryUUID },
+        }),
+      new Map([['P2025', 'Itinerary not found']])
     );
   }
   async createItinerary(itinerary: Omit<Itinerary, 'id'>): Promise<Result<Itinerary>> {

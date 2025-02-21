@@ -1,40 +1,29 @@
-export abstract class Result<T> {
-  static ok<T>(value: T): Result<T> {
+export abstract class Result<K, E extends Error = Error> {
+  static ok<T>(value: T): Result<T, never> {
     return new Ok(value);
   }
 
-  static error<T>(error: Error): Result<T> {
+  static error<T, E extends Error>(error: E): Result<T, E> {
     return new Failure(error);
   }
 
-  abstract isOk(): this is Ok<T>;
-  abstract isError(): this is Failure<T>;
-}
-
-export class Ok<T> extends Result<T> {
-  constructor(public readonly value: T) {
-    super();
+  isOk(): this is Ok<K> {
+    return this instanceof Ok;
   }
 
-  isOk(): this is Ok<T> {
-    return true;
-  }
-
-  isError(): this is Failure<T> {
-    return false;
+  isError(): this is Failure<K, E> {
+    return this instanceof Failure;
   }
 }
 
-export class Failure<T> extends Result<T> {
-  constructor(public readonly error: Error) {
+export class Ok<K> extends Result<K, never> {
+  constructor(public readonly value: K) {
     super();
   }
+}
 
-  isOk(): this is Ok<T> {
-    return false;
-  }
-
-  isError(): this is Failure<T> {
-    return true;
+export class Failure<K, E extends Error = Error> extends Result<K, E> {
+  constructor(public readonly error: E) {
+    super();
   }
 }

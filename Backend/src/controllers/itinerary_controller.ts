@@ -24,7 +24,7 @@ router.get(CREATED_BY_RELATIVE_ROUTE + ':userId', async (request: Request<{ user
   return consumeResult(
     result,
     (itineraries) => response.json(itineraries),
-    (error) => response.status(400).json({ error: error.message })
+    () => response.status(400).json(result)
   );
 });
 

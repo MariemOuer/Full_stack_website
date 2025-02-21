@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
     "paths": {
-      "@src/*": ["src/*"]
+      "@src/*": ["*"]
     },
     "moduleResolution": "node",
     "outDir": "./dist",
@@ -17,6 +17,8 @@
 
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowUnusedLabels": false
+    "allowUnusedLabels": false,
+    "jsx": "react-jsx",
+    "allowJs": true
   }
 }

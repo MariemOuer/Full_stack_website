@@ -6,6 +6,7 @@ import LoginView from './views/LoginView';
 import SignupView from './views/SignupView';
 import DashboardView from './views/DashboardView';
 import UsersView from './views/UsersView';
+import InvitationListView from './views/invitation_list_view';
 
 function App() {
   const { currentUser } = useAuth();
@@ -16,6 +17,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/login" element={!currentUser ? <LoginView /> : <Navigate to="/" />} />
         <Route path="/signup" element={!currentUser ? <SignupView /> : <Navigate to="/" />} />
+        <Route path="/invitation-list" element={<InvitationListView />} />
 
         {/* Private Routes (only if logged in) */}
         <Route path="/" element={currentUser ? <DashboardView /> : <Navigate to="/login" />} />

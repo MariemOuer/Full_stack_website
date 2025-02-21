@@ -1,4 +1,4 @@
-import { Result } from '@src/utils/result';
+import { Result } from '@src/utils/result/result';
 import { ItineraryRepository } from '../interfaces/itinerary_repository';
 
 import PRISMA from '@src/utils/prisma/prisma_client';

@@ -1,5 +1,5 @@
 import { Invitation, InvitationStatus } from '@prisma/client';
-import { Result } from '@src/utils/result';
+import { Result } from '@src/utils/result/result';
 import { InvitationRepository } from '../interfaces/invitation_repository';
 import PRISMA from '@src/utils/prisma/prisma_client';
 import { safeExecutePrismaOperation } from '@src/utils/prisma/prisma_helpers';

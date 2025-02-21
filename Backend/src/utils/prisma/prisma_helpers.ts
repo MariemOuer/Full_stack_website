@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { Result } from '../result';
+import { Failure, Result } from '../result/result';
+import { safeExecute } from '../general_error_helpers';
 
 export type PrismaErrorResponse = {
   errorReason: string;
@@ -7,7 +8,7 @@ export type PrismaErrorResponse = {
   errorMessage: string;
 };
 
-export function handlePrismaError(error: unknown): Error {
+export function handlePrismaError<K>(error: unknown): Result<K> {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     const prismaErrorResponse: PrismaErrorResponse = {
       errorReason: error.meta ? JSON.stringify(error.meta) : 'Unknown',
@@ -15,17 +16,14 @@ export function handlePrismaError(error: unknown): Error {
       errorMessage: error.message,
     };
 
-    return new Error(JSON.stringify(prismaErrorResponse));
+    return Result.error(new Error(JSON.stringify(prismaErrorResponse)));
   }
 
-  return error as Error;
+  return Result.error(error as Error);
 }
 
-export async function safeExecutePrismaOperation<T>(operation: () => Promise<T>): Promise<Result<T>> {
-  try {
-    const result = await operation();
-    return Result.ok(result);
-  } catch (error) {
-    return Result.error(handlePrismaError(error));
-  }
+export async function safeExecutePrismaOperation<K>(operation: () => Promise<K>): Promise<Result<K>> {
+  const result = await safeExecute(operation);
+  if (result instanceof Failure) return handlePrismaError<K>(result);
+  return result;
 }

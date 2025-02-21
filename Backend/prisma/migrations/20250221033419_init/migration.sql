@@ -29,6 +29,7 @@ CREATE TABLE `Invitation` (
     `id` VARCHAR(191) NOT NULL,
     `userId` INTEGER NOT NULL,
     `itineraryId` VARCHAR(191) NOT NULL,
+    `rsvpDeadline` DATETIME(3) NOT NULL,
     `status` ENUM('INVITED', 'CONFIRMED', 'DECLINED') NOT NULL DEFAULT 'INVITED',
 
     UNIQUE INDEX `Invitation_userId_itineraryId_key`(`userId`, `itineraryId`),

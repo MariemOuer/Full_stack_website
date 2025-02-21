@@ -2,12 +2,11 @@ import express from 'express';
 import { ItineraryService } from '@src/services/repository_services/itinerary_service';
 
 import { Request, Response } from 'express';
-import { Result } from '@src/utils/result';
-import { Itinerary } from '@prisma/client';
-import { consumeResult } from '@src/utils/result_consumer_helpers';
+import { consumeResult } from '@src/utils/result/result_consumer_helpers';
 import prisma_itinerary_repository from '@src/repositories/concretes/prisma_itinerary_repository';
 import prisma_user_repository from '@src/repositories/concretes/prisma_user_repository';
 import { CREATED_BY_RELATIVE_ROUTE } from '@src/utils/constants/route_constants';
+import { safeExecute } from '@src/utils/general_error_helpers';
 
 const router = express.Router();
 
@@ -17,8 +16,10 @@ const itinerariesService = new ItineraryService({
 });
 
 router.get(CREATED_BY_RELATIVE_ROUTE + ':userId', async (request: Request<{ userId: string }>, response: Response): Promise<any> => {
-  const userId = Number(request.params.userId);
-  const result: Result<Itinerary[]> = await itinerariesService.fetchAllCreatedItinerariesFromUser(userId);
+  const result = await safeExecute(async () => {
+    const userId = Number(request.params.userId);
+    return await itinerariesService.fetchAllCreatedItinerariesFromUser(userId);
+  });
 
   return consumeResult(
     result,

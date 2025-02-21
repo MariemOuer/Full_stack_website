@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { Result } from '@src/utils/result';
+import { Result } from '@src/utils/result/result';
 import { UserRepository } from '../interfaces/user_repository';
 import PRISMA from '@src/utils/prisma/prisma_client';
 import { safeExecutePrismaOperation } from '@src/utils/prisma/prisma_helpers';

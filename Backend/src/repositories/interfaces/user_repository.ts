@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { Result } from '@src/utils/result';
+import { Result } from '@src/utils/result/result';
 
 export interface UserRepository {
   getUserById(userId: number): Promise<Result<User>>;

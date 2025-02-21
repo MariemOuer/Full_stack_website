@@ -16,6 +16,5 @@ export const NOTIFICATION_EMAIL_TEMPLATE = (notificationMessage: string) => `
   <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; background-color: #f9f9f9; border-radius: 8px;">
     <h2 style="color: #333; text-align: center;">🔔 Notification</h2>
     <p style="font-size: 16px; color: #555;">${notificationMessage}</p>
-    <p style="font-size: 14px; color: #777;">If you have any questions, feel free to reply to this email.</p>
   </div>
 `;

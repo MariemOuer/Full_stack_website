@@ -35,12 +35,12 @@ async function main() {
   // ✅ Create 6 Invitations
   await prisma.invitation.createMany({
     data: [
-      { userId: allUsers[1].id, itineraryId: 'itinerary-1', status: InvitationStatus.CONFIRMED },
-      { userId: allUsers[2].id, itineraryId: 'itinerary-1', status: InvitationStatus.INVITED },
-      { userId: allUsers[3].id, itineraryId: 'itinerary-2', status: InvitationStatus.CONFIRMED },
-      { userId: allUsers[4].id, itineraryId: 'itinerary-2', status: InvitationStatus.DECLINED },
-      { userId: allUsers[0].id, itineraryId: 'itinerary-3', status: InvitationStatus.INVITED },
-      { userId: allUsers[2].id, itineraryId: 'itinerary-3', status: InvitationStatus.CONFIRMED },
+      { userId: allUsers[1].id, itineraryId: 'itinerary-1', rsvpDeadline: new Date('2025-02-01'), status: InvitationStatus.INVITED },
+      { userId: allUsers[2].id, itineraryId: 'itinerary-1', rsvpDeadline: new Date('2025-06-01'), status: InvitationStatus.INVITED },
+      { userId: allUsers[3].id, itineraryId: 'itinerary-2', rsvpDeadline: new Date('2025-07-01'), status: InvitationStatus.CONFIRMED },
+      { userId: allUsers[4].id, itineraryId: 'itinerary-2', rsvpDeadline: new Date('2025-07-01'), status: InvitationStatus.DECLINED },
+      { userId: allUsers[0].id, itineraryId: 'itinerary-3', rsvpDeadline: new Date('2025-07-20'), status: InvitationStatus.INVITED },
+      { userId: allUsers[2].id, itineraryId: 'itinerary-3', rsvpDeadline: new Date('2025-07-20'), status: InvitationStatus.CONFIRMED },
     ],
   });
 

@@ -1,4 +1,3 @@
-import { Invitation } from '@prisma/client';
 import prisma_invitation_repository from '@src/repositories/concretes/prisma_invitation_repository';
 import prisma_itinerary_repository from '@src/repositories/concretes/prisma_itinerary_repository';
 import prisma_user_repository from '@src/repositories/concretes/prisma_user_repository';
@@ -13,8 +12,9 @@ import {
   PROCESS_INVITATION_RELATIVE_ROUTE,
   REVOKE_INVITATION_RELATIVE_ROUTE,
 } from '@src/utils/constants/route_constants';
-import { Result } from '@src/utils/result';
-import { consumeResult, getOkValueFromResult } from '@src/utils/result_consumer_helpers';
+import { safeExecute } from '@src/utils/general_error_helpers';
+import { Result } from '@src/utils/result/result';
+import { consumeResult, getOkValueFromResult } from '@src/utils/result/result_consumer_helpers';
 import express, { Request, Response } from 'express';
 
 const router = express.Router();
@@ -27,8 +27,10 @@ const invitationService = new InvitationService({
 });
 
 router.get(INVITATION_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
-  const { itineraryUUID } = request.params;
-  const result: Result<InvitationListDTO> = await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
+  const result = await safeExecute(async () => {
+    const { itineraryUUID } = request.params;
+    return await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
+  });
 
   return consumeResult(
     result,
@@ -37,68 +39,81 @@ router.get(INVITATION_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Re
   );
 });
 
-router.post(NOTIFY_ALL_RELATIVE_ROUTE, async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
-  const { itineraryUUID } = request.params;
+router.post(NOTIFY_ALL_RELATIVE_ROUTE + ':itineraryUUID', async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
+  const result = await safeExecute(async () => {
+    const { itineraryUUID } = request.params;
 
-  const invitationsResult: Result<InvitationListDTO> = await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
-  if (invitationsResult.isError()) {
-    return response.status(400).json({ error: invitationsResult.error.message });
-  }
+    //Must find the invite list first
+    const invitationsResult: Result<InvitationListDTO> = await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
+    if (invitationsResult.isError()) {
+      return response.status(400).json({ error: invitationsResult.error.message });
+    }
 
-  const invitationEmails: string[] = getOkValueFromResult(invitationsResult).invitations.map((invitation) => invitation.email);
+    const invitationEmails: string[] = getOkValueFromResult(invitationsResult).invitations.map((invitation) => invitation.email);
 
-  const emailResult: Result<EmailResponseDTO> = await invitationService.notifyAllInvitations(invitationEmails);
+    //Now that we have all emails on the invitation list, notify all
+    return await invitationService.notifyAllInvitations(invitationEmails);
+  });
+
   return consumeResult(
-    emailResult,
-    () => response.json(emailResult),
+    result,
+    () => response.json(result),
     (error) => response.status(400).json({ error: error.message })
   );
 });
 
 router.post(INVITE_ALL_RELATIVE_ROUTE, async (request: Request, response: Response): Promise<any> => {
-  const { emails, itineraryUUID, rsvpDeadline } = request.body;
+  const result: Result<Result<EmailResponseDTO>> = await safeExecute(async () => {
+    const { emails, itineraryUUID, rsvpDeadline } = request.body;
 
-  const emailResult: Result<EmailResponseDTO> = await invitationService.inviteAllInvitations(emails, itineraryUUID, rsvpDeadline);
+    return await invitationService.inviteAllInvitations(emails, itineraryUUID, rsvpDeadline);
+  });
 
   return consumeResult(
-    emailResult,
-    () => response.json(emailResult),
+    result,
+    () => response.json(result),
     (error) => response.status(400).json({ error: error.message })
   );
 });
 
 router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'accept/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
-  const { invitationUUID } = request.params;
+  const result = await safeExecute(async () => {
+    const { invitationUUID } = request.params;
 
-  const acceptResult: Result<Invitation> = await invitationService.acceptInvitation(invitationUUID);
+    return await invitationService.acceptInvitation(invitationUUID);
+  });
 
   return consumeResult(
-    acceptResult,
-    () => response.json(acceptResult),
+    result,
+    () => response.json(result),
     (error) => response.status(400).json({ error: error.message })
   );
 });
 
 router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'decline/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
-  const { invitationUUID } = request.params;
+  const result = await safeExecute(async () => {
+    const { invitationUUID } = request.params;
 
-  const declineResult: Result<Invitation> = await invitationService.declineInvitation(invitationUUID);
+    return await invitationService.declineInvitation(invitationUUID);
+  });
 
   return consumeResult(
-    declineResult,
-    () => response.json(declineResult),
-    (error) => response.status(400).json({ error: error.message })
+    result,
+    () => response.json(result),
+    () => response.status(400).json(result)
   );
 });
 
 router.post(REVOKE_INVITATION_RELATIVE_ROUTE + ':invitationUUID', async (request: Request, response: Response): Promise<any> => {
-  const { invitationUUID } = request.params;
+  const result = await safeExecute(async () => {
+    const { invitationUUID } = request.params;
 
-  const revokeResult: Result<Invitation> = await invitationService.revokeInvitation(invitationUUID);
+    return await invitationService.revokeInvitation(invitationUUID);
+  });
 
   return consumeResult(
-    revokeResult,
-    () => response.json({ revokedInvitation: revokeResult }),
+    result,
+    () => response.json({ revokedInvitation: result }),
     (error) => response.status(400).json({ error: error.message })
   );
 });

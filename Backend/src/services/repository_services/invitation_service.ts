@@ -5,8 +5,8 @@ import { UserRepository } from '@src/repositories/interfaces/user_repository';
 import { InvitationListDTO } from '@src/types/invitation_list_DTO';
 import { STANDARD_OCCASIO_NOTIFY_BODY } from '@src/utils/constants/email_constants';
 import { INVITATION_BASE_ROUTE, OCCASIO_BASE_ROUTE, PROCESS_INVITATION_RELATIVE_ROUTE } from '@src/utils/constants/route_constants';
-import { Result } from '@src/utils/result';
-import { adaptResultForReturn, getOkValueFromResult } from '@src/utils/result_consumer_helpers';
+import { Result } from '@src/utils/result/result';
+import { adaptResultForReturn, getOkValueFromResult } from '@src/utils/result/result_consumer_helpers';
 import { EmailService } from '../external/email/interfaces/email_service';
 import { EmailResponseDTO } from '@src/types/email_response_DTO';
 import { UserInfo } from '@src/types/user_info';
@@ -120,13 +120,16 @@ export class InvitationService {
   }
 
   private createInvitationListResult(users: User[], invitations: Invitation[], itinerary: Itinerary): Result<InvitationListDTO> {
-    const invitationMap = new Map(invitations.map((invitation) => [invitation.userId, { id: invitation.id, status: invitation.status }]));
+    const invitationMap = new Map(
+      invitations.map((invitation) => [invitation.userId, { id: invitation.id, status: invitation.status, rsvpDeadline: invitation.rsvpDeadline }])
+    );
     const invitationAndUserMerged = users.map((user) => {
       const invitation = invitationMap.get(user.id);
       return {
         ...user,
         ...invitation,
-        status: invitation?.status,
+        status: invitation?.status ?? InvitationStatus.INVITED,
+        rsvpDeadline: invitation?.rsvpDeadline ?? new Date(),
       };
     });
 

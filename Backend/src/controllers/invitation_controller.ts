@@ -56,9 +56,9 @@ router.post(NOTIFY_ALL_RELATIVE_ROUTE, async (request: Request<{ itineraryUUID: 
 });
 
 router.post(INVITE_ALL_RELATIVE_ROUTE, async (request: Request, response: Response): Promise<any> => {
-  const { emails, itineraryUUID } = request.body;
+  const { emails, itineraryUUID, rsvpDeadline } = request.body;
 
-  const emailResult: Result<EmailResponseDTO> = await invitationService.inviteAllInvitations(emails, itineraryUUID);
+  const emailResult: Result<EmailResponseDTO> = await invitationService.inviteAllInvitations(emails, itineraryUUID, rsvpDeadline);
 
   return consumeResult(
     emailResult,

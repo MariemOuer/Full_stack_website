@@ -40,10 +40,11 @@ enum InvitationStatus {
 }
 
 model Invitation {
-  id          String           @id @default(uuid())
-  userId      Int
-  itineraryId String
-  status      InvitationStatus @default(INVITED)
+  id           String           @id @default(uuid())
+  userId       Int
+  itineraryId  String
+  rsvpDeadline DateTime
+  status       InvitationStatus @default(INVITED)
 
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)

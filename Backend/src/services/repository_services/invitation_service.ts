@@ -55,7 +55,7 @@ export class InvitationService {
     return await this.emailService.sendEmails(invitationEmails, STANDARD_OCCASIO_NOTIFY_BODY);
   }
 
-  async inviteAllInvitations(userInfos: UserInfo[], itineraryUUID: string): Promise<Result<EmailResponseDTO>> {
+  async inviteAllInvitations(userInfos: UserInfo[], itineraryUUID: string, rsvpDeadline: Date): Promise<Result<EmailResponseDTO>> {
     const userResults = await Promise.all(userInfos.map(async (userInfo) => await this.fetchOrCreateUserByEmail(userInfo)));
 
     for (const result of userResults) {
@@ -71,6 +71,7 @@ export class InvitationService {
           userId: user.id,
           itineraryId: itineraryUUID,
           status: 'INVITED',
+          rsvpDeadline: rsvpDeadline,
         });
       })
     );

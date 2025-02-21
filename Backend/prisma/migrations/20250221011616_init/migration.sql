@@ -25,13 +25,13 @@ CREATE TABLE `Itinerary` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Guest` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Invitation` (
+    `id` VARCHAR(191) NOT NULL,
     `userId` INTEGER NOT NULL,
     `itineraryId` VARCHAR(191) NOT NULL,
     `status` ENUM('INVITED', 'CONFIRMED', 'DECLINED') NOT NULL DEFAULT 'INVITED',
 
-    UNIQUE INDEX `Guest_userId_itineraryId_key`(`userId`, `itineraryId`),
+    UNIQUE INDEX `Invitation_userId_itineraryId_key`(`userId`, `itineraryId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -53,10 +53,10 @@ CREATE TABLE `Budget` (
 ALTER TABLE `Itinerary` ADD CONSTRAINT `Itinerary_creatorId_fkey` FOREIGN KEY (`creatorId`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Guest` ADD CONSTRAINT `Guest_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Invitation` ADD CONSTRAINT `Invitation_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Guest` ADD CONSTRAINT `Guest_itineraryId_fkey` FOREIGN KEY (`itineraryId`) REFERENCES `Itinerary`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Invitation` ADD CONSTRAINT `Invitation_itineraryId_fkey` FOREIGN KEY (`itineraryId`) REFERENCES `Itinerary`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Budget` ADD CONSTRAINT `Budget_itineraryId_fkey` FOREIGN KEY (`itineraryId`) REFERENCES `Itinerary`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -1,4 +1,4 @@
-import { PrismaClient, GuestStatus } from '@prisma/client';
+import { PrismaClient, InvitationStatus } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -32,19 +32,19 @@ async function main() {
 
   console.log('✅ 3 Itineraries created.');
 
-  // ✅ Create 6 Guests
-  await prisma.guest.createMany({
+  // ✅ Create 6 Invitations
+  await prisma.invitation.createMany({
     data: [
-      { userId: allUsers[1].id, itineraryId: 'itinerary-1', status: GuestStatus.CONFIRMED },
-      { userId: allUsers[2].id, itineraryId: 'itinerary-1', status: GuestStatus.INVITED },
-      { userId: allUsers[3].id, itineraryId: 'itinerary-2', status: GuestStatus.CONFIRMED },
-      { userId: allUsers[4].id, itineraryId: 'itinerary-2', status: GuestStatus.DECLINED },
-      { userId: allUsers[0].id, itineraryId: 'itinerary-3', status: GuestStatus.INVITED },
-      { userId: allUsers[2].id, itineraryId: 'itinerary-3', status: GuestStatus.CONFIRMED },
+      { userId: allUsers[1].id, itineraryId: 'itinerary-1', status: InvitationStatus.CONFIRMED },
+      { userId: allUsers[2].id, itineraryId: 'itinerary-1', status: InvitationStatus.INVITED },
+      { userId: allUsers[3].id, itineraryId: 'itinerary-2', status: InvitationStatus.CONFIRMED },
+      { userId: allUsers[4].id, itineraryId: 'itinerary-2', status: InvitationStatus.DECLINED },
+      { userId: allUsers[0].id, itineraryId: 'itinerary-3', status: InvitationStatus.INVITED },
+      { userId: allUsers[2].id, itineraryId: 'itinerary-3', status: InvitationStatus.CONFIRMED },
     ],
   });
 
-  console.log('✅ 6 Guests created.');
+  console.log('✅ 6 Invitations created.');
 
   // ✅ Create 3 Budgets
   await prisma.budget.createMany({

@@ -1,11 +1,11 @@
 import express from 'express';
 import itineraryRouter from '../controllers/itinerary_controller';
-import guestRouter from '../controllers/guest_controller';
-import { GUEST_BASE_ROUTE, ITINERARY_BASE_ROUTE } from '@src/utils/constants/route_constants';
+import invitationRouter from '../controllers/invitation_controller';
+import { INVITATION_BASE_ROUTE, ITINERARY_BASE_ROUTE } from '@src/utils/constants/route_constants';
 
 const router = express.Router();
 
 router.use(ITINERARY_BASE_ROUTE, itineraryRouter);
-router.use(GUEST_BASE_ROUTE, guestRouter);
+router.use(INVITATION_BASE_ROUTE, invitationRouter);
 
 export default router;

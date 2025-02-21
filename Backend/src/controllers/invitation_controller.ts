@@ -1,16 +1,17 @@
-import { Guest } from '@prisma/client';
-import prisma_guest_repository from '@src/repositories/concretes/prisma_guest_repository';
+import { Invitation } from '@prisma/client';
+import prisma_invitation_repository from '@src/repositories/concretes/prisma_invitation_repository';
 import prisma_itinerary_repository from '@src/repositories/concretes/prisma_itinerary_repository';
 import prisma_user_repository from '@src/repositories/concretes/prisma_user_repository';
 import gmail_smtp_email_service from '@src/services/external/email/concretes/gmail_smtp_email_service';
-import { GuestService } from '@src/services/repository_services/guest_service';
+import { InvitationService } from '@src/services/repository_services/invitation_service';
 import { EmailResponseDTO } from '@src/types/email_response_DTO';
-import { GuestListDTO } from '@src/types/guest_list_DTO';
+import { InvitationListDTO } from '@src/types/invitation_list_DTO';
 import {
-  GUEST_LIST_RELATIVE_ROUTE,
+  INVITATION_LIST_RELATIVE_ROUTE,
   INVITE_ALL_RELATIVE_ROUTE,
   NOTIFY_ALL_RELATIVE_ROUTE,
   PROCESS_INVITATION_RELATIVE_ROUTE,
+  REVOKE_INVITATION_RELATIVE_ROUTE,
 } from '@src/utils/constants/route_constants';
 import { Result } from '@src/utils/result';
 import { consumeResult, getOkValueFromResult } from '@src/utils/result_consumer_helpers';
@@ -18,20 +19,20 @@ import express, { Request, Response } from 'express';
 
 const router = express.Router();
 
-const guestService = new GuestService({
-  guestRepository: prisma_guest_repository,
+const invitationService = new InvitationService({
+  invitationRepository: prisma_invitation_repository,
   itineraryRepository: prisma_itinerary_repository,
   userRepository: prisma_user_repository,
   emailService: gmail_smtp_email_service,
 });
 
-router.get(GUEST_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
+router.get(INVITATION_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
   const { itineraryUUID } = request.params;
-  const result: Result<GuestListDTO> = await guestService.fetchGuestListForItineraryId(itineraryUUID);
+  const result: Result<InvitationListDTO> = await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
 
   return consumeResult(
     result,
-    (guests) => response.json(guests),
+    (invitations) => response.json(invitations),
     (error) => response.status(400).json({ error: error.message })
   );
 });
@@ -39,14 +40,14 @@ router.get(GUEST_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Request
 router.post(NOTIFY_ALL_RELATIVE_ROUTE, async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
   const { itineraryUUID } = request.params;
 
-  const guestsResult: Result<GuestListDTO> = await guestService.fetchGuestListForItineraryId(itineraryUUID);
-  if (guestsResult.isError()) {
-    return response.status(400).json({ error: guestsResult.error.message });
+  const invitationsResult: Result<InvitationListDTO> = await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
+  if (invitationsResult.isError()) {
+    return response.status(400).json({ error: invitationsResult.error.message });
   }
 
-  const guestEmails: string[] = getOkValueFromResult(guestsResult).guests.map((guest) => guest.email);
+  const invitationEmails: string[] = getOkValueFromResult(invitationsResult).invitations.map((invitation) => invitation.email);
 
-  const emailResult: Result<EmailResponseDTO> = await guestService.notifyAllGuests(guestEmails);
+  const emailResult: Result<EmailResponseDTO> = await invitationService.notifyAllInvitations(invitationEmails);
   return consumeResult(
     emailResult,
     () => response.json(emailResult),
@@ -57,7 +58,7 @@ router.post(NOTIFY_ALL_RELATIVE_ROUTE, async (request: Request<{ itineraryUUID: 
 router.post(INVITE_ALL_RELATIVE_ROUTE, async (request: Request, response: Response): Promise<any> => {
   const { emails, itineraryUUID } = request.body;
 
-  const emailResult: Result<EmailResponseDTO> = await guestService.inviteAllGuests(emails, itineraryUUID);
+  const emailResult: Result<EmailResponseDTO> = await invitationService.inviteAllInvitations(emails, itineraryUUID);
 
   return consumeResult(
     emailResult,
@@ -69,7 +70,7 @@ router.post(INVITE_ALL_RELATIVE_ROUTE, async (request: Request, response: Respon
 router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'accept/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
   const { invitationUUID } = request.params;
 
-  const acceptResult: Result<Guest> = await guestService.acceptInvitation(invitationUUID);
+  const acceptResult: Result<Invitation> = await invitationService.acceptInvitation(invitationUUID);
 
   return consumeResult(
     acceptResult,
@@ -81,7 +82,7 @@ router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'accept/:invitationUUID', async (
 router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'decline/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
   const { invitationUUID } = request.params;
 
-  const declineResult: Result<Guest> = await guestService.declineInvitation(invitationUUID);
+  const declineResult: Result<Invitation> = await invitationService.declineInvitation(invitationUUID);
 
   return consumeResult(
     declineResult,
@@ -90,6 +91,16 @@ router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'decline/:invitationUUID', async 
   );
 });
 
-router.post;
+router.post(REVOKE_INVITATION_RELATIVE_ROUTE + ':invitationUUID', async (request: Request, response: Response): Promise<any> => {
+  const { invitationUUID } = request.params;
+
+  const revokeResult: Result<Invitation> = await invitationService.revokeInvitation(invitationUUID);
+
+  return consumeResult(
+    revokeResult,
+    () => response.json({ revokedInvitation: revokeResult }),
+    (error) => response.status(400).json({ error: error.message })
+  );
+});
 
 export default router;

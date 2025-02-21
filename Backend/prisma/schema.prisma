@@ -15,7 +15,7 @@ model User {
   authId      String? @unique
 
   userCreatedItineraries Itinerary[]
-  onGuestLists           Guest[]
+  onInvitationLists      Invitation[]
 }
 
 model Itinerary {
@@ -29,21 +29,21 @@ model Itinerary {
 
   createdBy User? @relation(fields: [creatorId], references: [id], onDelete: SetNull)
 
-  guestList Guest[]
-  budget    Budget?
+  invitationList Invitation[]
+  budget         Budget?
 }
 
-enum GuestStatus {
+enum InvitationStatus {
   INVITED
   CONFIRMED
   DECLINED
 }
 
-model Guest {
-  id          String      @id @default(uuid())
+model Invitation {
+  id          String           @id @default(uuid())
   userId      Int
   itineraryId String
-  status      GuestStatus @default(INVITED)
+  status      InvitationStatus @default(INVITED)
 
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)

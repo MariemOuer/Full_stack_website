@@ -2,11 +2,11 @@
 // import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-import LoginView from './views/LoginView';
-import SignupView from './views/SignupView';
-import DashboardView from './views/DashboardView';
-import UsersView from './views/UsersView';
-import InvitationListView from './views/invitation_list_view';
+import LoginView from './Views/LoginView';
+import SignupView from './Views/SignupView';
+import DashboardView from './Views/DashboardView';
+import UsersView from './Views/UsersView';
+import InvitationListView from './Views/invitation_list_view';
 
 function App() {
   const { currentUser } = useAuth();

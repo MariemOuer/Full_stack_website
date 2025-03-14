@@ -2,6 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import Navbar from "./Views/NavbarView"; // Import Navbar
 import LoginView from "./Views/LoginView";
 import SignupView from "./Views/SignupView";
 import DashboardView from "./Views/DashboardView";
@@ -12,6 +13,8 @@ function App() {
 
   return (
     <Router>
+      <Navbar />
+
       <Routes>
         {/* Public Routes */}
         <Route

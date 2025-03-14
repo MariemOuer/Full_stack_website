@@ -1,0 +1,36 @@
+/* src/styles/navbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background-color: #f9f4eb; 
+  color: #D72638;
+  font-size: 16px;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-left a,
+.nav-right span {
+  text-decoration: none;
+  color: #D72638;
+  font-weight: 500;
+}
+
+.nav-center h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #D72638;
+}
+
+.user-icon {
+  width: 24px;
+  height: 24px;
+}

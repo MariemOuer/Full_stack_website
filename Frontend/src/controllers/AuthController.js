@@ -4,13 +4,24 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
+const db = getFirestore();
 
 export const useAuthController = () => {
-  // Sign up with email
-  const signupWithEmail = async (email, password) => {
+  const signupWithEmail = async (email, password, userData) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phone: userData.phone,
+        email: user.email,
+        uid: user.uid,
+      });
+      
       return userCredential;
     } catch (error) {
       console.error("Error signing up:", error);
@@ -31,6 +42,6 @@ export const useAuthController = () => {
 
   return {
     signupWithEmail,
-    loginWithEmail
+    loginWithEmail,
   };
 };

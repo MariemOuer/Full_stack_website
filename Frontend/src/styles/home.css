@@ -1,0 +1,189 @@
+/* Import Merriweather and Lato fonts */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap');
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #F8F1E5;
+    margin: 0;
+    padding: 0;
+}
+
+.homepage-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2fr 1fr; /* Top sections take 2/3, bottom sections take 1/3 */
+    gap: 20px; /* Reduce gap between sections */
+    max-width: 1200px;
+    margin: 40px auto; /* Reduce top and bottom margin */
+    padding: 20px;
+    height: calc(100vh - 80px); /* Full viewport height minus margins */
+}
+
+/* Top Left: Text Section */
+.homepage-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.homepage-text h2 {
+    color: #5A189A;
+    font-family: 'Merriweather', serif;
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.homepage-text p {
+    font-size: 20px;
+    color: #5A189A;
+    line-height: 1.6;
+}
+
+.cta-link {
+    color: #D72638;
+    font-size: 22px;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-top: 0px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.cta-link:hover {
+    color: #B51D2E;
+}
+
+/* Top Right: Image Section */
+.homepage-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.homepage-image img {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 10px;
+}
+
+/* Bottom Left: How It Works */
+.homepage-how-it-works {
+    display: flex;
+    flex-direction: column;
+    margin-top: -30px;
+}
+
+.how-it-works-image {
+    width: 100%;
+    max-width: 150px; /* Make the moodboard image even smaller */
+    border-radius: 10px;
+    margin-bottom: 10px; /* Reduce margin */
+    align-self: center;
+}
+
+.homepage-how-it-works h3 {
+    font-family: 'Merriweather', serif;
+    font-size: 42px; /* Reduce font size */
+    color: #5A189A;
+    margin-bottom: 0px; /* Reduce margin */
+}
+
+.homepage-how-it-works ol {
+    font-size: 25px; /* Reduce font size */
+    color: #5A189A;
+    padding-left: 20px;
+    text-align: left; /* Align list text to the left */
+}
+
+.homepage-how-it-works ol li {
+    margin-bottom: 8px; /* Reduce margin */
+}
+
+.homepage-how-it-works ol strong {
+    color: #5A189A;
+}
+
+/* Bottom Right: Meet the Team */
+.homepage-team {
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+}
+
+.team-header {
+    font-family: 'Merriweather', serif;
+    font-size: 42px; /* Adjust font size as needed */
+    color: #5A189A;
+    margin-bottom: 20px; /* Add space below the header */
+    text-align: left;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; 
+}
+
+.team-member-card {
+    background: #F7E8D7;
+    padding: 20px; /* Adjust padding */
+    border-radius: 10px;
+    border: 0.5px ridge #5A189A; /* Add border with color #5A189A */
+}
+
+.card-top {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 15px; 
+}
+
+.member-image {
+    width: 60px; /* Adjust image size */
+    border-radius: 50%;
+    margin-right: 10px; /* Space between image and text */
+}
+
+.member-info {
+    flex: 1; /* Allow text to take remaining space */
+}
+
+.member-info h4 {
+    font-family: 'Merriweather', serif;
+    font-size: 14px; /* Adjust font size */
+    color: #5A189A;
+    margin: 0; /* Remove default margin */
+}
+
+.member-info p {
+    font-size: 12px; /* Adjust font size */
+    color: #5A189A;
+    margin: 0; /* Remove default margin */
+}
+
+.member-description {
+    font-size: 12px; /* Adjust font size */
+    color: #5A189A;
+    text-align: left; /* Left-align description */
+    margin: 0; /* Remove default margin */
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .homepage-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto; /* Stack sections vertically */
+        gap: 20px; /* Reduce gap for mobile */
+        height: auto; /* Reset height for mobile */
+    }
+
+    .homepage-team {
+        grid-template-columns: 1fr;
+    }
+
+    .team-grid{
+        grid-template-columns: 1fr;
+    }
+
+    
+}

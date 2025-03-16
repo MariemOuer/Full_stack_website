@@ -6,6 +6,7 @@ import LoginView from "./Views/LoginView";
 import SignupView from "./Views/SignupView";
 import DashboardView from "./Views/DashboardView";
 import UsersView from "./Views/UsersView";
+import HomepageView from "./Views/HomepageView";
 
 
 function App() {
@@ -15,6 +16,10 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
+        <Route
+          path="/home"
+          element={!currentUser ? <HomepageView /> : <Navigate to="/" />}
+        />
         <Route
           path="/login"
           element={!currentUser ? <LoginView /> : <Navigate to="/" />}

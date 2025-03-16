@@ -1,5 +1,3 @@
-/* src/styles/navbar.css */
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -33,4 +31,34 @@
 .user-icon {
   width: 24px;
   height: 24px;
+}
+
+/*  for Very Small Screens */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    text-align: center;
+  }
+
+  .nav-left,
+  .nav-right {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-left a {
+    font-size: 14px;
+  }
+
+  .nav-center h2 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  .user-icon {
+    width: 20px;
+    height: 20px;
+  }
 }

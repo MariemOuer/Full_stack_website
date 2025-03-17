@@ -1,5 +1,7 @@
 import routes from "./routes/routes";
 import dotenv from "dotenv";
+import "module-alias/register";
+
 
 dotenv.config();
 
@@ -11,7 +13,6 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
 app.use("/api", routes);
-app.listen(5000);
-module.exports = app;
+
+export default app;

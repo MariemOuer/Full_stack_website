@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc", 
+    "start": "node dist/app.js",
+    "vercel-build": "prisma generate && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^9.21.0",
     "express": "^4.21.2",
+    "module-alias": "^2.2.3",
     "mysql2": "^3.12.0",
     "nodemailer": "^6.10.0",
     "prettier": "^3.5.1",
@@ -37,5 +40,8 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "_moduleAliases": {
+    "@src": "dist"
   }
 }

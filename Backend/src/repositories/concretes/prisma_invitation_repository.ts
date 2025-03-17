@@ -1,8 +1,10 @@
 import { Invitation, InvitationStatus } from '@prisma/client';
-import { Result } from '@src/utils/result/result';
 import { InvitationRepository } from '../interfaces/invitation_repository';
-import PRISMA from '@src/utils/prisma/prisma_client';
-import { safeExecutePrismaOperation } from '@src/utils/prisma/prisma_helpers';
+import { safeExecutePrismaOperation } from '../../utils/prisma/prisma_helpers';
+import PRISMA from '../../utils/prisma/prisma_client';
+import { Result } from '../../utils/result/result';
+
+
 
 class PrismaInvitationRepository implements InvitationRepository {
   async deleteInvitationByUUID(invitationUUID: string): Promise<Result<Invitation>> {

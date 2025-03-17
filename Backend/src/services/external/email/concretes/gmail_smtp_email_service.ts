@@ -1,8 +1,11 @@
 import nodemailer from 'nodemailer';
 import { EmailService } from '../interfaces/email_service';
-import { Result } from '@src/utils/result/result';
-import { EmailResponseDTO } from '@src/types/email_response_DTO';
-import { safeExecute } from '@src/utils/general_error_helpers';
+import { EmailResponseDTO } from '../../../../types/email_response_DTO';
+import { safeExecute } from '../../../../utils/general_error_helpers';
+import { Result } from '../../../../utils/result/result';
+
+
+
 
 const appPassword = process.env.GMAIL_APP_PASSWORD;
 const occasioEmail = process.env.OCCASIO_EMAIL;

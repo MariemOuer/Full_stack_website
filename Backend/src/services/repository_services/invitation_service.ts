@@ -1,15 +1,17 @@
 import { Invitation, InvitationStatus, Itinerary, User } from '@prisma/client';
-import { InvitationRepository } from '@src/repositories/interfaces/invitation_repository';
-import { ItineraryRepository } from '@src/repositories/interfaces/itinerary_repository';
-import { UserRepository } from '@src/repositories/interfaces/user_repository';
-import { InvitationListDTO } from '@src/types/invitation_list_DTO';
-import { STANDARD_OCCASIO_NOTIFY_BODY } from '@src/utils/constants/email_constants';
-import { INVITATION_BASE_ROUTE, OCCASIO_BASE_ROUTE, PROCESS_INVITATION_RELATIVE_ROUTE } from '@src/utils/constants/route_constants';
-import { Failure, Result } from '@src/utils/result/result';
-import { getOkValueFromResult } from '@src/utils/result/result_consumer_helpers';
+import { InvitationRepository } from '../../repositories/interfaces/invitation_repository';
+import { ItineraryRepository } from '../../repositories/interfaces/itinerary_repository';
+import { UserRepository } from '../../repositories/interfaces/user_repository';
+import { EmailResponseDTO } from '../../types/email_response_DTO';
+import { InvitationListDTO } from '../../types/invitation_list_DTO';
+import { STANDARD_OCCASIO_NOTIFY_BODY } from '../../utils/constants/email_constants';
+import { OCCASIO_BASE_ROUTE, INVITATION_BASE_ROUTE, PROCESS_INVITATION_RELATIVE_ROUTE } from '../../utils/constants/route_constants';
+import { Failure, Result } from '../../utils/result/result';
+import { getOkValueFromResult } from '../../utils/result/result_consumer_helpers';
 import { EmailService } from '../external/email/interfaces/email_service';
-import { EmailResponseDTO } from '@src/types/email_response_DTO';
-import { UserInfo } from '@src/types/user_info';
+import { UserInfo } from '../../types/user_info';
+
+
 
 export class InvitationService {
   private invitationRepository: InvitationRepository;

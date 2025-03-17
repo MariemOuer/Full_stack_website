@@ -1,12 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      "@src/*": ["*"]
-    },
     "moduleResolution": "node",
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     "esModuleInterop": true,
     "skipLibCheck": true,
 
@@ -18,7 +14,10 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "allowUnusedLabels": false,
+
     "jsx": "react-jsx",
     "allowJs": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

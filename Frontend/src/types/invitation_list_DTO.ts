@@ -1,4 +1,4 @@
-import { Invitation } from '@src/models/invitation';
+import { Invitation } from "../models/invitation";
 
 export type InvitationListDTO = {
   itineraryUUID: string;

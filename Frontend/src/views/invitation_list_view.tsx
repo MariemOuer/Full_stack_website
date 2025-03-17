@@ -11,7 +11,7 @@ function InvitationListView() {
   useEffect(() => {
     async function fetchInvitations() {
       try {
-        const response = await apiService.get('/invitation/invitation-list/itinerary-1');
+        const response = await apiService.get('/api/invitation/invitation-list/itinerary-1');
         setInvitationList(response.data);
       } catch (error) {
         setError(error instanceof Error ? error.message : 'Unknown');

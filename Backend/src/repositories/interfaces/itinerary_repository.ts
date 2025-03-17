@@ -1,6 +1,5 @@
 import { Itinerary } from '@prisma/client';
-import { Result } from '@src/utils/result/result';
-
+import { Result } from '../../utils/result/result';
 export interface ItineraryRepository {
   getItineraryById(itineraryUUID: string): Promise<Result<Itinerary>>;
   createItinerary(itinerary: Omit<Itinerary, 'id'>): Promise<Result<Itinerary>>;

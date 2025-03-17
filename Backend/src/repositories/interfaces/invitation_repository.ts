@@ -1,5 +1,5 @@
 import { Invitation, InvitationStatus } from '@prisma/client';
-import { Result } from '@src/utils/result/result';
+import { Result } from '../../utils/result/result';
 
 export interface InvitationRepository {
   getAllInvitationsForItinerary(itneraryId: string): Promise<Result<Invitation[]>>;

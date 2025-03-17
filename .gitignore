@@ -6,3 +6,4 @@ Backend/vercel.json
 Frontend/src/firebase.js
 dist/
 node_modules
+.vercel

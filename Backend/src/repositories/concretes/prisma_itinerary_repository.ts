@@ -1,9 +1,10 @@
-import { Result } from '@src/utils/result/result';
 import { ItineraryRepository } from '../interfaces/itinerary_repository';
 
-import PRISMA from '@src/utils/prisma/prisma_client';
 import { Itinerary } from '@prisma/client';
-import { safeExecutePrismaOperation } from '@src/utils/prisma/prisma_helpers';
+import { safeExecutePrismaOperation } from '../../utils/prisma/prisma_helpers';
+import PRISMA from '../../utils/prisma/prisma_client';
+import { Result } from '../../utils/result/result';
+
 
 class PrismaItineraryRepository implements ItineraryRepository {
   async getItineraryById(itineraryUUID: string): Promise<Result<Itinerary>> {

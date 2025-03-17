@@ -1,16 +1,13 @@
 import axios from 'axios';
 
-// New API base URL
-// e.g. https://occasio-pr46tuikx-mariem-ouertatanis-projects.vercel.app/api
-// const baseURL =
-//   "https://occasio-pr46tuikx-mariem-ouertatanis-projects.vercel.app/api";
 
-const baseURL = 'http://localhost:5000/api';
+const baseURL = process.env.REACT_APP_BACKEND_URL;
 
 export const apiService = {
   // GET
   get: async (endpoint, config = {}) => {
     const url = `${baseURL}${endpoint}`;
+    console.log(url);
     const response = await axios.get(url, { ...config });
     return response;
   },

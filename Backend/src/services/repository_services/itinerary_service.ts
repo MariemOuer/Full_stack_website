@@ -1,8 +1,10 @@
-import { ItineraryRepository } from '@src/repositories/interfaces/itinerary_repository';
-import { Result } from '@src/utils/result/result';
-import { Itinerary, User } from '@prisma/client';
 
-import { UserRepository } from '@src/repositories/interfaces/user_repository';
+import { Itinerary, User } from '@prisma/client';
+import { ItineraryRepository } from '../../repositories/interfaces/itinerary_repository';
+import { UserRepository } from '../../repositories/interfaces/user_repository';
+import { Result } from '../../utils/result/result';
+
+
 
 export class ItineraryService {
   private itineraryRepository: ItineraryRepository;

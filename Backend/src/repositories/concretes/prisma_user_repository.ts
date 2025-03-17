@@ -1,8 +1,9 @@
 import { User } from '@prisma/client';
-import { Result } from '@src/utils/result/result';
 import { UserRepository } from '../interfaces/user_repository';
-import PRISMA from '@src/utils/prisma/prisma_client';
-import { safeExecutePrismaOperation } from '@src/utils/prisma/prisma_helpers';
+import PRISMA from '../../utils/prisma/prisma_client';
+import { safeExecutePrismaOperation } from '../../utils/prisma/prisma_helpers';
+import { Result } from '../../utils/result/result';
+
 
 class PrismaUserRepository implements UserRepository {
   async getUserByEmail(email: string): Promise<Result<User>> {

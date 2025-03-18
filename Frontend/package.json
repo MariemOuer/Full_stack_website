@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^1.7.9",
     "cra-template-pwa": "2.0.0",
-    "firebase": "^11.3.1",
+    "firebase": "^11.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.1.5",
@@ -15,9 +15,9 @@
   "scripts": {
     "build": "react-scripts build",
     "start": "react-scripts start",
-    "backend": "cd ../Backend && npx nodemon --ext ts --exec ts-node -r tsconfig-paths/register src/app.ts",
+    "backend": "cd ../Backend && npm run dev",
     "frontend": "cd ../Frontend && npm start",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    "dev": "concurrently \"npm run backend\" \"cross-env NODE_ENV=development npm run frontend\""
   },
   "eslintConfig": {
     "extends": [

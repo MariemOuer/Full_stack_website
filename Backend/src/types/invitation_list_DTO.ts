@@ -11,5 +11,6 @@ export type InvitationListDTO = {
     authId: string | null;
     status: InvitationStatus | undefined;
     rsvpDeadline: Date;
+    plusOnes: number;
   }>;
 };

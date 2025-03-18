@@ -73,6 +73,7 @@ export class InvitationService {
         itineraryId: itineraryUUID,
         status: 'INVITED',
         rsvpDeadline,
+        plusOnes: 0
       });
 
       if (invitationResult instanceof Failure) return invitationResult;
@@ -118,7 +119,7 @@ export class InvitationService {
 
   private createInvitationListResult(users: User[], invitations: Invitation[], itinerary: Itinerary): Result<InvitationListDTO> {
     const invitationMap = new Map(
-      invitations.map((invitation) => [invitation.userId, { id: invitation.id, status: invitation.status, rsvpDeadline: invitation.rsvpDeadline }])
+      invitations.map((invitation) => [invitation.userId, { id: invitation.id, status: invitation.status, rsvpDeadline: invitation.rsvpDeadline, plusOnes: invitation.plusOnes }])
     );
     const invitationAndUserMerged = users.map((user) => {
       const invitation = invitationMap.get(user.id);
@@ -127,6 +128,7 @@ export class InvitationService {
         ...invitation,
         status: invitation?.status ?? InvitationStatus.INVITED,
         rsvpDeadline: invitation?.rsvpDeadline ?? new Date(),
+        plusOnes: invitation?.plusOnes ?? 0,
       };
     });
 

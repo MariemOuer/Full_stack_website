@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc", 
     "start": "node dist/app.js",
-    "vercel-build": "prisma generate && npm run build"
+    "vercel-build": "prisma generate && npm run build",
+    "dev": "NODE_ENV=development npx nodemon --ext ts --exec ts-node -r tsconfig-paths/register src/app.ts"
   },
   "keywords": [],
   "author": "",

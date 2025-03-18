@@ -38,7 +38,7 @@ const InvitationTable: React.FC<InvitationTableProps> = ({ itineraryUUID, itiner
               <td>
                 <a href={`mailto:${guest.email}`}>{guest.email}</a>
               </td>
-              <td>2</td>
+              <td>{guest.plusOnes}</td>
               <td>{guest.status}</td>
             </tr>
           ))}

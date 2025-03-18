@@ -8,4 +8,5 @@ export type Invitation = {
   authId: string | null;
   status: InvitationStatus | undefined;
   rsvpDeadline: Date;
+  plusOnes: number;
 };

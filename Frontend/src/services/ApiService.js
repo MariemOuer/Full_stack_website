@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 
-const baseURL = process.env.REACT_APP_BACKEND_URL;
+const baseURL = (process.env.NODE_ENV === undefined)
+  ? process.env.PRODUCTION_BACKEND_URL
+  : process.env.DEVELOPMENT_BACKEND_URL || 'http://localhost:5000';
+
 
 export const apiService = {
   // GET

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Invitation` ADD COLUMN `plusOnes` INTEGER NOT NULL DEFAULT 0;

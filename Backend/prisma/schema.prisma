@@ -45,6 +45,7 @@ model Invitation {
   itineraryId  String
   rsvpDeadline DateTime
   status       InvitationStatus @default(INVITED)
+  plusOnes     Int              @default(0)
 
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)

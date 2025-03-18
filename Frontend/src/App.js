@@ -27,7 +27,7 @@ function App() {
           <Route path="/" element={currentUser || isGuest ? <HomepageView /> : <Navigate to="/login" />} />
 
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </div>
 

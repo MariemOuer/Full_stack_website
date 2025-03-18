@@ -1,22 +1,15 @@
 import React, { useState } from "react";
-import { Invitation } from "../models/invitation";
 import "../styles/invitation_table.css";
 
-type InvitationTableProps = {
-  itineraryUUID: string;
-  itineraryPartySize: number;
-  invitations: Invitation[];
-};
-
-const InvitationTable: React.FC<InvitationTableProps> = ({ itineraryUUID, itineraryPartySize, invitations }) => {
-  const [selectedGuest, setSelectedGuest] = useState<string | null>(null);
+const InvitationTable = ({ itineraryUUID, itineraryPartySize, invitations }) => {
+  const [selectedGuest, setSelectedGuest] = useState(null);
   const [openAddGuest, setOpenAddGuest] = useState(false);
 
   const togglePopup = () => {
     setOpenAddGuest(!openAddGuest);
   };
 
-  const handleRowClick = (guestId: string) => {
+  const handleRowClick = (guestId) => {
     setSelectedGuest(selectedGuest === guestId ? null : guestId);
   };
 
@@ -47,7 +40,7 @@ const InvitationTable: React.FC<InvitationTableProps> = ({ itineraryUUID, itiner
         <tbody>
           {invitations.map((guest) => (
             <React.Fragment key={guest.id}>
-              <tr onClick={() => handleRowClick(guest.id.toString())}>
+              <tr onClick={() => handleRowClick(guest.id?.toString())}>
                 <td>{new Date(guest.rsvpDeadline).toLocaleDateString()}</td>
                 <td>{guest.name}</td>
                 <td>
@@ -59,7 +52,7 @@ const InvitationTable: React.FC<InvitationTableProps> = ({ itineraryUUID, itiner
                   <img src="./trash-red.png" alt="trashcan" className="trash-red" />
                 </td>
               </tr>
-              {selectedGuest === guest.id.toString() && (
+              {selectedGuest === guest.id?.toString() && (
                 <tr className="dropdown-row">
                   <td colSpan={6}>
                     <div className="dropdown-content">

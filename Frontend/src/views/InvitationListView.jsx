@@ -1,13 +1,12 @@
 import InvitationTable from "../components/invitation_table";
 import { apiService } from "../services/ApiService";
-import { InvitationListDTO } from "../types/invitation_list_DTO";
 import { useEffect, useState } from "react";
 import "../styles/invitation_table.css";
 
 function InvitationListView() {
-  const [invitationList, setInvitationList] = useState<InvitationListDTO | null>(null);
+  const [invitationList, setInvitationList] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchInvitations() {

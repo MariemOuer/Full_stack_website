@@ -5,7 +5,7 @@ import Navbar from "./Views/NavbarView";
 import FooterView from "./Views/FooterView"; 
 import LoginView from "./Views/LoginView";
 import SignupView from "./Views/SignupView";
-import DashboardView from "./Views/DashboardView";
+import HomepageView from "./Views/HomepageView";
 import UsersView from "./Views/UsersView";
 
 function App() {
@@ -22,8 +22,7 @@ function App() {
           <Route path="/signup" element={!currentUser && !isGuest ? <SignupView /> : <Navigate to="/" />} />
 
           {/* Private Routes (only if logged in or guest) */}
-          <Route path="/" element={currentUser || isGuest ? <DashboardView /> : <Navigate to="/login" />} />
-          <Route path="/dogs" element={currentUser ? <UsersView /> : <Navigate to="/login" />} />
+          <Route path="/" element={currentUser || isGuest ? <HomepageView /> : <Navigate to="/login" />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" />} />

@@ -6,13 +6,14 @@
   background-color: #f9f4eb; 
   color: #D72638;
   font-size: 16px;
+  position: relative;
 }
+
 .auth-page .nav-center {
   flex: 1;
   display: flex;
   justify-content: center;
 }
-
 
 .nav-left,
 .nav-right {
@@ -37,9 +38,10 @@
 .user-icon {
   width: 24px;
   height: 24px;
-
 }
-.navbar button {
+
+/* Logout Button */
+.logout-button {
   background-color: #D72638; 
   color: #fff; 
   border: none;
@@ -51,17 +53,63 @@
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.navbar button:hover {
+.logout-button:hover {
   background-color: #B51D2E; 
   transform: scale(1.05); 
 }
 
-.navbar button:active {
+.logout-button:active {
   transform: scale(0.98); 
 }
 
+/* Mobile Toggle Button */
+.nav-toggle {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #D72638;
+  cursor: pointer;
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  z-index: 20;
+}
 
-/*  for Very Small Screens */
+/* Mobile Dropdown Menu  */
+.mobile-dropdown {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 50px; 
+  left: 15px; 
+  background: #f9f4eb;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 15;
+}
+
+/* Show dropdown when active */
+.mobile-dropdown.show {
+  display: flex;
+}
+
+/* Dropdown Links */
+.mobile-dropdown a {
+  text-decoration: none;
+  color: #D72638;
+  padding: 10px;
+  font-size: 16px;
+  text-align: left;
+  width: 150px; 
+}
+
+.mobile-dropdown a:hover {
+  background-color: #e9dfcc;
+}
+
+/*for small screens*/
 @media only screen and (max-width: 699px) {
   .navbar {
       flex-direction: column;
@@ -69,23 +117,25 @@
       padding: 10px 5%;
   }
 
-  .nav-right {
+  .nav-toggle {
+      display: block; 
+  }
+
+  .nav-left, .nav-right {
       display: none;
   }
 
-  .nav-center h2 {
-      font-size: 24px; 
+  .nav-right.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }
 
-
-  .mobile-menu a {
-      color: #D72638;
-      padding: 10px;
-      text-decoration: none;
-      font-size: 16px;
-  }
-
-  .mobile-menu a:hover {
-      text-decoration: underline;
+  /* Smaller Logout Button on Mobile */
+  .logout-button {
+      font-size: 14px;
+      padding: 6px 12px;
+      margin-top: 10px;
+      width: 100px; 
   }
 }

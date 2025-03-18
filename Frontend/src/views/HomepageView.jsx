@@ -3,6 +3,45 @@ import { Link } from "react-router-dom";
 import "../styles/home.css";
 
 const HomepageView = () => {
+  const teamMembers = [
+    {
+      name: "Miri Kim",
+      role: "Team Leader",
+      description: "Lorem ipsum dolor sit amet consectetur.",
+      image: "/userlogo.png",
+    },
+    {
+      name: "Riya Sharma",
+      role: "Team Leader",
+      description: "Lorem ipsum dolor sit amet consectetur.",
+      image: "/userlogo.png",
+    },
+    {
+      name: "Martin Liu",
+      role: "Backend Developer",
+      description: "Lorem ipsum dolor sit amet consectetur.",
+      image: "/userlogo.png",
+    },
+    {
+      name: "Mariem Ouertatani",
+      role: "Backend Developer",
+      description: "Lorem ipsum dolor sit amet consectetur.",
+      image: "/userlogo.png",
+    },
+    {
+      name: "Diba Jamali",
+      role: "Frontend Developer",
+      description: "Lorem ipsum dolor sit amet consectetur.",
+      image: "/userlogo.png",
+    },
+    {
+      name: "Stephenie Oboh",
+      role: "Frontend Developer",
+      description: "Lorem ipsum dolor sit amet consectetur.",
+      image: "/userlogo.png",
+    },
+  ];
+
   return (
     <div className="homepage-background">
       <div className="homepage-container">
@@ -48,16 +87,15 @@ const HomepageView = () => {
         <div className="homepage-team">
           <h2 className="team-header">Meet the Team</h2>
           <div className="team-grid">
-            {[...Array(6)].map((_, index) => (
+            {teamMembers.map((member, index) => (
               <div key={index} className="team-member-card">
                 <div className="card-top">
-                  <img src="/userlogo.png" alt="Team Member" className="member-image" />
+                  <img src={member.image} alt="Team Member" className="member-image" />
                   <div className="member-info">
-                    <h4>Member Name</h4>
-                    <p>Team Leader</p>
+                    <h4>{member.name}</h4>
+                    <p>{member.role}</p>
                   </div>
                 </div>
-                <p className="member-description">Lorem ipsum dolor sit amet consectetur.</p>
               </div>
             ))}
           </div>

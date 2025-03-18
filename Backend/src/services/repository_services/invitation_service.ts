@@ -1,17 +1,15 @@
-import { Invitation, InvitationStatus, Itinerary, User } from '@prisma/client';
-import { InvitationRepository } from '../../repositories/interfaces/invitation_repository';
-import { ItineraryRepository } from '../../repositories/interfaces/itinerary_repository';
-import { UserRepository } from '../../repositories/interfaces/user_repository';
-import { EmailResponseDTO } from '../../types/email_response_DTO';
-import { InvitationListDTO } from '../../types/invitation_list_DTO';
-import { STANDARD_OCCASIO_NOTIFY_BODY } from '../../utils/constants/email_constants';
-import { OCCASIO_BASE_ROUTE, INVITATION_BASE_ROUTE, PROCESS_INVITATION_RELATIVE_ROUTE } from '../../utils/constants/route_constants';
-import { Failure, Result } from '../../utils/result/result';
-import { getOkValueFromResult } from '../../utils/result/result_consumer_helpers';
-import { EmailService } from '../external/email/interfaces/email_service';
-import { UserInfo } from '../../types/user_info';
-
-
+import { Invitation, InvitationStatus, Itinerary, User } from "@prisma/client";
+import { InvitationRepository } from "../../repositories/interfaces/invitation_repository";
+import { ItineraryRepository } from "../../repositories/interfaces/itinerary_repository";
+import { UserRepository } from "../../repositories/interfaces/user_repository";
+import { EmailResponseDTO } from "../../types/email_response_DTO";
+import { InvitationListDTO } from "../../types/invitation_list_DTO";
+import { STANDARD_OCCASIO_NOTIFY_BODY } from "../../utils/constants/email_constants";
+import { OCCASIO_BASE_ROUTE, INVITATION_BASE_ROUTE, PROCESS_INVITATION_RELATIVE_ROUTE } from "../../utils/constants/route_constants";
+import { Failure, Result } from "../../utils/result/result";
+import { getOkValueFromResult } from "../../utils/result/result_consumer_helpers";
+import { EmailService } from "../external/email/interfaces/email_service";
+import { UserInfo } from "../../types/user_info";
 
 export class InvitationService {
   private invitationRepository: InvitationRepository;
@@ -71,9 +69,9 @@ export class InvitationService {
       const invitationResult = await this.invitationRepository.createInvitation({
         userId: user.id,
         itineraryId: itineraryUUID,
-        status: 'INVITED',
+        status: "INVITED",
         rsvpDeadline,
-        plusOnes: 0
+        plusOnes: 0,
       });
 
       if (invitationResult instanceof Failure) return invitationResult;

@@ -1,10 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-
-const baseURL = (process.env.NODE_ENV === undefined)
-  ? process.env.PRODUCTION_BACKEND_URL
-  : process.env.DEVELOPMENT_BACKEND_URL || 'http://localhost:5000';
-
+const baseURL = process.env.NODE_ENV === undefined ? process.env.REACT_APP_PRODUCTION_BACKEND_URL : process.env.REACT_APP_DEVELOPMENT_BACKEND_URL || "http://localhost:5000";
 
 export const apiService = {
   // GET

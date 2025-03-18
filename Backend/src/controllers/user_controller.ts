@@ -21,7 +21,7 @@ const authenticationService: AuthenticationService = new FirebaseAdminAuthentica
 
 router.get(AUTHENTICATE_BASE_ROUTE, async (request: express.Request, response: express.Response): Promise<any> => {
   const result = await safeExecute(async () => {
-    const authHeader: string | undefined = request.headers.authorization;
+    const authHeader: string | undefined = request.headers["authorization"];
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return Result.error(new Error("No token"));

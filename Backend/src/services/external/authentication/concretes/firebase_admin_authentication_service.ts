@@ -4,9 +4,7 @@ import { Result } from "../../../../utils/result/result";
 import { AuthenticationService } from "../interfaces/authentication_service";
 import admin from "../../../../firebaseAdmin";
 
-export class FirebaseAdminAuthenticationService
-  implements AuthenticationService
-{
+export class FirebaseAdminAuthenticationService implements AuthenticationService {
   private userRepository: UserRepository;
 
   constructor({ userRepository }: { userRepository: UserRepository }) {
@@ -15,8 +13,7 @@ export class FirebaseAdminAuthenticationService
 
   async authenticateUser(token: string): Promise<Result<User>> {
     const decodedToken = await admin.auth().verifyIdToken(token);
-    const authId = decodedToken.uid;
-
-    return await this.userRepository.getUserByAuthId(authId);
+    const tokenAuthId = decodedToken.uid;
+    return await this.userRepository.getUserByAuthId(tokenAuthId);
   }
 }

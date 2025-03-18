@@ -1,0 +1,119 @@
+/* invitation_table.css */
+.page-header {
+  font-size: 30px;
+  margin-left: 5%;
+  padding-top: 20px;
+  color: #5a189a;
+  font-family: "Merriweather";
+}
+
+.invite-table-options {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  color: #5a189a;
+  padding-bottom: 16px;
+  font-family: "Lato";
+}
+
+.trash-red {
+  padding-top: 2px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.66;
+}
+
+.trash-red:hover {
+  opacity: 1;
+}
+
+.invite-table {
+  border-collapse: collapse;
+  width: 90%;
+  text-align: left;
+  justify-self: center;
+  align-items: center;
+  border: solid 1px #ecc5bf;
+  background-color: #f8f1e5;
+  color: #d72638;
+  font-family: "Lato";
+}
+
+.invite-table-component a {
+  color: #5a189a;
+  text-decoration: none;
+  align-self: flex-end;
+  width: 250px;
+}
+
+.invite-table-component a:hover {
+  text-decoration: underline;
+}
+
+.invite-table-component tr {
+  border: solid 1px #ecc5bf;
+}
+
+.invite-table-component th,
+td {
+  padding: 12px;
+}
+
+.invite-table-header {
+  background-color: #f7e8d7;
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: #f8f1e5;
+  color: #5a189a;
+}
+
+.dropdown-content-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dropdown-content-header {
+  font-weight: bold;
+  display: block;
+}
+
+/* Mobile */
+@media only screen and (max-width: 700px) {
+  .invite-table {
+    width: 90%;
+  }
+
+  .invite-table td:not(:nth-child(2), .dropdown-row td, .dropdown-row th),
+  .invite-table th:not(:nth-child(2)) {
+    display: none;
+  }
+
+  .invite-table tr {
+    cursor: pointer;
+  }
+
+  .dropdown-row p {
+    display: table-cell;
+    color: #5a189a;
+    font-size: 12px;
+  }
+}
+
+/* Desktop */
+@media only screen and (min-width: 700px) {
+  .invite-table td,
+  .invite-table th {
+    display: table-cell;
+  }
+
+  .dropdown-row {
+    display: none;
+  }
+}

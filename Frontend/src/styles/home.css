@@ -1,0 +1,192 @@
+/* Import Merriweather and Lato fonts */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap");
+
+/* Set the background color for the entire page (scoped to homepage) */
+.homepage-background {
+  background-color: #f8f1e5; /* Apply background color to the entire page */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh; /* Ensure the background covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage-container {
+  font-family: "Lato", sans-serif;
+  background-color: #f8f1e5; /* Ensure the container has the same background color */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto; /* Allow rows to adjust based on content */
+  gap: 20px; /* Reduce gap between sections */
+  max-width: 1200px;
+  width: 100%; /* Ensure the container takes full width */
+  min-height: 100vh; /* Ensure the container covers the full viewport height */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* Top Left: Text Section */
+.homepage-container .homepage-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.homepage-container .homepage-text h2 {
+  color: #5a189a;
+  font-family: "Merriweather", serif;
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.homepage-container .homepage-text p {
+  font-size: 20px;
+  color: #5a189a;
+  line-height: 1.6;
+}
+
+.homepage-container .cta-link {
+  color: #d72638;
+  font-size: 22px;
+  text-decoration: underline;
+  font-weight: bold;
+  margin-top: 0px;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.homepage-container .cta-link:hover {
+  color: #b51d2e;
+}
+
+/* Top Right: Image Section */
+.homepage-container .homepage-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage-container .homepage-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 10px;
+}
+
+/* Bottom Left: How It Works */
+.homepage-container .homepage-how-it-works {
+  display: flex;
+  flex-direction: column;
+  margin-top: -30px;
+}
+
+.homepage-container .how-it-works-image {
+  width: 100%;
+  max-width: 150px; /* Make the moodboard image even smaller */
+  border-radius: 10px;
+  margin-bottom: 10px; /* Reduce margin */
+  align-self: center;
+}
+
+.homepage-container .homepage-how-it-works h3 {
+  font-family: "Merriweather", serif;
+  font-size: 42px; /* Reduce font size */
+  color: #5a189a;
+  margin-bottom: 0px; /* Reduce margin */
+}
+
+.homepage-container .homepage-how-it-works ol {
+  font-size: 25px; /* Reduce font size */
+  color: #5a189a;
+  padding-left: 20px;
+  text-align: left; /* Align list text to the left */
+}
+
+.homepage-container .homepage-how-it-works ol li {
+  margin-bottom: 8px; /* Reduce margin */
+}
+
+.homepage-container .homepage-how-it-works ol strong {
+  color: #5a189a;
+}
+
+/* Bottom Right: Meet the Team */
+.homepage-container .homepage-team {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+}
+
+.homepage-container .team-header {
+  font-family: "Merriweather", serif;
+  font-size: 42px; /* Adjust font size as needed */
+  color: #5a189a;
+  margin-bottom: 20px; /* Add space below the header */
+  text-align: left;
+}
+
+.homepage-container .team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.homepage-container .team-member-card {
+  background: #f7e8d7;
+  padding: 20px; /* Adjust padding */
+  border-radius: 10px;
+  border: 0.5px ridge #5a189a; /* Add border with color #5A189A */
+}
+
+.homepage-container .card-top {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+  margin-bottom: 15px;
+}
+
+.homepage-container .member-image {
+  width: 60px; /* Adjust image size */
+  border-radius: 50%;
+  margin-right: 10px; /* Space between image and text */
+}
+
+.homepage-container .member-info {
+  flex: 1; /* Allow text to take remaining space */
+}
+
+.homepage-container .member-info h4 {
+  font-family: "Merriweather", serif;
+  font-size: 14px; /* Adjust font size */
+  color: #5a189a;
+  margin: 0; /* Remove default margin */
+}
+
+.homepage-container .member-info p {
+  font-size: 12px; /* Adjust font size */
+  color: #5a189a;
+  margin: 0; /* Remove default margin */
+}
+
+.homepage-container .member-description {
+  font-size: 12px; /* Adjust font size */
+  color: #5a189a;
+  text-align: left; /* Left-align description */
+  margin: 0; /* Remove default margin */
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .homepage-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto; /* Stack sections vertically */
+    gap: 20px; /* Reduce gap for mobile */
+    height: auto; /* Reset height for mobile */
+  }
+
+  .homepage-container .team-grid {
+    grid-template-columns: 1fr;
+  }
+}

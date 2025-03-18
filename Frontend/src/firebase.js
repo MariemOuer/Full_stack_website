@@ -1,15 +1,19 @@
-// src/firebase.js
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyCp2YZ6QAYtkYAt3K_wQm7sDhARvUEXUDg',
-  authDomain: 'occasio-1836c.firebaseapp.com',
-  projectId: 'occasio-1836c',
-  storageBucket: 'occasio-1836c.firebasestorage.app',
-  messagingSenderId: '796666396948',
-  appId: '1:796666396948:web:da2160dd0c32fec8810201',
+  apiKey: "AIzaSyDWdqbQw9TCVBobLfw0ZjCE5upXATHT2lc",
+  authDomain: "occasio-9ce85.firebaseapp.com",
+  projectId: "occasio-9ce85",
+  storageBucket: "occasio-9ce85.firebasestorage.app",
+  messagingSenderId: "259414550691",
+  appId: "1:259414550691:web:535736c4a02e9150673716",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

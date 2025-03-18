@@ -14,6 +14,7 @@ const router = express.Router();
 const userService: UserService = new UserService({
   userRepository: prisma_user_repository,
 });
+
 const authenticationService: AuthenticationService = new FirebaseAdminAuthenticationService({
   userRepository: prisma_user_repository,
 });

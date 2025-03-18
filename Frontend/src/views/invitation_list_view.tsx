@@ -1,7 +1,8 @@
-import InvitationTable from '../components/invitation_table';
-import { apiService } from '../services/ApiService';
-import { InvitationListDTO } from '../types/invitation_list_DTO';
-import { useEffect, useState } from 'react';
+import InvitationTable from "../components/invitation_table";
+import { apiService } from "../services/ApiService";
+import { InvitationListDTO } from "../types/invitation_list_DTO";
+import { useEffect, useState } from "react";
+import "../styles/invitation_table.css";
 
 function InvitationListView() {
   const [invitationList, setInvitationList] = useState<InvitationListDTO | null>(null);
@@ -11,10 +12,10 @@ function InvitationListView() {
   useEffect(() => {
     async function fetchInvitations() {
       try {
-        const response = await apiService.get('/api/invitation/invitation-list/itinerary-1');
+        const response = await apiService.get("/api/invitation/invitation-list/itinerary-3");
         setInvitationList(response.data);
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'Unknown');
+        setError(error instanceof Error ? error.message : "Unknown");
       } finally {
         setLoading(false);
       }
@@ -26,13 +27,7 @@ function InvitationListView() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
-  return (
-    <InvitationTable
-      itineraryUUID={invitationList?.itineraryUUID || ''}
-      itineraryPartySize={invitationList?.itineraryPartySize || 0}
-      invitations={invitationList?.invitations || []}
-    />
-  );
+  return <InvitationTable itineraryUUID={invitationList?.itineraryUUID || ""} itineraryPartySize={invitationList?.itineraryPartySize || 0} invitations={invitationList?.invitations || []} />;
 }
 
 export default InvitationListView;

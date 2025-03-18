@@ -7,6 +7,12 @@
   color: #D72638;
   font-size: 16px;
 }
+.auth-page .nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
 
 .nav-left,
 .nav-right {
@@ -31,34 +37,55 @@
 .user-icon {
   width: 24px;
   height: 24px;
+
+}
+.navbar button {
+  background-color: #D72638; 
+  color: #fff; 
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
+.navbar button:hover {
+  background-color: #B51D2E; 
+  transform: scale(1.05); 
+}
+
+.navbar button:active {
+  transform: scale(0.98); 
+}
+
+
 /*  for Very Small Screens */
-@media (max-width: 600px) {
+@media only screen and (max-width: 699px) {
   .navbar {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 20px;
-    text-align: center;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 5%;
   }
 
-  .nav-left,
   .nav-right {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .nav-left a {
-    font-size: 14px;
+      display: none;
   }
 
   .nav-center h2 {
-    font-size: 20px;
-    margin-top: 10px;
+      font-size: 24px; 
   }
 
-  .user-icon {
-    width: 20px;
-    height: 20px;
+
+  .mobile-menu a {
+      color: #D72638;
+      padding: 10px;
+      text-decoration: none;
+      font-size: 16px;
+  }
+
+  .mobile-menu a:hover {
+      text-decoration: underline;
   }
 }

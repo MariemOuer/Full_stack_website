@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuthController } from "../controllers/AuthController";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/main.css";
 import "../styles/login.css";
 
 const LoginView = () => {
@@ -47,7 +46,7 @@ const LoginView = () => {
               <p className="register-link">
                 Don't have an account?{" "}
                 <span className="register-here">
-                    <Link to="/signup">Register Here</Link>
+                  <Link to="/signup">Register Here</Link>
                 </span>
               </p>
               <button type="submit">Login</button>

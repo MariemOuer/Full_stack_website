@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap');
 
 /* Set the background color for the entire page */
-body {
+.login-page {
   background-color: #F8F1E5;
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
@@ -13,14 +13,14 @@ body {
   font-family: 'Lato', sans-serif; /* Apply Lato font to all text */
 }
 
-.login-page {
+.login-page .login-wrapper {
   width: 100%;
   display: flex;
   justify-content: center; /* Center the wrapper horizontally */
   align-items: center; /* Center the wrapper vertically */
 }
 
-.login-wrapper {
+.login-page .login-wrapper {
   display: flex;
   align-items: center; /* Center items vertically */
   gap: 50px; /* Add space between the form and the image */
@@ -127,7 +127,7 @@ body {
 }
 
 /* Login image styling */
-.login-image {
+.login-page .login-image {
   width: 300px; /* Set a fixed width for the image */
   height: auto; /* Maintain aspect ratio */
   margin-left: 50px; /* Push the image to the right */
@@ -136,12 +136,12 @@ body {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-  .login-wrapper {
+  .login-page .login-wrapper {
     flex-direction: column; /* Stack items vertically on smaller screens */
     gap: 20px; /* Reduce space between items */
   }
 
-  .login-image {
+  .login-page .login-image {
     display: none; /* Hide the image on smaller screens */
   }
 

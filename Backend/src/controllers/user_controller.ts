@@ -2,12 +2,10 @@ import express from "express";
 import prisma_user_repository from "../repositories/concretes/prisma_user_repository";
 import { AuthenticationService } from "../services/external/authentication/interfaces/authentication_service";
 import { FirebaseAdminAuthenticationService } from "../services/external/authentication/concretes/firebase_admin_authentication_service";
-import { AUTHENTICATE_BASE_ROUTE, CREATE_USER_RELATIVE_ROUTE, USER_BASE_ROUTE } from "../utils/constants/route_constants";
+import { AUTHENTICATE_BASE_ROUTE, CREATE_USER_RELATIVE_ROUTE, DELETE_USER_RELATIVE_ROUTE, USER_BASE_ROUTE } from "../utils/constants/route_constants";
 import { safeExecute } from "../utils/general_error_helpers";
-import { Failure, Result } from "../utils/result/result";
+import { Result } from "../utils/result/result";
 import { consumeResult } from "../utils/result/result_consumer_helpers";
-import { User } from "@prisma/client";
-import { UserRepository } from "../repositories/interfaces/user_repository";
 import { UserService } from "../services/repository_services/user_service";
 import { UserInfo } from "../types/user_info";
 
@@ -47,6 +45,19 @@ router.post(CREATE_USER_RELATIVE_ROUTE, async (requset: express.Request, respons
   });
 
   return consumeResult(
+    result,
+    (user) => response.json(user),
+    () => response.status(400).json(result)
+  );
+});
+
+router.delete(DELETE_USER_RELATIVE_ROUTE, async (request: express.Request, response: express.Response): Promise<any> => {
+  const result = await safeExecute(async () => {
+    const { authId } = request.body;
+    return await userService.deleteUser(authId);
+  });
+
+  consumeResult(
     result,
     (user) => response.json(user),
     () => response.status(400).json(result)

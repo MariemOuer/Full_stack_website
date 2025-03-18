@@ -14,6 +14,9 @@ export const REVOKE_INVITATION_RELATIVE_ROUTE = "/revoke/";
 
 //Relative Itinerary Routes
 export const CREATED_BY_RELATIVE_ROUTE = "/created-by/";
+export const CREATE_ITINERARY_RELATIVE_ROUTE = "/create";
+export const DELELTE_ITINERARY_RELATIVE_ROUTE = "/delete";
 
 //Relative User Routes
 export const CREATE_USER_RELATIVE_ROUTE = "/sign-up";
+export const DELETE_USER_RELATIVE_ROUTE = "/delete";

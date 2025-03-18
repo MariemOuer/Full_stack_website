@@ -43,17 +43,19 @@
 .invite-table-component a {
     color: #5A189A;
     text-decoration: none;
+    align-self: flex-end;
+    width: 250px;
 }
 
 .invite-table-component a:hover {
     text-decoration: underline;
 }
 
-tr {
+.invite-table-component tr {
     border: solid 1px #ECC5BF;
 }
 
-th, td {
+.invite-table-component th, td {
     padding: 12px;
 }
 
@@ -114,67 +116,3 @@ th, td {
         display: none;
     }
 }
-
-
-
-/* .page-header {
-    font-size: 30px;
-    margin-left: 5%;
-    padding-top: 20px;
-    color: #5A189A;
-    font-family: 'Merriweather';
-}
-
-.invite-table {
-    border-collapse: collapse;
-    width: 90%;
-    text-align: left;
-    justify-self: center;
-    align-items: center;
-    border: solid 1px #ECC5BF;
-    background-color: #F8F1E5;
-    color: #D72638;
-    font-family: 'Lato';
-}
-
-.invite-table-options {
-    width: 95%;
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-    color:#5A189A;
-    padding-bottom: 16px;
-    font-family: 'Lato';
-}
-
-.invite-table-component a {
-    color:#5A189A;
-    text-decoration: none;
-}
-
-.invite-table-component a:hover{
-    text-decoration: underline;
-}
-
-tr {
-    border: solid 1px #ECC5BF;
-}
-
-th, td {
-    padding: 12px;
-}
-
-.invite-table-header {
-    background-color: #F7E8D7;
-}
-
-.trash-red {
-    padding-top: 2px;
-    width: 16px;
-    height: 16px;
-    opacity: 0.66;
-}
-
-.trash-red:hover {
-    opacity: 1;
-} */

@@ -32,15 +32,15 @@ function App() {
         {/* Private Routes (only if logged in) */}
         <Route
           path="/"
-          element={currentUser ? <DashboardView /> : <Navigate to="/login" />}
+          element={currentUser ? <DashboardView /> : <Navigate to="/home" />}
         />
         <Route
           path="/dogs"
-          element={currentUser ? <UsersView /> : <Navigate to="/login" />}
+          element={currentUser ? <UsersView /> : <Navigate to="/home" />}
         />
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
     </Router>
   );

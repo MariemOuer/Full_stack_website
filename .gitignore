@@ -1,0 +1,9 @@
+.env
+node_modules/
+Frontend/node_modules/
+Backend/node_modules/
+Backend/vercel.json
+Frontend/src/firebase.js
+dist/
+node_modules
+.vercel

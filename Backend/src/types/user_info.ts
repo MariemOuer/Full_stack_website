@@ -1,4 +1,3 @@
-export type UserInfo = {
-  name: string;
-  email: string;
-};
+import { User } from "@prisma/client";
+
+export type UserInfo = Omit<User, 'id'>

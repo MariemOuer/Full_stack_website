@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc", 
+    "build": "tsc",
     "start": "node dist/app.js",
     "vercel-build": "prisma generate && npm run build",
     "dev": "NODE_ENV=development npx nodemon --ext ts --exec ts-node -r tsconfig-paths/register src/app.ts"
@@ -19,6 +19,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^9.21.0",
     "express": "^4.21.2",
+    "firebase-admin": "^13.2.0",
     "module-alias": "^2.2.3",
     "mysql2": "^3.12.0",
     "nodemailer": "^6.10.0",

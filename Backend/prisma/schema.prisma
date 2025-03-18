@@ -8,35 +8,27 @@ datasource db {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  email       String  @unique
-  phoneNumber String? @unique
-  name        String
-  authId      String? @unique
-
-  userCreatedItineraries Itinerary[]
+  id                     Int          @id @default(autoincrement())
+  email                  String       @unique
+  phoneNumber            String?      @unique
+  name                   String
+  authId                 String?      @unique
   onInvitationLists      Invitation[]
+  userCreatedItineraries Itinerary[]
 }
 
 model Itinerary {
-  id        String   @id @default(uuid())
-  title     String
-  date      DateTime
-  location  String
-  partySize Int      @default(1)
-
-  creatorId Int?
-
-  createdBy User? @relation(fields: [creatorId], references: [id], onDelete: SetNull)
-
-  invitationList Invitation[]
+  id             String       @id @default(uuid())
+  title          String
+  date           DateTime
+  location       String
+  partySize      Int          @default(1)
+  creatorId      Int?
   budget         Budget?
-}
+  invitationList Invitation[]
+  createdBy      User?        @relation(fields: [creatorId], references: [id])
 
-enum InvitationStatus {
-  INVITED
-  CONFIRMED
-  DECLINED
+  @@index([creatorId], map: "Itinerary_creatorId_fkey")
 }
 
 model Invitation {
@@ -46,21 +38,45 @@ model Invitation {
   rsvpDeadline DateTime
   status       InvitationStatus @default(INVITED)
   plusOnes     Int              @default(0)
-
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  itinerary    Itinerary        @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, itineraryId])
+  @@index([itineraryId], map: "Invitation_itineraryId_fkey")
 }
 
 model Budget {
-  id                Int     @id @default(autoincrement())
-  themeDecorCost    Decimal @default(0) @db.Decimal(10, 2)
-  venueCost         Decimal @default(0) @db.Decimal(10, 2)
-  cateringCost      Decimal @default(0) @db.Decimal(10, 2)
-  entertainmentCost Decimal @default(0) @db.Decimal(10, 2)
-  additionalCost    Decimal @default(0) @db.Decimal(10, 2)
+  id                Int       @id @default(autoincrement())
+  themeDecorCost    Decimal   @default(0.00) @db.Decimal(10, 2)
+  venueCost         Decimal   @default(0.00) @db.Decimal(10, 2)
+  cateringCost      Decimal   @default(0.00) @db.Decimal(10, 2)
+  entertainmentCost Decimal   @default(0.00) @db.Decimal(10, 2)
+  additionalCost    Decimal   @default(0.00) @db.Decimal(10, 2)
+  itineraryId       String    @unique
+  itinerary         Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+}
 
-  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
-  itineraryId String    @unique
+model event_responses {
+  id               Int       @id @default(autoincrement())
+  user_email       String?   @db.VarChar(255)
+  event_name       String?   @db.VarChar(255)
+  event_type       String?   @db.VarChar(255)
+  event_date       DateTime? @db.Date
+  event_length     Int?
+  guest_count      Int?
+  location         String?   @db.VarChar(255)
+  catering         String?   @db.VarChar(255)
+  theme            String?   @db.VarChar(255)
+  entertainment    String?   @db.VarChar(255)
+  budget           Decimal?  @db.Decimal(10, 2)
+  accommodations   String?   @db.VarChar(255)
+  special_requests String?   @db.Text
+  event_timeline   Json?
+  created_at       DateTime? @default(now()) @db.Timestamp(0)
+}
+
+enum InvitationStatus {
+  INVITED
+  CONFIRMED
+  DECLINED
 }

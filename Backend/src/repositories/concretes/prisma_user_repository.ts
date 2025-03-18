@@ -52,7 +52,12 @@ class PrismaUserRepository implements UserRepository {
   }
 
   async createUser(user: Omit<User, 'id'>): Promise<Result<User>> {
-    return safeExecutePrismaOperation(() => PRISMA.user.create({ data: user }));
+    return safeExecutePrismaOperation(() => PRISMA.user.create({ data: {
+      name: user.name,
+      email: user.email,
+      authId: user.authId ?? null,
+      phoneNumber: user.phoneNumber ?? null
+    }}));
   }
 }
 

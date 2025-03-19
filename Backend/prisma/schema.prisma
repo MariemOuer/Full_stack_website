@@ -56,7 +56,7 @@ model Budget {
   itinerary         Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
 
-model event_responses {
+model ChatbotMemorySnapshot {
   id               Int       @id @default(autoincrement())
   user_email       String?   @db.VarChar(255)
   event_name       String?   @db.VarChar(255)

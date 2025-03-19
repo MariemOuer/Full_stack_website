@@ -132,8 +132,8 @@ const ChatbotView = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:3014/save-event", payload);
-      alert(response.data.message);
+      const response = await apiService.post("/api/chat-bot/save-event", payload);
+      alert(response.json());
     } catch (error) {
       console.error("Error saving event:", error);
       alert("Failed to save event. Please try again.");

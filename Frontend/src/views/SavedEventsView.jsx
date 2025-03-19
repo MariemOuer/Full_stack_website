@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "../styles/saved_events.css";
+import { apiService } from "../services/ApiService";
 
 const SavedEventsPage = () => {
   const [events, setEvents] = useState([]);
@@ -9,8 +9,11 @@ const SavedEventsPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("http://localhost:3014/events");
-        setEvents(response.data.events);
+        const response = await apiService.get("/api/chat-bot/all-events");
+        const data = response.data;
+        setEvents(data);
+        if (response.ok) {
+        }
       } catch (error) {
         console.error("Error fetching events:", error);
       } finally {
@@ -20,6 +23,8 @@ const SavedEventsPage = () => {
 
     fetchEvents();
   }, []);
+
+  console.log(events);
 
   return (
     <div className="container">

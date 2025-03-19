@@ -1,10 +1,8 @@
-import { Invitation, InvitationStatus } from '@prisma/client';
-import { InvitationRepository } from '../interfaces/invitation_repository';
-import { safeExecutePrismaOperation } from '../../utils/prisma/prisma_helpers';
-import PRISMA from '../../utils/prisma/prisma_client';
-import { Result } from '../../utils/result/result';
-
-
+import { Invitation, InvitationStatus } from "@prisma/client";
+import { InvitationRepository } from "../interfaces/invitation_repository";
+import { safeExecutePrismaOperation } from "../../utils/prisma/prisma_helpers";
+import PRISMA from "../../utils/prisma/prisma_client";
+import { Result } from "../../utils/result/result";
 
 class PrismaInvitationRepository implements InvitationRepository {
   async deleteInvitationByUUID(invitationUUID: string): Promise<Result<Invitation>> {
@@ -23,7 +21,7 @@ class PrismaInvitationRepository implements InvitationRepository {
           where: { id: id, rsvpDeadline: { gt: new Date() } },
           data: { status: status },
         }),
-      new Map([['P2025', 'Invitation is past the RSVP deadline']])
+      new Map([["P2025", "Invitation is past the RSVP deadline"]])
     );
   }
 
@@ -53,7 +51,7 @@ class PrismaInvitationRepository implements InvitationRepository {
     );
   }
 
-  async createInvitation(invitation: Omit<Invitation, 'id'>): Promise<Result<Invitation>> {
+  async createInvitation(invitation: Omit<Invitation, "id">): Promise<Result<Invitation>> {
     return safeExecutePrismaOperation(() => PRISMA.invitation.create({ data: invitation }));
   }
 }

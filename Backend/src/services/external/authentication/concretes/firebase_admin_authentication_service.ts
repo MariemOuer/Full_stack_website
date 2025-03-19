@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import { UserRepository } from "../../../../repositories/interfaces/user_repository";
 import { Result } from "../../../../utils/result/result";
 import { AuthenticationService } from "../interfaces/authentication_service";
-import admin from "../../../../firebaseAdmin";
+import admin from "../../../../firebase_admin";
 
 export class FirebaseAdminAuthenticationService implements AuthenticationService {
   private userRepository: UserRepository;

@@ -212,6 +212,7 @@ select.input {
 .number-input {
   width: 100%;
   text-align: center;
+  appearance: textfield; /* Standard */
   -moz-appearance: textfield; /* Firefox */
 }
 

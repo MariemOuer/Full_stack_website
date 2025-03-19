@@ -43,9 +43,6 @@ function AppContent() {
 
           {/* Private Routes (Only If Logged In or Guest) */}
           <Route path="/" element={currentUser || isGuest ? <HomepageView /> : <Navigate to="/login" />} />
-
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
       <FooterView />

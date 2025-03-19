@@ -1,87 +1,261 @@
+/* navbar.css */
+
+/* Base navbar styles */
 .navbar {
+  position: relative;
+  width: 100%;
+  background-color: #faf7f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.navbar.auth-page {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 50px;
-  background-color: #f9f4eb;
-  color: #d72638;
-  font-size: 16px;
-}
-.auth-page .nav-center {
-  flex: 1;
-  display: flex;
-  justify-content: center;
+  padding: 0 20px;
+  height: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.nav-left,
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-left a,
-.nav-right span {
-  text-decoration: none;
-  color: #d72638;
-  font-weight: 500;
+/* Logo styling */
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-center h2 {
+  color: #e74c3c;
+  margin: 0;
   font-size: 24px;
-  font-weight: bold;
-  color: #d72638;
+  font-weight: 700;
+}
+
+/* Desktop navigation links */
+.nav-left {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 0;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #e74c3c;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #e74c3c;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* User info and logout section */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-account {
+  font-size: 14px;
+  color: #666;
 }
 
 .user-icon {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
 }
-.navbar button {
-  background-color: #d72638;
-  color: #fff;
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
   border: none;
-  padding: 8px 16px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 5px;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.2s;
 }
 
-.navbar button:hover {
-  background-color: #b51d2e;
-  transform: scale(1.05);
+.logout-button:hover {
+  background-color: #c0392b;
 }
 
-.navbar button:active {
-  transform: scale(0.98);
+/* Mobile toggle button */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  position: relative;
 }
 
-/*  for Very Small Screens */
-@media only screen and (max-width: 699px) {
-  .navbar {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 5%;
-  }
+.hamburger-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #333;
+  transition: all 0.3s ease;
+}
 
-  .nav-right {
+.nav-toggle.active .hamburger-line:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.nav-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active .hamburger-line:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile dropdown styles */
+.mobile-dropdown {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+  visibility: hidden;
+}
+
+.mobile-dropdown.open {
+  max-height: 400px; /* Enough height to fit all content */
+  visibility: visible;
+}
+
+.mobile-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px 20px;
+}
+
+.mobile-link {
+  padding: 15px 0;
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+  transition: color 0.2s;
+}
+
+.mobile-link:hover {
+  color: #e74c3c;
+}
+
+.mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-user-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.mobile-user-account {
+  font-size: 14px;
+  color: #666;
+}
+
+.mobile-logout-button {
+  margin-top: 15px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.mobile-logout-button:hover {
+  background-color: #c0392b;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .desktop-only {
     display: none;
   }
 
+  .nav-toggle {
+    display: flex;
+  }
+
+  .navbar-container {
+    padding: 0 15px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-dropdown {
+    display: none;
+  }
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
   .nav-center h2 {
-    font-size: 24px;
+    font-size: 20px;
   }
 
-  .mobile-menu a {
-    color: #d72638;
-    padding: 10px;
-    text-decoration: none;
-    font-size: 16px;
-  }
-
-  .mobile-menu a:hover {
-    text-decoration: underline;
+  .navbar-container {
+    padding: 0 10px;
   }
 }

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "../styles/chatbot.css";
+import React, { useState, useEffect, useRef } from "react";
 import { apiService } from "../services/ApiService";
+import "../styles/chatbot.css";
 
 const questions = [
   "Hello! My name is Optimo, your Occasio AI assistant to help you decide the details for your upcoming event! What type of event are you planning?",
@@ -26,12 +25,27 @@ const ChatbotView = () => {
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const chatBoxRef = useRef(null);
+  const isInitialized = useRef(false);
 
   useEffect(() => {
-    if (messages.length === 0 && currentQuestion < questions.length) {
-      addBotMessage(questions[currentQuestion]);
+    // Check if we've already initialized to prevent double messages
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+
+      // Directly set the first message
+      if (messages.length === 0) {
+        setMessages([{ sender: "bot", text: questions[0] }]);
+      }
     }
   }, []);
+
+  // Scroll to bottom of chat when messages change
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages, suggestions]);
 
   const addBotMessage = (text) => {
     setMessages((prev) => [...prev, { sender: "bot", text }]);
@@ -49,8 +63,10 @@ const ChatbotView = () => {
 
     if (isIdkClicked) {
       setLoading(true);
+      setSuggestions([]); // Clear previous suggestions
 
       try {
+        // Gather context from previous Q&A for more relevant suggestions
         let contextText = "";
         if (currentQuestion > 0) {
           const previousUserAnswers = messages.filter((m) => m.sender === "user");
@@ -65,26 +81,25 @@ const ChatbotView = () => {
           question: questions[currentQuestion],
         });
 
-        if (response.data) {
+        if (response.data && response.data.length > 0) {
           setSuggestions(response.data);
-          setLoading(false);
-          return;
         } else {
-          answer = "No suggestions available at this time.";
+          addBotMessage("I don't have specific suggestions for this question. Please provide your best estimate.");
         }
       } catch (err) {
         console.error("Error retrieving suggestions from backend", err);
-        answer = "Error retrieving suggestions. Please try again.";
+        addBotMessage("Sorry, I couldn't generate suggestions at this time. Please try again or provide your answer.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
+      return; // Don't proceed to next question yet
     }
 
-    if (!isIdkClicked) {
-      addUserMessage(answer);
-      setInput("");
-      await delay(500);
-      nextQuestion();
-    }
+    // Normal answer flow
+    addUserMessage(answer);
+    setInput("");
+    await delay(500);
+    nextQuestion();
   };
 
   const nextQuestion = () => {
@@ -94,7 +109,7 @@ const ChatbotView = () => {
     } else {
       setShowPopup(true);
     }
-    setSuggestions([]);
+    setSuggestions([]); // Clear suggestions when moving to next question
   };
 
   const handleSuggestionClick = (suggestion) => {
@@ -106,12 +121,15 @@ const ChatbotView = () => {
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const handleSaveEvent = async () => {
+    setLoading(true);
     const userAnswers = messages.filter((m) => m.sender === "user").map((m) => m.text);
+
     const payload = {
-      user_email: "user@example.com",
-      event_name: "",
+      user_email: "user@example.com", // This would typically come from auth context
+      event_name: userAnswers[0] || "", // Using event type as the name
       event_type: userAnswers[0] || "",
       event_date: userAnswers[1] || "",
+      event_time: userAnswers[2] || "",
       event_length: userAnswers[3] || "",
       guest_count: userAnswers[4] || "",
       location: userAnswers[5] || "",
@@ -126,55 +144,92 @@ const ChatbotView = () => {
 
     try {
       const response = await apiService.post("/api/chat-bot/save-event", payload);
-      alert(response.data);
+      alert("Event saved successfully!");
+      setShowPopup(false);
     } catch (error) {
       console.error("Error saving event:", error);
       alert("Failed to save event. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Format chat message with Markdown-like syntax
+  const formatMessage = (text) => {
+    // Bold text
+    let formattedText = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    // Italics
+    formattedText = formattedText.replace(/\*(.*?)\*/g, "<em>$1</em>");
+
+    return formattedText;
+  };
+
   return (
-    <div className="container">
-      <div className="chat-container">
-        <div className="chat-box">
+    <div className="chatbot-container">
+      <div className="chatbot-header">
+        <div className="chatbot-avatar">
+          <span className="avatar-text">O</span>
+        </div>
+        <h1>Chat with Optimo</h1>
+      </div>
+
+      <div className="chatbot-main">
+        <div className="chat-box" ref={chatBoxRef}>
           {messages.map((msg, idx) => (
-            <div key={idx} className={msg.sender === "user" ? "user-bubble" : "bot-bubble"}>
-              <p>{msg.text}</p>
+            <div key={idx} className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}>
+              <div className={`message-bubble ${msg.sender === "user" ? "user-bubble" : "bot-bubble"}`}>
+                <p dangerouslySetInnerHTML={{ __html: formatMessage(msg.text) }}></p>
+              </div>
             </div>
           ))}
+
           {loading && (
-            <div className="bot-bubble">
-              <p>Bot is typing...</p>
+            <div className="message bot-message">
+              <div className="message-bubble bot-bubble typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </div>
           )}
         </div>
 
         {suggestions.length > 0 && (
           <div className="suggestion-container">
-            {suggestions.map((sugg, i) => (
-              <button key={i} className="suggestion-button" onClick={() => handleSuggestionClick(sugg)}>
-                {sugg}
-              </button>
-            ))}
+            <div className="suggestion-header">
+              <p>Here are some suggestions:</p>
+            </div>
+            <div className="suggestion-buttons">
+              {suggestions.map((sugg, i) => (
+                <button key={i} className="suggestion-button" onClick={() => handleSuggestionClick(sugg)}>
+                  {sugg}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
         <div className="input-container">
           <input
             type="text"
-            placeholder="Talk to Optimo..."
+            placeholder="Type your answer..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="input-field"
-            disabled={loading}
+            disabled={loading || suggestions.length > 0}
             onKeyPress={(e) => {
               if (e.key === "Enter") handleUserInput();
             }}
           />
-          <button onClick={() => handleUserInput()} className="send-button" disabled={loading || !input.trim()}>
-            Send
+          <button onClick={() => handleUserInput()} className="send-button" disabled={loading || !input.trim() || suggestions.length > 0} aria-label="Send">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
           </button>
-          {currentQuestion > 0 && (
+
+          {currentQuestion > 0 && suggestions.length === 0 && (
             <button onClick={() => handleUserInput("I don't know")} className="idk-button" disabled={loading}>
               I don't know
             </button>
@@ -183,29 +238,41 @@ const ChatbotView = () => {
       </div>
 
       {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <h3>Event Summary</h3>
-            {questions.map((q, idx) => (
-              <div key={idx} style={{ marginBottom: "10px" }}>
-                <strong>{q}</strong>
-                <p>{messages.filter((m) => m.sender === "user")[idx]?.text || "No answer provided"}</p>
-              </div>
-            ))}
-            <button className="save-button" onClick={handleSaveEvent}>
-              Save Event
-            </button>
-            <button className="close-button" onClick={() => setShowPopup(false)}>
-              Close
-            </button>
+        <div className="popup-overlay">
+          <div className="popup">
+            <div className="popup-header">
+              <h2>Event Summary</h2>
+              <button className="popup-close" onClick={() => setShowPopup(false)}>
+                ×
+              </button>
+            </div>
+
+            <div className="popup-content">
+              {questions.map((q, idx) => {
+                const userAnswer = messages.filter((m) => m.sender === "user")[idx]?.text || "No answer provided";
+
+                return (
+                  <div key={idx} className="summary-item">
+                    <h3 dangerouslySetInnerHTML={{ __html: formatMessage(q) }}></h3>
+                    <p>{userAnswer}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="popup-actions">
+              <button className="save-button" onClick={handleSaveEvent} disabled={loading}>
+                {loading ? "Saving..." : "Save Event"}
+              </button>
+              <button className="close-button" onClick={() => setShowPopup(false)}>
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 };
-
-// Set background color for full page
-document.body.classList.add("chatbot-body");
 
 export default ChatbotView;

@@ -17,26 +17,23 @@ const SavedEventsView = () => {
       setLoading(true);
       const eventsData = await SavedEventsController.fetchEvents();
 
-      // Determine the correct user email for filtering
       let userEmail = currentUser?.email?.toLowerCase();
 
       if (userEmail === "guest@gmail.com") {
-        userEmail = "Guest"; // Match how it's stored in the database
+        userEmail = "Guest";
       }
 
       console.log("Filtering events for user:", userEmail);
 
-      // Filter events where user_email matches the current user's email
       const userEvents = eventsData.filter(
         (event) => event.user_email?.toLowerCase() === userEmail.toLowerCase()
       );
 
-      console.log("Filtered events:", userEvents); // Debugging
+      console.log("Filtered events:", userEvents);
 
       setEvents(userEvents);
       setLoading(false);
 
-      // Default to the first event if available
       if (userEvents.length > 0) {
         setSelectedEvent(userEvents[0]);
       }
@@ -48,7 +45,7 @@ const SavedEventsView = () => {
   }, [currentUser]);
 
   const handleEventChange = (eventId) => {
-    const eventIdNumber = Number(eventId); // Convert to number since select returns a string
+    const eventIdNumber = Number(eventId);
     const event = events.find((e) => e.id === eventIdNumber);
     setSelectedEvent(event);
   };
@@ -58,7 +55,7 @@ const SavedEventsView = () => {
       <Navbar />
       <div className="saved-events-container">
         <div className="profile-header">
-          <h1 className="welcome-text">Welcome back!</h1>
+        {currentUser?.email?.toLowerCase() === "guest@gmail.com"? <h1 className="welcome-text">Welcome!</h1> : <h1 className="welcome-text">Welcome back!</h1>}
           <p className="user-email">
             <strong>Current User:</strong>{" "}
             {currentUser?.email?.toLowerCase() === "guest@gmail.com"
@@ -95,11 +92,14 @@ const SavedEventsView = () => {
               <table className="event-table">
                 <thead>
                   <tr>
-                    <th>Event Details</th>
-                    <th>Value</th>
+                    <th>Details</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
+                <tr className="spacer-row">
+                  <td/>
+                </tr>
                   <tr>
                     <td>
                       <strong>Event Type:</strong>
@@ -166,11 +166,10 @@ const SavedEventsView = () => {
                     </td>
                     <td>{selectedEvent.event_timeline}</td>
                   </tr>
-
-                  {/* Budget Section - Make it slightly darker */}
-                  <tr className="budget-section">
-                    <td colSpan="2"></td>
+                  <tr className="spacer-row">
+                    <td/>
                   </tr>
+
                   <tr className="budget-section">
                     <td>
                       <strong>Budget:</strong>

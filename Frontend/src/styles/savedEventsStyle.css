@@ -5,24 +5,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 8%;
+    padding-top: 1%;
+    margin: 0;
   }
   
   /* Welcome & Email */
   .profile-header {
     text-align: left;
-    width: 80%;
+    width: 100%;
   }
   
   .welcome-text {
     color: #5A189A;
-    font-size: 40px;
+    font-size: 36px;
     font-weight: bold;
+    font-family: "Merriweather", serif;
   }
   
   .user-email {
-    font-size: 16px;
-    color: #4A4A4A;
+    font-size: 18px;
+    color: #5A189A;
+    font-family: "Lato", sans-serif;
   }
   
   /* Saved Events & Event Dropdown */
@@ -30,13 +34,15 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 80%;
+    width: 100%;
     margin-top: 20px;
+    font-weight: bold;
+    font-family: "Merriweather", serif;
   }
   
   .saved-events-heading {
     color: #5A189A;
-    font-size: 40px;
+    font-size: 36px;
     font-weight: bold;
   }
   
@@ -48,6 +54,7 @@
   .event-dropdown label {
     display: block;
     font-size: 18px;
+    font-family: "Lato", sans-serif;
     color: #D72638;
     font-weight: bold;
     margin-bottom: 5px;
@@ -56,18 +63,16 @@
   .event-dropdown select {
     padding: 8px;
     font-size: 16px;
-    border: 2px solid #D72638;
+    border: 1px solid #ECC5BF;
     border-radius: 6px;
     background-color: #FDF1E5;
+    color: #D72638;
+    font-family: "Lato", sans-serif;
   }
   
   /* Event Box */
   .event-box {
-    border-radius: 12px;
-    border: 2px solid #D72638;
-    padding: 40px; /* Increased padding */
-    margin-top: 20px;
-    width: 80%;
+    width: 100%;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -82,55 +87,70 @@
   
   /* Individual Tables */
   .event-table {
-    width: 50%;
+    width: 100%;
     border-collapse: collapse;
-    border: 2px solid #D72638;
-  }
-  
-  /* Table Headers */
-  .event-table th {
-    background-color: #F2E5D5; /* Slightly darker than the page background */
-    color: #5A189A;
-    font-size: 18px;
-    text-align: left;
-    padding: 12px;
-    border-bottom: 2px solid #D72638;
+    border: 0.5px solid #ECC5BF;
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+    border-right: none;
   }
   
   /* Table Borders */
   .event-table th, .event-table td {
-    padding: 12px;
+    padding: 12px 40px 12px 40px;
     text-align: left;
     border: none;
+  }
+
+  /*Table Row Coloring */
+  .event-table tr:hover{
+    background-color: #FAEDE0;
+  }
+
+  .event-table .spacer-row:hover {
+    background-color: #f8f1e5;
+  }
+
+  /* Table Headers */
+  .event-table th {
+    background-color: #FAEDE0;
+    color: #D72638;
+    font-size: 20px;
+    text-align: left;
+    border-bottom: 1px solid #ECC5BF;
   }
   
   /* Two-column layout */
   .event-table tbody tr td:first-child {
     color: #D72638;
     font-weight: bold;
+    padding: 12px 1px 12px 40px;
   }
   
   .event-table tbody tr td:last-child {
     color: #D72638;
     text-align: right;
-    background-color: #f8ecdd;
+    padding: 12px 40px 12px 0px;
   }
-  
+
   /* Full row for Total Cost */
   .event-table tbody tr:last-child td {
-    text-align: center;
     font-weight: bold;
     color: #D72638;
     background-color: #FAEDE0;
+    border-top: 1px solid #ECC5BF;
   }
   
   /* Action Links (View Invitation, Edit Guest List, etc.) */
   .event-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: flex-end;
-    margin-left: 20px;
+    width: 25%;
+    margin-left: 0;
+    border: 0.5px solid #ECC5BF;
+    background-color: #FAEDE0;
+    text-align: left;
+    padding-top: 85px;
   }
   
   .action-link {
@@ -138,7 +158,8 @@
     color: #5A189A;
     font-weight: bold;
     font-size: 16px;
-    text-align: right;
+    font-family: "Lato", sans-serif;
+    margin: 0 40px 22px 40px;
   }
   
   .action-link:hover {
@@ -146,18 +167,41 @@
   }
   
   .event-table {
-    width: 90%; /* 3/4 of the width */
+    width: 75%;
     border-collapse: collapse;
-    border-radius: 12px;
     overflow: hidden;
-}
+  }
 
-/* Actions take 1/4 of space */
-.event-actions {
-    width: 10%; /* 1/4 of the width */
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-end;
-    margin-left: auto; /* Push actions to the right */
-}
+  /*Mobile View*/
+  @media (max-width: 700px) {
+    .event-table {
+      border-right: 1px solid #ECC5BF;
+      width: 100%;
+      margin: 0;
+    }
+
+    .event-box {
+      flex-direction: column;
+    }
+
+    .event-actions {
+      width: 99.5%;
+      min-width: 274px;
+      margin: -1px 0 0 0;
+      padding: 20px 0 15px 0;
+    }
+
+    .events-header {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .event-dropdown{
+      display: flex;
+      width: 100%;
+      margin-bottom: 18px;
+      padding: 0;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  }

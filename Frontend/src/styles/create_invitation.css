@@ -1,0 +1,96 @@
+/* General layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+/* Left Side */
+.form-container {
+  width: 100%;
+  max-width: 500px;
+  padding-right: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6b46c1;
+  margin-bottom: 20px;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  border: 1px solid #e53e3e;
+  padding: 12px;
+  border-radius: 5px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.input:focus {
+  border: 2px solid #fc8181;
+}
+
+/* Right Side */
+.preview-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-box {
+  width: 100%;
+  height: 300px;
+  border: 2px solid #e53e3e;
+  background-color: #fff5f5;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-text {
+  color: #718096;
+}
+
+/* Buttons */
+.button-wrapper {
+  margin-top: 20px;
+}
+
+.button {
+  background-color: #e53e3e;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background-color: #c53030;
+}

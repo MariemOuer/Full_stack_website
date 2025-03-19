@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/navbar.css";
 
@@ -22,16 +22,16 @@ const Navbar = () => {
         </button>
       )}
 
-      {/* Desktop Navigation  */}
+      {/* Desktop Navigation */}
       {!isAuthPage && (
         <div className="nav-left">
-          <Link to="/chat-prompt">Chat Prompt</Link>
+          <Link to="/chat-bot">Chat Prompt</Link>
           <Link to="/create-invitation">Create Invitation</Link>
-          <Link to="/invite-guests">Invite Guests</Link>
+          <Link to="/invitation">Invite Guests</Link>
         </div>
       )}
 
-      {/* Center Logo  */}
+      {/* Center Logo */}
       <div className="nav-center">
         <h2>Occasio</h2>
       </div>
@@ -47,19 +47,25 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Mobile Dropdown Menu  */}
-      {!isAuthPage && (
-        <div className={`mobile-dropdown ${menuOpen ? "show" : ""}`}>
-          <Link to="/chat-prompt" onClick={() => setMenuOpen(false)}>
+      {/* Mobile Dropdown Menu */}
+      {!isAuthPage && menuOpen && (
+        <div className="mobile-dropdown">
+          <Link to="/chat-bot" onClick={() => setMenuOpen(false)}>
             Chat Prompt
           </Link>
           <Link to="/create-invitation" onClick={() => setMenuOpen(false)}>
             Create Invitation
           </Link>
-          <Link to="/invite-guests" onClick={() => setMenuOpen(false)}>
+          <Link to="/invitation-list" onClick={() => setMenuOpen(false)}>
             Invite Guests
           </Link>
-          <button onClick={logout} className="logout-button">
+          <button
+            onClick={() => {
+              setMenuOpen(false);
+              logout();
+            }}
+            className="logout-button"
+          >
             Logout
           </button>
         </div>

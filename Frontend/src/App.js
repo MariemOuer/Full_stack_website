@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Navbar from "./views/NavbarView";
 import FooterView from "./views/FooterView";
@@ -9,12 +9,21 @@ import HomepageView from "./views/HomepageView";
 import InvitationListView from "./views/InvitationListView";
 import SavedEventsView from "./views/SavedEventsView";
 import ChatbotView from "./views/ChatbotView";
+import InvitationView from "./views/InvitationView";
+import CreateInvitationView from "./views/CreateInvitationView";
 
-function App() {
+function AppContent() {
   const { currentUser, isGuest } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!currentUser && !isGuest) {
+      navigate("/login");
+    }
+  }, [currentUser, isGuest, navigate]);
 
   return (
-    <Router>
+    <>
       <Navbar />
 
       <div className="content">
@@ -26,16 +35,26 @@ function App() {
           <Route path="/chat-bot" element={<ChatbotView />} />
           <Route path="/home" element={<HomepageView />} />
           <Route path="/saved-events" element={<SavedEventsView />} />
+          <Route path="/invitation" element={<InvitationView />} />
+          <Route path="/create-invitation" element={<CreateInvitationView />} />
 
-          {/* Private Routes (only if logged in or guest) */}
+          {/* Private Routes (Only If Logged In or Guest) */}
           <Route path="/" element={currentUser || isGuest ? <HomepageView /> : <Navigate to="/login" />} />
 
           {/* Fallback */}
-          {/* <Route path="*" element={<Navigate to="/" />} /> */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
 
       <FooterView />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

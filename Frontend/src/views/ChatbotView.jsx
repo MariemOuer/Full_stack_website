@@ -103,13 +103,6 @@ const ChatbotView = () => {
     nextQuestion();
   };
 
-  const aiSuggestionsToArray = (text) =>
-    text
-      .split("\n")
-      .filter((line) => line.trim().startsWith("- Option"))
-      .map((line) => line.replace(/^- Option\s*\d+:\s*/, "").trim())
-      .filter(Boolean);
-
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const handleSaveEvent = async () => {

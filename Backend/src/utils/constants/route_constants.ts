@@ -4,6 +4,7 @@ export const INVITATION_BASE_ROUTE = "/invitation";
 export const ITINERARY_BASE_ROUTE = "/itinerary";
 export const USER_BASE_ROUTE = "/user";
 export const AUTHENTICATE_BASE_ROUTE = "/authenticate";
+export const CHATBOT_BASE_ROUTE = "/chat-bot";
 
 //Relative Invitation Routes
 export const INVITATION_LIST_RELATIVE_ROUTE = "/invitation-list/";

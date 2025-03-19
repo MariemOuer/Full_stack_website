@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/chatbot.css";
+import { apiService } from "../services/ApiService";
 
 const questions = [
   "Hello! My name is Optimo, your Occasio AI assistant to help you decide the details for your upcoming event! What type of event are you planning?",
@@ -59,7 +60,7 @@ const ChatbotView = () => {
             .join("\n");
         }
 
-        const response = await axios.post("http://localhost:3014/suggestions", {
+        const response = await apiService.post("/api/chat-bot/suggestions", {
           context: contextText,
           question: questions[currentQuestion],
         });

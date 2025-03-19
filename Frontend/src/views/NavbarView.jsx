@@ -71,9 +71,10 @@ const Navbar = () => {
 
         {/* Center Logo */}
         <div className="nav-center">
-          <h2>Occasio</h2>
+          <Link to="/" className="home-link">
+            <h2>Occasio</h2>
+          </Link>
         </div>
-
         {/* Right Section with User Info and Logout */}
         {!isAuthPage && (
           <div className="nav-right desktop-only">

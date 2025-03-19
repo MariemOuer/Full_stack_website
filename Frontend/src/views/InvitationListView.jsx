@@ -3,6 +3,17 @@ import { apiService } from "../services/ApiService";
 import { useAuth } from "../context/AuthContext";
 import "../styles/invitation_table.css";
 
+// Using an inline SVG trash icon
+const TrashIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 6h18"></path>
+    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"></path>
+    <path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+    <line x1="10" y1="11" x2="10" y2="17"></line>
+    <line x1="14" y1="11" x2="14" y2="17"></line>
+  </svg>
+);
+
 function GuestListView() {
   const { customData } = useAuth();
   const userId = customData?.id;
@@ -61,11 +72,37 @@ function GuestListView() {
     alert("Reminders sent to pending guests!");
   };
 
+  // New function to handle guest deletion
+  const handleDeleteGuest = (guestId, e) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent any parent handlers from firing
+
+    if (window.confirm("Are you sure you want to remove this guest?")) {
+      console.log("Deleting guest with ID:", guestId);
+      // Implement the actual delete API call here
+      // Example:
+      // apiService.delete(`/api/invitation/${guestId}`)
+      //   .then(() => {
+      //     // Refresh the guest list
+      //     const updatedInvitations = {
+      //       ...invitationList,
+      //       invitations: invitationList.invitations.filter(guest => guest.id !== guestId)
+      //     };
+      //     setInvitationList(updatedInvitations);
+      //   })
+      //   .catch(error => {
+      //     setError("Failed to delete guest: " + error.message);
+      //   });
+    }
+  };
+
   const getStatusClass = (status) => {
     if (!status) return "status-pending";
 
     const statusLower = status.toLowerCase();
-    if (statusLower === "accepted" || statusLower === "confirmed") {
+    if (statusLower === "invited") {
+      return "status-invited";
+    } else if (statusLower === "accepted" || statusLower === "confirmed") {
       return "status-accepted";
     } else if (statusLower === "declined") {
       return "status-declined";
@@ -147,24 +184,30 @@ function GuestListView() {
               <th>Email</th>
               <th>Party Of</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {(invitationList?.invitations || []).map((guest) => {
-              return (
-                <tr key={guest.id}>
-                  <td>{new Date(guest.rsvpDeadline).toLocaleDateString()}</td>
-                  <td>{guest.name || "[FIRSTNAME] [LASTNAME]"}</td>
-                  <td>
-                    <a href={`mailto:${guest.email}`} className="guest-email">
-                      {guest.email}
-                    </a>
-                  </td>
-                  <td>{guest.partySize || 2}</td>
-                  <td className={getStatusClass(guest.status)}>{guest.status || "Pending"}</td>
-                </tr>
-              );
-            })}
+            {(invitationList?.invitations || []).map((guest) => (
+              <tr key={guest.id}>
+                <td>{new Date(guest.rsvpDeadline).toLocaleDateString()}</td>
+                <td>{guest.name || "[FIRSTNAME] [LASTNAME]"}</td>
+                <td>
+                  <a href={`mailto:${guest.email}`} className="guest-email">
+                    {guest.email}
+                  </a>
+                </td>
+                <td>{guest.partySize || 2}</td>
+                <td>
+                  <span className={`status-pill ${getStatusClass(guest.status)}`}>{guest.status || "Pending"}</span>
+                </td>
+                <td>
+                  <button className="delete-button" onClick={(e) => handleDeleteGuest(guest.id, e)}>
+                    <TrashIcon />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       )}

@@ -259,3 +259,12 @@
     padding: 0 10px;
   }
 }
+
+.nav-center .home-link {
+  text-decoration: none;
+  color: inherit; /* Preserves the original text color */
+}
+
+.nav-center .home-link:hover {
+  cursor: pointer;
+}

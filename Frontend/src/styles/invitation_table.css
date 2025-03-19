@@ -142,6 +142,39 @@
   font-weight: 600;
 }
 
+/* Status pill styles */
+.status-invited,
+.status-confirmed {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+/* Enhanced status pill styling */
+.status-pill {
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  /* Remove the background and padding */
+}
+
+/* Status color variations */
+.status-invited {
+  color: #f79009; /* Orange color for invited */
+}
+
+.status-confirmed,
+.status-accepted {
+  color: #16a34a; /* Green color for confirmed/accepted */
+}
+
+.status-declined {
+  color: #dc2626; /* Red color for declined */
+}
+
+.status-pending {
+  color: #6b7280; /* Gray color for pending */
+}
+
 /* Delete button styles */
 .delete-button {
   background: none;
@@ -149,11 +182,48 @@
   cursor: pointer;
   color: #e74c3c;
   opacity: 0.7;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 6px;
+  border-radius: 4px;
 }
 
 .delete-button:hover {
   opacity: 1;
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Make sure the SVG icon is properly sized and aligned */
+.delete-button svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+/* Column alignment styles */
+/* RSVP Date column - left aligned (already default) */
+/* Name column - left aligned (already default) */
+/* Email column - left aligned (already default) */
+
+/* Party Of column - center aligned */
+.guest-table th:nth-child(4),
+.guest-table td:nth-child(4) {
+  text-align: center;
+}
+
+/* Status column - center aligned */
+.guest-table th:nth-child(5),
+.guest-table td:nth-child(5) {
+  text-align: center;
+}
+
+/* Actions column - center aligned (already added at bottom) */
+.guest-table th:last-child,
+.guest-table td:last-child {
+  text-align: center;
 }
 
 /* Modal styles for Add/Remove Guest */

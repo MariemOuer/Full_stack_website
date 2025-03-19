@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
-import LoginView from "./Views/LoginView";
-import SignupView from "./Views/SignupView";
-import DashboardView from "./Views/DashboardView";
-import ViewInvitationView from "./Views/ViewInvitationView";
-import EditGuestListView from "./Views/EditGuestListView";
-import EditEventDetailsView from "./Views/EditEventDetailsView";
-import ChatBotView from "./Views/ChatbotView";
-import SavedEventsView from "./Views/SavedEventsView";
+import LoginView from "./views/LoginView";
+import SignupView from "./views/SignupView";
+import DashboardView from "./views/DashboardView";
+import ViewInvitationView from "./views/ViewInvitationView";
+import EditGuestListView from "./views/EditGuestListView";
+import EditEventDetailsView from "./views/EditEventDetailsView";
+import ChatBotView from "./views/ChatbotView";
+import SavedEventsView from "./views/SavedEventsView";
 
 function App() {
   const { currentUser } = useAuth();

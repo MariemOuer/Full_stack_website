@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -28,7 +28,6 @@ model Itinerary {
   invitationList Invitation[]
   createdBy      User?        @relation(fields: [creatorId], references: [id])
 
-  @@index([creatorId], map: "Itinerary_creatorId_fkey")
 }
 
 model Invitation {
@@ -42,7 +41,6 @@ model Invitation {
   user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, itineraryId])
-  @@index([itineraryId], map: "Invitation_itineraryId_fkey")
 }
 
 model Budget {
@@ -61,9 +59,9 @@ model ChatbotMemorySnapshot {
   user_email       String?   @db.VarChar(255)
   event_name       String?   @db.VarChar(255)
   event_type       String?   @db.VarChar(255)
-  event_date       DateTime? @db.Date
-  event_length     Int?
-  guest_count      Int?
+  event_date       String?   @db.VarChar(255)
+  event_length     String?   @db.VarChar(255)
+  guest_count      String?   @db.VarChar(255)
   location         String?   @db.VarChar(255)
   catering         String?   @db.VarChar(255)
   theme            String?   @db.VarChar(255)

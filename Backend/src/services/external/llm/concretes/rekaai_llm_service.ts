@@ -17,6 +17,7 @@ export class RekaaiLLMService implements LLMService {
         body: JSON.stringify({
           model: "rekaai/reka-flash-3:free",
           messages: [{ role: "user", content: suggestionInstructions }],
+          temperature: 0.3,
         }),
       }).then((data) => data.json());
 
@@ -26,17 +27,24 @@ export class RekaaiLLMService implements LLMService {
 
   private parseSuggestionReply(response: any): string[] {
     if (response.choices && response.choices.length > 0 && response.choices[0].message) {
-      const suggestionText = response.choices[0].message.content;
+      const suggestionText = response.choices[0].message.content.trim();
 
-      const suggestions = suggestionText
-        .split("\n")
-        .map((line: string) => line.replace(/^- Option \d+: /, "").trim())
-        .filter((line: string) => line.length > 0);
+      // Regex to match "- Option X: Suggestion text"
+      const regex = /- Option \d+: (.+)/g;
+      const suggestions: string[] = [];
+      let match;
 
-      if (suggestions.length !== 3) {
-        console.warn("Unexpected AI response format:", suggestionText);
+      // Extract matches using regex
+      while ((match = regex.exec(suggestionText)) !== null) {
+        suggestions.push(match[1].trim());
       }
 
+      // Ensure exactly 3 suggestions, otherwise log a warning
+      if (suggestions.length !== 3) {
+        console.warn("Unexpected AI response format. Extracted suggestions:", suggestions);
+      }
+
+      console.log(suggestions);
       return suggestions;
     }
 

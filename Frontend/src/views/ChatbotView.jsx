@@ -65,8 +65,8 @@ const ChatbotView = () => {
           question: questions[currentQuestion],
         });
 
-        if (response.data.suggestions) {
-          setSuggestions(aiSuggestionsToArray(response.data.suggestions));
+        if (response.data) {
+          setSuggestions(response.data);
           setLoading(false);
           return;
         } else {
@@ -133,7 +133,7 @@ const ChatbotView = () => {
 
     try {
       const response = await apiService.post("/api/chat-bot/save-event", payload);
-      alert(response.json());
+      alert(response.data);
     } catch (error) {
       console.error("Error saving event:", error);
       alert("Failed to save event. Please try again.");

@@ -18,13 +18,13 @@ const db = mysql.createConnection({
 // Connect to MySQL
 db.connect((err) => {
   if (err) {
-    console.error("❌ Database connection failed:", err);
+    console.error("Database connection failed:", err);
     return;
   }
-  console.log("✅ Connected to MySQL Database!");
+  console.log(" Connected to MySQL Database!");
 });
 
-// ✅ Nodemailer Mail Server Configuration
+//  Nodemailer Mail Server Configuration
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -35,7 +35,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// ✅ Send Email Function (Updated to Support HTML Emails)
+//  Send Email Function (Updated to Support HTML Emails)
 const sendEmail = async (to, subject, htmlContent) => {
   try {
     await transporter.sendMail({
@@ -44,17 +44,14 @@ const sendEmail = async (to, subject, htmlContent) => {
       subject,
       html: htmlContent, // Use `html` instead of `text` to send formatted emails
     });
-    console.log(`✅ Email sent to ${to}`);
+    console.log(` Email sent to ${to}`);
   } catch (error) {
-    console.error(`❌ Error sending email to ${to}:`, error);
+    console.error(` Error sending email to ${to}:`, error);
   }
 };
 
-/** ----------------------- 🟢 EMAIL ROUTE ----------------------- **/
 
-/** ----------------------- 🟢 EMAIL ROUTE ----------------------- **/
-
-// ✅ Test Email Route
+// Test Email Route
 router.get("/send-test-email", async (req, res) => {
   try {
     const testRecipient = "mariemouertatani2001@gmail.com";
@@ -70,17 +67,17 @@ router.get("/send-test-email", async (req, res) => {
       </div>
     `;
 
-    // ✅ Use the sendEmail function with HTML support
+    //  Use the sendEmail function with HTML support
     await sendEmail(testRecipient, subject, message);
 
-    res.status(200).json({ message: `✅ Test email sent to ${testRecipient}` });
+    res.status(200).json({ message: `Test email sent to ${testRecipient}` });
   } catch (error) {
-    console.error("❌ Error sending test email:", error);
-    res.status(500).json({ message: "❌ Failed to send test email" });
+    console.error(" Error sending test email:", error);
+    res.status(500).json({ message: " Failed to send test email" });
   }
 });
 
-// ✅ Send Invitations to All Guests of an Event
+//  Send Invitations to All Guests of an Event
 router.post("/event/:eventId/send-invites", async (req, res) => {
   const { eventId } = req.params;
   const { style } = req.body; // Get the invitation style from request
@@ -106,7 +103,7 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
 
     const event = eventResult[0];
 
-    // ✅ Generate email content based on the selected style
+    //  Generate email content based on the selected style
     const subject = `Invitation to ${event.event_name || "Our Special Event"}`;
     let message = "";
 
@@ -169,7 +166,7 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
         return res.status(400).json({ message: "Invalid invitation style" });
     }
 
-    // ✅ Send Emails
+    //  Send Emails
     for (const guest of guests) {
       await sendEmail(guest.email, subject, message);
       await db
@@ -179,16 +176,16 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
         ]);
     }
 
-    res.status(200).json({ message: "✅ Invitations sent successfully!" });
+    res.status(200).json({ message: "Invitations sent successfully!" });
   } catch (error) {
     console.error("❌ Error sending invites:", error);
     res.status(500).json({ message: "Error sending invitations" });
   }
 });
 
-/** ----------------------- 🟢 EVENT & GUEST ROUTES ----------------------- **/
+/** -----------------------  EVENT & GUEST ROUTES ----------------------- **/
 
-// ✅ Keep everything else the same
+
 router.post("/save-event", (req, res) => {
   const {
     user_email,
@@ -233,7 +230,7 @@ router.post("/save-event", (req, res) => {
 
   db.query(query, values, (err, result) => {
     if (err) {
-      console.error("❌ Error saving event:", err);
+      console.error(" Error saving event:", err);
       return res.status(500).json({ message: "Database error" });
     }
 
@@ -249,30 +246,30 @@ router.post("/save-event", (req, res) => {
 
     db.query(guestQuery, [eventId, eventId, eventId], (guestErr) => {
       if (guestErr) {
-        console.error("❌ Error creating default guests:", guestErr);
+        console.error(" Error creating default guests:", guestErr);
         return res
           .status(500)
           .json({ message: "Event saved, but guests not created" });
       }
       res
         .status(200)
-        .json({ message: "✅ Event and guests created successfully!" });
+        .json({ message: " Event and guests created successfully!" });
     });
   });
 });
 
-// ✅ Get all saved events
+//  Get all saved events
 router.get("/events", (req, res) => {
   db.query("SELECT * FROM event_responses", (err, results) => {
     if (err) {
-      console.error("❌ Error fetching events:", err);
+      console.error("Error fetching events:", err);
       return res.status(500).json({ message: "Database error" });
     }
     res.status(200).json({ events: results });
   });
 });
 
-// ✅ Get specific event details
+//  Get specific event details
 router.get("/event/:eventId", (req, res) => {
   const { eventId } = req.params;
   db.query(
@@ -280,7 +277,7 @@ router.get("/event/:eventId", (req, res) => {
     [eventId],
     (err, result) => {
       if (err) {
-        console.error("❌ Error fetching event:", err);
+        console.error(" Error fetching event:", err);
         return res.status(500).json({ message: "Database error" });
       }
       if (result.length === 0) {
@@ -291,7 +288,7 @@ router.get("/event/:eventId", (req, res) => {
   );
 });
 
-// ✅ Get all guests for an event
+//  Get all guests for an event
 router.get("/event/:eventId/guests", (req, res) => {
   const { eventId } = req.params;
   db.query(
@@ -299,7 +296,7 @@ router.get("/event/:eventId/guests", (req, res) => {
     [eventId],
     (err, results) => {
       if (err) {
-        console.error("❌ Error fetching guests:", err);
+        console.error(" Error fetching guests:", err);
         return res.status(500).json({ message: "Database error" });
       }
       res.status(200).json(results);
@@ -382,10 +379,10 @@ router.post("/event/:eventId/add-guest", (req, res) => {
 
   db.query(query, [eventId, name, email, phone, status || "Pending"], (err) => {
     if (err) {
-      console.error("❌ Error adding guest:", err);
+      console.error(" Error adding guest:", err);
       return res.status(500).json({ message: "Database error" });
     }
-    res.status(200).json({ message: "✅ Guest added successfully!" });
+    res.status(200).json({ message: "Guest added successfully!" });
   });
 });
 
@@ -394,10 +391,10 @@ router.delete("/guests/:guestId", (req, res) => {
 
   db.query("DELETE FROM guests WHERE id = ?", [guestId], (err) => {
     if (err) {
-      console.error("❌ Error removing guest:", err);
+      console.error(" Error removing guest:", err);
       return res.status(500).json({ message: "Database error" });
     }
-    res.status(200).json({ message: "✅ Guest removed successfully!" });
+    res.status(200).json({ message: "Guest removed successfully!" });
   });
 });
 

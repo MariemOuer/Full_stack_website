@@ -11,26 +11,29 @@ import SavedEventsView from "./views/SavedEventsView";
 import ChatbotView from "./views/ChatbotView";
 import InvitationView from "./views/InvitationView";
 import CreateInvitationView from "./views/CreateInvitationView";
+import "./styles/main.css";
 
 function AppContent() {
   const { currentUser, isGuest } = useAuth();
   const navigate = useNavigate();
+  const currentPath = window.location.pathname; // Get current URL path
 
   useEffect(() => {
-    if (!currentUser && !isGuest) {
-      navigate("/login");
+    if (!currentUser && !isGuest && currentPath !== "/signup") {
+      // navigate("/login");
     }
-  }, [currentUser, isGuest, navigate]);
+  }, [currentUser, isGuest, navigate, currentPath]);
 
   return (
     <>
       <Navbar />
-
       <div className="content">
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={!currentUser && !isGuest ? <LoginView /> : <Navigate to="/" />} />
           <Route path="/signup" element={!currentUser && !isGuest ? <SignupView /> : <Navigate to="/" />} />
+
+          {/* Other accessible pages */}
           <Route path="/invitation-list" element={<InvitationListView />} />
           <Route path="/chat-bot" element={<ChatbotView />} />
           <Route path="/home" element={<HomepageView />} />
@@ -45,7 +48,6 @@ function AppContent() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
-
       <FooterView />
     </>
   );

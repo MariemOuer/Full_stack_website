@@ -1,4 +1,4 @@
-import { Invitation, InvitationStatus, Itinerary, User } from "@prisma/client";
+import { Invitation, InvitationStatus, InvitationTemplate, Itinerary, User } from "@prisma/client";
 import { InvitationRepository } from "../../repositories/interfaces/invitation_repository";
 import { ItineraryRepository } from "../../repositories/interfaces/itinerary_repository";
 import { UserRepository } from "../../repositories/interfaces/user_repository";
@@ -10,6 +10,7 @@ import { Failure, Result } from "../../utils/result/result";
 import { getOkValueFromResult } from "../../utils/result/result_consumer_helpers";
 import { EmailService } from "../external/email/interfaces/email_service";
 import { UserInfo } from "../../types/user_info";
+import { InvitationTemplateInfo } from "../../types/invitation_template_info";
 
 export class InvitationService {
   private invitationRepository: InvitationRepository;
@@ -95,6 +96,14 @@ export class InvitationService {
 
   async revokeInvitation(invitationUUID: string): Promise<Result<Invitation>> {
     return await this.invitationRepository.deleteInvitationByUUID(invitationUUID);
+  }
+
+  async createInvitationTemplate(invitationTemplateInfo: InvitationTemplateInfo): Promise<Result<InvitationTemplate>> {
+    return await this.invitationRepository.createInvitationTemplate(invitationTemplateInfo);
+  }
+
+  async getAllInvitationTemplates(authId: string): Promise<Result<InvitationTemplate[]>> {
+    return await this.invitationRepository.getAllInvitationTemplates(authId);
   }
 
   private async fetchOrCreateUserByEmail(userInfo: UserInfo): Promise<Result<User>> {

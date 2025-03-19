@@ -1,17 +1,24 @@
-
-import express, { Request, Response } from 'express';
-import { InvitationService } from '../services/repository_services/invitation_service';
-import prisma_invitation_repository from '../repositories/concretes/prisma_invitation_repository';
-import prisma_itinerary_repository from '../repositories/concretes/prisma_itinerary_repository';
-import prisma_user_repository from '../repositories/concretes/prisma_user_repository';
-import gmail_smtp_email_service from '../services/external/email/concretes/gmail_smtp_email_service';
-import { INVITATION_LIST_RELATIVE_ROUTE, INVITE_ALL_RELATIVE_ROUTE, NOTIFY_ALL_RELATIVE_ROUTE, PROCESS_INVITATION_RELATIVE_ROUTE, REVOKE_INVITATION_RELATIVE_ROUTE } from '../utils/constants/route_constants';
-import { safeExecute } from '../utils/general_error_helpers';
-import { consumeResult, getOkValueFromResult } from '../utils/result/result_consumer_helpers';
-import { Result } from '../utils/result/result';
-import { InvitationListDTO } from '../types/invitation_list_DTO';
-import { EmailResponseDTO } from '../types/email_response_DTO';
-
+import express, { Request, Response } from "express";
+import { InvitationService } from "../services/repository_services/invitation_service";
+import prisma_invitation_repository from "../repositories/concretes/prisma_invitation_repository";
+import prisma_itinerary_repository from "../repositories/concretes/prisma_itinerary_repository";
+import prisma_user_repository from "../repositories/concretes/prisma_user_repository";
+import gmail_smtp_email_service from "../services/external/email/concretes/gmail_smtp_email_service";
+import {
+  CREATE_TEMPLATE_RELATIVE_ROUTE,
+  GET_TEMPLATES_RELATIVE_ROUTE,
+  INVITATION_LIST_RELATIVE_ROUTE,
+  INVITE_ALL_RELATIVE_ROUTE,
+  NOTIFY_ALL_RELATIVE_ROUTE,
+  PROCESS_INVITATION_RELATIVE_ROUTE,
+  REVOKE_INVITATION_RELATIVE_ROUTE,
+} from "../utils/constants/route_constants";
+import { safeExecute } from "../utils/general_error_helpers";
+import { consumeResult, getOkValueFromResult } from "../utils/result/result_consumer_helpers";
+import { Result } from "../utils/result/result";
+import { InvitationListDTO } from "../types/invitation_list_DTO";
+import { EmailResponseDTO } from "../types/email_response_DTO";
+import { InvitationTemplateInfo } from "../types/invitation_template_info";
 
 const router = express.Router();
 
@@ -22,7 +29,7 @@ const invitationService = new InvitationService({
   emailService: gmail_smtp_email_service,
 });
 
-router.get(INVITATION_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
+router.get(INVITATION_LIST_RELATIVE_ROUTE + ":itineraryUUID", async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
   const result = await safeExecute(async () => {
     const { itineraryUUID } = request.params;
     return await invitationService.fetchInvitationListForItineraryId(itineraryUUID);
@@ -35,7 +42,7 @@ router.get(INVITATION_LIST_RELATIVE_ROUTE + ':itineraryUUID', async (request: Re
   );
 });
 
-router.post(NOTIFY_ALL_RELATIVE_ROUTE + ':itineraryUUID', async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
+router.post(NOTIFY_ALL_RELATIVE_ROUTE + ":itineraryUUID", async (request: Request<{ itineraryUUID: string }>, response: Response): Promise<any> => {
   const result = await safeExecute(async () => {
     const { itineraryUUID } = request.params;
 
@@ -72,7 +79,7 @@ router.post(INVITE_ALL_RELATIVE_ROUTE, async (request: Request, response: Respon
   );
 });
 
-router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'accept/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
+router.put(PROCESS_INVITATION_RELATIVE_ROUTE + "accept/:invitationUUID", async (request: Request, response: Response): Promise<any> => {
   const result = await safeExecute(async () => {
     const { invitationUUID } = request.params;
 
@@ -86,7 +93,7 @@ router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'accept/:invitationUUID', async (
   );
 });
 
-router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'decline/:invitationUUID', async (request: Request, response: Response): Promise<any> => {
+router.put(PROCESS_INVITATION_RELATIVE_ROUTE + "decline/:invitationUUID", async (request: Request, response: Response): Promise<any> => {
   const result = await safeExecute(async () => {
     const { invitationUUID } = request.params;
 
@@ -100,7 +107,7 @@ router.put(PROCESS_INVITATION_RELATIVE_ROUTE + 'decline/:invitationUUID', async 
   );
 });
 
-router.post(REVOKE_INVITATION_RELATIVE_ROUTE + ':invitationUUID', async (request: Request, response: Response): Promise<any> => {
+router.post(REVOKE_INVITATION_RELATIVE_ROUTE + ":invitationUUID", async (request: Request, response: Response): Promise<any> => {
   const result = await safeExecute(async () => {
     const { invitationUUID } = request.params;
 
@@ -110,6 +117,34 @@ router.post(REVOKE_INVITATION_RELATIVE_ROUTE + ':invitationUUID', async (request
   return consumeResult(
     result,
     () => response.json({ revokedInvitation: result }),
+    () => response.status(400).json(result)
+  );
+});
+
+router.post(GET_TEMPLATES_RELATIVE_ROUTE, async (request: express.Request, response: express.Response): Promise<any> => {
+  const result = await safeExecute(async () => {
+    const { authId } = request.body;
+
+    return await invitationService.getAllInvitationTemplates(authId);
+  });
+
+  return consumeResult(
+    result,
+    (templates) => response.json(templates),
+    () => response.status(400).json(result)
+  );
+});
+
+router.post(CREATE_TEMPLATE_RELATIVE_ROUTE, async (request: express.Request, response: express.Response): Promise<any> => {
+  const result = await safeExecute(async () => {
+    const invitationTemplateInfo: InvitationTemplateInfo = request.body;
+
+    return await invitationService.createInvitationTemplate(invitationTemplateInfo);
+  });
+
+  return consumeResult(
+    result,
+    (template) => response.json(template),
     () => response.status(400).json(result)
   );
 });

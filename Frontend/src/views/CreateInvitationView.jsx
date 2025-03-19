@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { apiService } from "../services/ApiService";
 import "../styles/create_invitation.css";
+
 const CreateInvitationPage = () => {
   return (
     <div className="container full-height no-background">
@@ -12,65 +15,99 @@ const CreateInvitationPage = () => {
       {/* Right Side - Preview Box */}
       <div className="preview-container expanded">
         <PreviewBox />
-        <div className="button-wrapper">
-          <PrimaryButton text="Invite Guests" />
-        </div>
       </div>
     </div>
   );
 };
 
 const InvitationForm = () => {
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [rsvpBy, setRsvpBy] = useState("");
-  const [plusOnes, setPlusOnes] = useState("");
-  const [focusedField, setFocusedField] = useState(null);
+  const { customData } = useAuth();
+  const userId = customData?.id;
+
+  const [selectedItinerary, setSelectedItinerary] = useState(null);
+  const [itineraryList, setItineraryList] = useState([]);
+  const [sentEmails, setSentEmails] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Fetch itineraries
+  useEffect(() => {
+    if (!userId) return;
+
+    async function fetchItineraries() {
+      try {
+        const response = await apiService.get(`/api/itinerary/created-by/${userId}`);
+        setItineraryList(response.data);
+        if (response.data.length > 0) {
+          setSelectedItinerary(response.data[0]); // Set default itinerary
+        }
+      } catch (error) {
+        console.error("Failed to fetch itineraries:", error);
+      }
+    }
+
+    fetchItineraries();
+  }, [userId]);
+
+  // Handle Invite Guests button click
+  const handleInviteGuests = async (e) => {
+    e.preventDefault(); // Prevent page reload
+
+    if (!selectedItinerary || !selectedItinerary.id) {
+      setError("Please select a valid itinerary before inviting guests.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await apiService.post(`/api/invitation/notify-all/${selectedItinerary.id}`);
+      setSentEmails(response.data);
+      setError(null);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to send invitations.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <form className="form">
-      <input type="text" placeholder="Occasion" className="input" />
-      <input type="text" placeholder="Theme" className="input" />
-      <input type="text" placeholder="Venue" className="input" />
-      <input
-        type={focusedField === "date" || date ? "date" : "text"}
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        onFocus={() => setFocusedField("date")}
-        onBlur={() => setFocusedField(null)}
-        placeholder="Date"
+    <form className="form" onSubmit={(e) => e.preventDefault()}>
+      {" "}
+      {/* Prevent full page reload */}
+      {/* Itinerary Selection Dropdown */}
+      <select
         className="input"
-      />
-      <input
-        type={focusedField === "startTime" || startTime ? "time" : "text"}
-        value={startTime}
-        onChange={(e) => setStartTime(e.target.value)}
-        onFocus={() => setFocusedField("startTime")}
-        onBlur={() => setFocusedField(null)}
-        placeholder="Start Time"
-        className="input"
-      />
-      <input
-        type={focusedField === "rsvpBy" || rsvpBy ? "date" : "text"}
-        value={rsvpBy}
-        onChange={(e) => setRsvpBy(e.target.value)}
-        onFocus={() => setFocusedField("rsvpBy")}
-        onBlur={() => setFocusedField(null)}
-        placeholder="RSVP By"
-        className="input"
-      />
-      <input
-        type="number"
-        value={plusOnes}
-        onChange={(e) => setPlusOnes(e.target.value)}
-        onFocus={() => setFocusedField("plusOnes")}
-        onBlur={() => setFocusedField(null)}
-        placeholder="PlusOnes"
-        className="input"
-      />
+        value={selectedItinerary?.id || ""}
+        onChange={(e) => {
+          const selected = itineraryList.find((itinerary) => itinerary.id.toString() === e.target.value);
+          setSelectedItinerary(selected || null);
+        }}
+      >
+        <option value="" disabled>
+          Select Itinerary
+        </option>
+        {itineraryList.map((itinerary) => (
+          <option key={itinerary.id} value={itinerary.id}>
+            {itinerary.title}
+          </option>
+        ))}
+      </select>
       <div className="button-wrapper">
-        <PrimaryButton text="Create" />
+        <PrimaryButton text={loading ? "Sending..." : "Invite Guests"} onClick={handleInviteGuests} />
       </div>
+      {/* Display Sent Emails */}
+      {sentEmails.length > 0 && (
+        <div className="sent-emails">
+          <h3>Invitations Sent To:</h3>
+          <ul>
+            {sentEmails.map((email, index) => (
+              <li key={index}>{email}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {/* Show Errors */}
+      {error && <p className="error">{error}</p>}
     </form>
   );
 };
@@ -83,8 +120,12 @@ const PreviewBox = () => {
   );
 };
 
-const PrimaryButton = ({ text }) => {
-  return <button className="button">{text}</button>;
+const PrimaryButton = ({ text, onClick }) => {
+  return (
+    <button className="button" onClick={onClick} disabled={!onClick}>
+      {text}
+    </button>
+  );
 };
 
 export default CreateInvitationPage;

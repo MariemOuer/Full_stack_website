@@ -1,10 +1,20 @@
-import { Invitation, InvitationStatus } from "@prisma/client";
+import { Invitation, InvitationStatus, InvitationTemplate } from "@prisma/client";
 import { InvitationRepository } from "../interfaces/invitation_repository";
 import { safeExecutePrismaOperation } from "../../utils/prisma/prisma_helpers";
 import PRISMA from "../../utils/prisma/prisma_client";
 import { Result } from "../../utils/result/result";
 
 class PrismaInvitationRepository implements InvitationRepository {
+  async createInvitationTemplate(invitationTemplate: Omit<InvitationTemplate, "id">): Promise<Result<InvitationTemplate>> {
+    return safeExecutePrismaOperation(() => {
+      return PRISMA.invitationTemplate.create({ data: invitationTemplate });
+    });
+  }
+  async getAllInvitationTemplates(authId: string): Promise<Result<InvitationTemplate[]>> {
+    return safeExecutePrismaOperation(() => {
+      return PRISMA.invitationTemplate.findMany({ where: { userAuthId: authId } });
+    });
+  }
   async deleteInvitationByUUID(invitationUUID: string): Promise<Result<Invitation>> {
     return safeExecutePrismaOperation(() =>
       PRISMA.invitation.delete({

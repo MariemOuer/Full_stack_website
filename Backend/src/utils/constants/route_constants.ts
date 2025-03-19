@@ -24,3 +24,7 @@ export const DELETE_USER_RELATIVE_ROUTE = "/delete";
 
 //Relative LLM Routes
 export const GET_LLM_SUGGESTION_RELATIVE_ROUTE = "/suggestions";
+
+//Relative Templates
+export const GET_TEMPLATES_RELATIVE_ROUTE = "/templates";
+export const CREATE_TEMPLATE_RELATIVE_ROUTE = "/create-template";

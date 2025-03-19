@@ -27,7 +27,7 @@ const Navbar = () => {
         <div className="nav-left">
           <Link to="/chat-bot">Chat Prompt</Link>
           <Link to="/create-invitation">Create Invitation</Link>
-          <Link to="/invitation">Invite Guests</Link>
+          <Link to="/invitation-list">Invite Guests</Link>
         </div>
       )}
 

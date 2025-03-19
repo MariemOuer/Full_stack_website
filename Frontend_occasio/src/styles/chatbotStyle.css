@@ -1,0 +1,552 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+  background-color: #F8F1E5;
+  font-family: 'Inter', sans-serif;
+}
+
+/* MAIN CONTAINER */
+.container {
+  width: 90vw;
+  max-width: 800px;
+  height: 75vh;
+  background-color: #f7e8d7;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* CHAT BUBBLES */
+.chatContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.botBubble {
+  background-color: #f7e8d7;
+  color: red;
+  align-self: flex-start;
+  padding: 14px 20px;
+  border-radius: 20px;
+  max-width: 70%;
+}
+
+.userBubble {
+  background-color: #F8F1E5;
+  color: red;
+  border: 2px solid #5A189A;
+  align-self: flex-end;
+  padding: 14px 20px;
+  border-radius: 20px;
+  max-width: 70%;
+}
+
+/* INPUT FIELD (Proper Sizing & Alignment) */
+.inputWrapper {
+  display: flex;
+  gap: 15px; /* Adds spacing between input and buttons */
+  margin-top: 15px;
+  align-items: center;
+}
+
+.inputField {
+  flex: 1;
+  padding: 14px 18px;
+  font-size: 16px;
+  border: 2px solid #5A189A;
+  border-radius: 50px;
+  background-color: white;
+  color: #5A189A;
+  outline: none;
+  height: 50px;
+  transition: border-color 0.2s ease-in-out;
+}
+
+/* Remove ugly blue focus */
+.inputField:focus {
+  border-color: #4A0F7A;
+}
+
+/* BUTTONS (Equal Sizing & Spacing) */
+.buttonContainer {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+.sendButton, .idkButton {
+  background-color: #5A189A;
+  color: white;
+  font-size: 16px;
+  margin-left: 10px;
+  padding: 14px 22px;
+  border-radius: 50px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  height: 50px; /* Same height as input field */
+}
+
+.sendButton:hover, .idkButton:hover {
+  background-color: #4A0F7A;
+}
+
+/* FIXED SUGGESTION BUTTONS */
+.suggestionContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.suggestionButton {
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  background-color: #ECC5BF;
+  color: #5A189A;
+  border: 2px solid #5A189A;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  text-align: center;
+  min-width: 140px;
+}
+
+.suggestionButton:hover {
+  background-color: #D72638;
+  color: white;
+}
+
+/* FINAL POPUP STYLING */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.popupContent {
+  text-align: center;
+}
+
+.popupButtonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.saveButton, .closeButton {
+  background-color: #5A189A;
+  color: white;
+  font-size: 16px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.saveButton:hover, .closeButton:hover {
+  background-color: #4A0F7A;
+}
+
+/* CHAT BUBBLES */
+.botBubble {
+  background-color: #f7e8d7;
+  color: red;
+  align-self: flex-start;
+  padding: 14px 20px;
+  border-radius: 20px;
+  max-width: 70%;
+}
+
+.userBubble {
+  color: purple; /* White Text */
+  border: none;
+  align-self: flex-end;
+  padding: 14px 20px;
+  border-radius: 20px;
+  max-width: 70%;
+}
+
+/* BUTTONS (Updated Padding & Spacing) */
+.buttonContainer,
+.inputButtonContainer,
+.popupButtonContainer {
+  display: flex;
+  gap: 15px; /* More spacing between buttons */
+  margin-top: 10px;
+}
+
+.sendButton,
+.idkButton,
+.saveButton,
+.closeButton {
+  background-color: #5A189A;
+  color: white;
+  font-size: 16px;
+  padding: 14px 18px; /* Consistent with input field */
+  border-radius: 50px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  height: 50px; /* Same height as input */
+}
+
+.sendButton:hover,
+.idkButton:hover,
+.saveButton:hover,
+.closeButton:hover {
+  background-color: #4A0F7A;
+}
+
+/* SUGGESTION BUTTONS */
+.suggestionButton {
+  padding: 14px 18px; /* Matching input field padding */
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  background-color: #ECC5BF;
+  color: #5A189A;
+  border: 2px solid #5A189A;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  text-align: center;
+  min-width: 140px;
+}
+
+.suggestionButton:hover {
+  background-color: #D72638;
+  color: white;
+}
+
+
+/* === BACKDROP EFFECT WHEN POPUP APPEARS === */
+body.popup-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Darkened overlay */
+  z-index: 998;
+}
+
+/* === MODERNIZED POPUP === */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #3B2E56; /* Dark Purple for modern look */
+  color: #EDEDED; /* Light text for better readability */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4); /* Softer shadow */
+  max-width: 500px;
+  width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 999;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+/* Smooth fade-in effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* === EVENT SUMMARY ENTRIES === */
+.popupText {
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle transparency */
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 4px solid #D72638; /* Accent color */
+}
+
+/* === POPUP BUTTONS (Modern & Sleek) === */
+.popupButtonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.saveButton, .closeButton {
+  background-color: #5A189A;
+  color: white;
+  font-size: 16px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.saveButton:hover, .closeButton:hover {
+  background-color: #4A0F7A;
+  box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2); /* Soft glow */
+}
+
+/* === DARK BACKDROP WHEN POPUP IS ACTIVE === */
+body.popup-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 20, 30, 0.85); /* Dark bluish overlay */
+  backdrop-filter: blur(5px); /* Subtle blur for depth */
+  z-index: 998;
+}
+
+/* === MODERN POPUP (Dark, Sleek, and Minimalist) === */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #2F1E4D 30%, #3B2E56 100%); /* Modern dark gradient */
+  color: #E0E0E0; /* Soft light gray text */
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 520px;
+  width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 999;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+/* === FADE-IN EFFECT === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* === EVENT SUMMARY STYLING === */
+.popupText {
+  background-color: rgba(255, 255, 255, 0.08); /* Subtle transparency */
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border-left: 4px solid #4A90E2; /* Sleek blue accent */
+  font-weight: 500;
+}
+
+/* === POPUP BUTTONS (Modern & Consistent) === */
+.popupButtonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.saveButton, .closeButton {
+  background-color: #4A90E2; /* Sleek cool blue */
+  color: white;
+  font-size: 16px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.saveButton:hover, .closeButton:hover {
+  background-color: #3B78C1;
+  box-shadow: 0px 4px 12px rgba(74, 144, 226, 0.3); /* Soft glowing effect */
+}
+
+/* === BACKDROP EFFECT WHEN POPUP IS ACTIVE === */
+body.popup-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 17, 15, 0.85); /* Darkened beige overlay */
+  backdrop-filter: blur(4px); /* Subtle blur for modern depth */
+  z-index: 998;
+}
+
+/* === MODERNIZED POPUP (Dark Beige Aesthetic) === */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #5C4B3E 30%, #4E3D32 100%); /* Dark beige gradient */
+  color: #EDE0D4; /* Soft warm beige text */
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
+  max-width: 520px;
+  width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 999;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+/* === FADE-IN EFFECT === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* === EVENT SUMMARY STYLING === */
+.popupText {
+  background-color: rgba(255, 255, 255, 0.08); /* Subtle transparency */
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border-left: 4px solid #fff5ea; /* Warm beige accent */
+  font-weight: 500;
+}
+
+/* === POPUP BUTTONS (Warm & Consistent) === */
+.popupButtonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.saveButton, .closeButton {
+  background-color: #A68A6D; /* Dark beige for consistency */
+  color: white;
+  font-size: 16px;
+  margin: 10px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.saveButton:hover, .closeButton:hover {
+  background-color: #8B6F54;
+  box-shadow: 0px 4px 12px rgba(166, 138, 109, 0.3); /* Soft glowing effect */
+}
+
+/* INPUT FIELD (Proper Sizing & Alignment) */
+.inputWrapper {
+  display: flex;
+  flex-direction: column; /* Stack input and buttons */
+  gap: 15px; /* Adds spacing between input and buttons */
+  margin-top: 15px;
+  align-items: center;
+  width: 100%;
+}
+
+.inputField {
+  margin-top: 30px;
+  width: 100%; /* Makes input longer */
+  padding: 14px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px; /* Less rounded */
+  background-color: #e8daca;
+  color: #5a189a;
+  outline: none;
+  height: 20px;
+  transition: border-color 0.2s ease-in-out;
+  margin-bottom: 15px; /* Extra space between input and buttons */
+}
+
+/* BUTTONS (Consistent Spacing & Alignment) */
+.buttonContainer {
+  display: flex;
+  gap: 15px; /* Increased spacing between buttons */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inputField {
+  flex: 1; /* Make input take up remaining space */
+  transition: width 0.3s ease-in-out;
+}
+
+.inputContainer.no-idk .inputField {
+  width: 100%;
+}
+
+
+.chatBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.botBubble, .userBubble {
+  padding: 14px 20px;
+  border-radius: 20px;
+  max-width: 80%; /* Ensure text bubbles don't stretch too wide */
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  display: inline-block;
+}
+
+/* Align bot messages to the left */
+.botBubble {
+  background-color: #ecdecf;
+  margin-bottom: 10px;
+  color: red;
+  align-self: flex-start;
+}
+
+/* Align user messages to the right */
+.userBubble {
+  align-self: flex-end;
+  text-align: right;
+}

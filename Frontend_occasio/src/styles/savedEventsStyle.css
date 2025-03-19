@@ -1,0 +1,163 @@
+/* Full Page Background */
+.saved-events-container {
+    background-color: #f8f1e5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Welcome & Email */
+  .profile-header {
+    text-align: left;
+    width: 80%;
+  }
+  
+  .welcome-text {
+    color: #5A189A;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  .user-email {
+    font-size: 16px;
+    color: #4A4A4A;
+  }
+  
+  /* Saved Events & Event Dropdown */
+  .events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+    margin-top: 20px;
+  }
+  
+  .saved-events-heading {
+    color: #5A189A;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  /* Event Dropdown */
+  .event-dropdown {
+    text-align: right;
+  }
+  
+  .event-dropdown label {
+    display: block;
+    font-size: 18px;
+    color: #D72638;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .event-dropdown select {
+    padding: 8px;
+    font-size: 16px;
+    border: 2px solid #D72638;
+    border-radius: 6px;
+    background-color: #FDF1E5;
+  }
+  
+  /* Event Box */
+  .event-box {
+    border-radius: 12px;
+    border: 2px solid #D72638;
+    padding: 40px; /* Increased padding */
+    margin-top: 20px;
+    width: 80%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Table Containers */
+  .table-container {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+  }
+  
+  /* Individual Tables */
+  .event-table {
+    width: 50%;
+    border-collapse: collapse;
+    border: 2px solid #D72638;
+  }
+  
+  /* Table Headers */
+  .event-table th {
+    background-color: #F2E5D5; /* Slightly darker than the page background */
+    color: #5A189A;
+    font-size: 18px;
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid #D72638;
+  }
+  
+  /* Table Borders */
+  .event-table th, .event-table td {
+    padding: 12px;
+    text-align: left;
+    border: none;
+  }
+  
+  /* Two-column layout */
+  .event-table tbody tr td:first-child {
+    color: #D72638;
+    font-weight: bold;
+  }
+  
+  .event-table tbody tr td:last-child {
+    color: #D72638;
+    text-align: right;
+    background-color: #f8ecdd;
+  }
+  
+  /* Full row for Total Cost */
+  .event-table tbody tr:last-child td {
+    text-align: center;
+    font-weight: bold;
+    color: #D72638;
+    background-color: #FAEDE0;
+  }
+  
+  /* Action Links (View Invitation, Edit Guest List, etc.) */
+  .event-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    margin-left: 20px;
+  }
+  
+  .action-link {
+    text-decoration: none;
+    color: #5A189A;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: right;
+  }
+  
+  .action-link:hover {
+    text-decoration: underline;
+  }
+  
+  .event-table {
+    width: 90%; /* 3/4 of the width */
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Actions take 1/4 of space */
+.event-actions {
+    width: 10%; /* 1/4 of the width */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+    margin-left: auto; /* Push actions to the right */
+}

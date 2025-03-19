@@ -1,0 +1,170 @@
+.signup-page h2 {
+  color: #5A189A;
+  font-weight: bold;
+}
+
+.signup-page .auth-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 100px 0 0 250px;
+  padding: 20px;
+  background: none;
+  box-shadow: none;
+  position: relative; 
+}
+
+.signup-page .auth-container::after {
+  content: "";
+  position: absolute;
+  top: 100px;
+  right: -500px;
+  width: 300px;
+  height: 300px;
+  background: url("/public/signup.png") no-repeat center center;
+  background-size: contain; 
+}
+
+.signup-page .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signup-page label {
+  font-weight: 500;
+}
+
+/* Input fields styling */
+.signup-page input[type="text"],
+.signup-page input[type="email"],
+.signup-page input[type="password"],
+.signup-page input[type="tel"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #D72638; 
+  background: #F7E8D7; 
+  outline: none;
+  color: #D72638;
+}
+
+.signup-page input[type="text"]:focus,
+.signup-page input[type="email"]:focus,
+.signup-page input[type="password"]:focus,
+.signup-page input[type="tel"]:focus {
+  border-color: #D72638;
+}
+
+/* Sign up button */
+.signup-page button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #D72638;
+  border: none;
+  color: #ffffff;
+  border-radius: 25px;
+  margin: 10px 0 0 0;
+  cursor: pointer;
+}
+
+.signup-page .auth-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.signup-page .auth-buttons button {
+  width: auto;
+  padding: 10px 40px;
+}
+
+.signup-page button:hover {
+  background-color: #D72638;
+}
+
+/* Guest login button */
+.signup-page .guest-btn {
+  background: none;
+  color: #D72638;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0 0 0;
+  text-align: left;
+  width: auto;
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 25px;
+}
+
+/* Guest button hover */
+.signup-page .guest-btn:hover {
+  background: #ba9d9d;
+}
+
+.signup-page input::placeholder {
+  color: #D72638;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 1;
+}
+
+/* Login here styling */
+.signup-page .registered-message {
+  color: #D72638;
+}
+
+.signup-page .registered-message a {
+  color: #D72638;
+  text-decoration: underline; 
+}
+
+/* for Very Small Screens */
+@media (max-width: 600px) {
+  .signup-page .auth-container {
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .signup-page h2 {
+    font-size: 22px;
+  }
+
+  .signup-page .auth-container::after {
+    display: none; 
+  }
+
+  .signup-page .auth-form {
+    gap: 8px;
+  }
+
+  .signup-page input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .signup-page button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .signup-page .auth-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .signup-page .guest-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .signup-page .registered-message {
+    font-size: 14px;
+  }
+}

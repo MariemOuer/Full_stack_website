@@ -1,0 +1,123 @@
+/* Guest List Container */
+.guest-list-container {
+  background-color: #f7e8d7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Lato", sans-serif;
+}
+
+.guest-list-heading {
+  color: #5a189a;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: "Merriweather", serif;
+  margin-bottom: 20px;
+}
+
+/* Guest Table */
+.guest-table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  text-align: center !important;
+  background-color: #f8f1e5;
+  color: #5a189a;
+}
+
+.guest-table th {
+  background-color: #e2d4c4;
+  color: #5a189a;
+  font-size: 18px;
+  padding: 12px;
+  text-align: left;
+}
+
+.guest-table td {
+  padding: 12px;
+  text-align: left;
+}
+
+/* Remove Button */
+.remove-btn {
+  background-color: #d72638;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: opacity 0.3s ease;
+}
+
+.remove-btn:hover {
+  opacity: 0.8;
+}
+
+/* Add Guest Section */
+.add-guest-section {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-guest-section input {
+  padding: 10px;
+  margin: 5px;
+  background-color: #e2d4c4;
+  border: none;
+  font-size: 16px;
+}
+
+.add-guest-btn {
+  background-color: #5a189a;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.add-guest-btn:hover {
+  background-color: #4c0e86;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 700px) {
+  .guest-table {
+    width: 90%;
+  }
+
+  .guest-table th,
+  .guest-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .guest-list-heading {
+    font-size: 32px;
+  }
+}
+.send-reminder-btn {
+  background-color: #5a189a; /* Deep purple */
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.send-reminder-btn:hover {
+  background-color: #7b2cbf; /* Slightly lighter purple */
+  transform: scale(1.05);
+}
+
+.send-reminder-btn:active {
+  background-color: #9d4edd; /* Even lighter purple */
+  transform: scale(0.95);
+}

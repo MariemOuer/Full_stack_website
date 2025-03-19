@@ -1,0 +1,230 @@
+/* Main chatbot container */
+.container {
+  width: 80vw;
+  max-width: 900px;
+  min-height: 60vh;
+  background-color: #f7e8d7; /* Light beige */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  overflow: visible;
+}
+
+/* Chat container */
+.chat-container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
+
+/* Chat box (scrollable messages) */
+.chat-box {
+  flex-grow: 1;
+  width: 100%;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 10px 15px;
+}
+
+/* Bot's message bubble */
+.bot-bubble {
+  align-self: flex-start;
+  background-color: #f7e8d7;
+  color: #d72638;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 6px 0;
+  max-width: 70%;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* User's message bubble */
+.user-bubble {
+  align-self: flex-start;
+  background-color: #f8f1e5; /* Matching page background */
+  border: 1px solid #5a189a; /* Purple outline */
+  color: #5a189a; /* Purple text */
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 6px 0;
+  max-width: 70%;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Input container (holds text input & buttons) */
+.input-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f7e8d7;
+  border-radius: 10px;
+}
+
+/* Text input field */
+.input-field {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #5a189a;
+  border-radius: 8px;
+  background-color: #f8f1e5;
+  color: #5a189a;
+}
+
+/* Send button */
+.send-button {
+  padding: 10px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 20px;
+  background-color: #5a189a;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.send-button:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+}
+
+/* "I don't know" button */
+.idk-button {
+  padding: 10px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 20px;
+  background-color: #5a189a;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.idk-button:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+}
+
+/* AI-generated suggestions */
+.ai-bubble {
+  align-self: flex-start;
+  background-color: #e6ccff;
+  color: #5a189a;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 6px 0;
+  max-width: 70%;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Suggestion container */
+.suggestion-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+/* Suggestion buttons */
+.suggestion-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  background-color: #c1d8c3;
+  color: #640d6b;
+  border: 3px solid #640d6b;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  text-align: center;
+  min-width: 130px;
+}
+
+.suggestion-button:hover {
+  background-color: #a8cfa3;
+}
+
+/* Popup (modal) */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 999;
+}
+
+/* Popup content */
+.popup-content {
+  text-align: center;
+}
+
+/* Close button inside popup */
+.close-button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #d72638;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+
+.close-button:hover {
+  background-color: #b21d30;
+}
+
+/* Save Event button */
+.save-button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #28a745;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  margin-right: 10px;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .container {
+    width: 90vw;
+    padding: 15px;
+  }
+
+  .chat-box {
+    max-height: 40vh;
+  }
+
+  .suggestion-button {
+    min-width: 100px;
+  }
+}

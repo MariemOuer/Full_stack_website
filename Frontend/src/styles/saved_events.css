@@ -1,0 +1,61 @@
+/* Container for the saved events page */
+.container {
+  width: 85vw;
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #f7e8d7;
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  font-family: Arial, sans-serif;
+  overflow: auto;
+}
+
+/* Page heading */
+.heading {
+  text-align: center;
+  color: #d72638;
+  margin-bottom: 30px;
+}
+
+/* Loading and "no events found" message */
+.message {
+  text-align: center;
+  color: #5a189a;
+}
+
+/* Event container */
+.events-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Individual event card */
+.event-card {
+  background-color: #f8f1e5;
+  border: 1px solid #5a189a;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* Event title */
+.event-title {
+  margin: 0 0 10px 0;
+  color: #5a189a;
+}
+
+/* Created at timestamp */
+.created-at {
+  margin-top: 15px;
+  text-align: right;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    width: 90vw;
+    padding: 20px;
+  }
+}

@@ -20,3 +20,6 @@ export const DELELTE_ITINERARY_RELATIVE_ROUTE = "/delete";
 //Relative User Routes
 export const CREATE_USER_RELATIVE_ROUTE = "/sign-up";
 export const DELETE_USER_RELATIVE_ROUTE = "/delete";
+
+//Relative LLM Routes
+export const GET_LLM_SUGGESTION_RELATIVE_ROUTE = "/suggestions";

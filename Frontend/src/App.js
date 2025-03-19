@@ -7,6 +7,8 @@ import LoginView from "./views/LoginView";
 import SignupView from "./views/SignupView";
 import HomepageView from "./views/HomepageView";
 import InvitationListView from "./views/InvitationListView";
+import SavedEventsView from "./views/SavedEventsView";
+import ChatbotView from "./views/ChatbotView";
 
 function App() {
   const { currentUser, isGuest } = useAuth();
@@ -21,7 +23,9 @@ function App() {
           <Route path="/login" element={!currentUser && !isGuest ? <LoginView /> : <Navigate to="/" />} />
           <Route path="/signup" element={!currentUser && !isGuest ? <SignupView /> : <Navigate to="/" />} />
           <Route path="/invitation-list" element={<InvitationListView />} />
+          <Route path="/chat-bot" element={<ChatbotView />} />
           <Route path="/home" element={<HomepageView />} />
+          <Route path="/saved-events" element={<SavedEventsView />} />
 
           {/* Private Routes (only if logged in or guest) */}
           <Route path="/" element={currentUser || isGuest ? <HomepageView /> : <Navigate to="/login" />} />

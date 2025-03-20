@@ -1,4 +1,4 @@
-// components/ChatbotView.js
+// components/ChatbotView.js - Updated to handle the enhanced suggestion format
 
 import { useState, useEffect, useRef } from "react";
 import { chatbotController } from "../controllers/ChatbotController";
@@ -81,12 +81,23 @@ const ChatbotView = () => {
         contextText = questions
           .slice(initialQuestionIndex, currentQuestionIndex)
           .map((question, index) => `${question}: ${previousUserAnswers[index]?.text || "No answer provided"}`)
-
           .join("\n");
       }
 
       const extractedSuggestions = await chatbotController.getSuggestions(contextText, questions[currentQuestionIndex]);
-      setSuggestions(extractedSuggestions);
+
+      // Handle the new suggestion format which returns objects with more details
+      const formattedSuggestions = extractedSuggestions.map((suggestion) => {
+        // If it's the new format (object with title, date, etc.)
+        if (typeof suggestion === "object" && suggestion.title) {
+          // Create a formatted string with title and date if available
+          return suggestion.title + (suggestion.date ? ` (${suggestion.date})` : "");
+        }
+        // If it's the old format (just a string)
+        return suggestion;
+      });
+
+      setSuggestions(formattedSuggestions);
       setIsLoading(false);
       return;
     }
@@ -150,7 +161,6 @@ const ChatbotView = () => {
 
   return (
     <>
-      <Navbar />
       <div className="chatbot-container">
         <div className="chatbot-header">
           <div className="chatbot-avatar">
@@ -257,7 +267,6 @@ const ChatbotView = () => {
           </div>
         )}
       </div>
-      <FooterView />
     </>
   );
 };

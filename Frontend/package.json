@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "backend": "cd ../Backend && npx nodemon --ext ts --exec ts-node -r tsconfig-paths/register src/app.ts",
+    "backend": "cd ../Backend && npm run dev",
     "frontend": "cd ../Frontend && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://occ-ongoq50p0-studdybackends-projects.vercel.app/api";
+const baseURL = process.env.NODE_ENV === undefined ? process.env.REACT_APP_PRODUCTION_BACKEND_URL : process.env.REACT_APP_DEVELOPMENT_BACKEND_URL || "http://localhost:5000/api";
 
 export const apiService = {
   // GET

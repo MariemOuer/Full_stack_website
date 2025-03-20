@@ -270,12 +270,12 @@ router.post("/suggestions", async (req, res) => {
     console.log(`[${new Date().toISOString()}] POST /suggestions`);
     console.log("Request body:", req.body);
 
-    const prompt = `You are an event planning assistant. Based on the following details:
+    const prompt = `You are an event planning assistant. DONT USE ANY BOLDING OR ITALICS OR COMMAS AND ONLY GIVE ANSWERS IN SENTENCES AND NO NEWLINE CHARACTERS IN EACH OPTION. Based on the following details:
 ${context}
 
 and the question:
 ${question}
-
+IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK BOZO
 Please provide exactly 3 suggestions in the following format:
 - Option 1: [suggestion]
 - Option 2: [suggestion]
@@ -283,12 +283,12 @@ Please provide exactly 3 suggestions in the following format:
 
     console.log("Constructed prompt:", prompt);
 
-    const OPENROUTER_API_KEY = "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"; // Hardcoded API Key
-
+    const OPENROUTER_API_KEY = "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"; // Hardcoded API Key
+    const model = "mistralai/mistral-small-3.1-24b-instruct";
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "rekaai/reka-flash-3:free",
+        model: model,
         messages: [{ role: "user", content: prompt }],
       },
       {
@@ -299,6 +299,7 @@ Please provide exactly 3 suggestions in the following format:
       }
     );
 
+    console.log("Model:", model);
     console.log("AI API response:", JSON.stringify(response.data, null, 2));
 
     if (response.data.choices && response.data.choices.length > 0 && response.data.choices[0].message) {

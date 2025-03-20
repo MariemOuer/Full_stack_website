@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Import AuthContext
 import "../styles/navbar.css"; // Import CSS for styling
+import { checkIfCurrentUserIsGuest } from "../utils/GuestHelpers";
 
 const Navbar = () => {
   const { currentUser, logout, isGuest } = useAuth(); // Get current user & logout function
@@ -36,7 +37,7 @@ const Navbar = () => {
       <div className="nav-right">
         {currentUser ? (
           <>
-            👤 {currentUser?.email?.toLowerCase() === "guest@gmail.com" ? "Guest" : currentUser?.email}
+            👤 {checkIfCurrentUserIsGuest(currentUser) ? "Guest" : currentUser?.email}
             <button className="hide" onClick={handleLogout}>
               Logout
             </button>

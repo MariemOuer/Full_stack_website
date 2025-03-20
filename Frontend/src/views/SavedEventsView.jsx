@@ -5,16 +5,17 @@ import "../styles/savedEventsStyle.css";
 import { Link } from "react-router-dom";
 import Footer from "./FooterView";
 import Navbar from "./NavbarView";
+import { checkIfCurrentUserIsGuest } from "../utils/GuestHelpers";
 
 const SavedEventsView = () => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const { currentUser } = useAuth();
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
-      setLoading(true);
+      setIsLoading(true);
       const eventsData = await SavedEventsController.fetchEvents();
 
       let userEmail = currentUser?.email?.toLowerCase();
@@ -25,14 +26,12 @@ const SavedEventsView = () => {
 
       console.log("Filtering events for user:", userEmail);
 
-      const userEvents = eventsData.filter(
-        (event) => event.user_email?.toLowerCase() === userEmail.toLowerCase()
-      );
+      const userEvents = eventsData.filter((event) => event.user_email?.toLowerCase() === userEmail.toLowerCase());
 
       console.log("Filtered events:", userEvents);
 
       setEvents(userEvents);
-      setLoading(false);
+      setIsLoading(false);
 
       if (userEvents.length > 0) {
         setSelectedEvent(userEvents[0]);
@@ -46,7 +45,7 @@ const SavedEventsView = () => {
 
   const handleEventChange = (eventId) => {
     const eventIdNumber = Number(eventId);
-    const event = events.find((e) => e.id === eventIdNumber);
+    const event = events.find((event) => event.id === eventIdNumber);
     setSelectedEvent(event);
   };
 
@@ -55,12 +54,9 @@ const SavedEventsView = () => {
       <Navbar />
       <div className="saved-events-container">
         <div className="profile-header">
-        {currentUser?.email?.toLowerCase() === "guest@gmail.com"? <h1 className="welcome-text">Welcome!</h1> : <h1 className="welcome-text">Welcome back!</h1>}
+          {checkIfCurrentUserIsGuest(currentUser) ? <h1 className="welcome-text">Welcome!</h1> : <h1 className="welcome-text">Welcome back!</h1>}
           <p className="user-email">
-            <strong>Current User:</strong>{" "}
-            {currentUser?.email?.toLowerCase() === "guest@gmail.com"
-              ? "Guest"
-              : currentUser?.email}
+            <strong>Current User:</strong> {checkIfCurrentUserIsGuest(currentUser) ? "Guest" : currentUser?.email}
           </p>
         </div>
 
@@ -68,11 +64,7 @@ const SavedEventsView = () => {
           <h2 className="saved-events-heading">Saved Events</h2>
           <div className="event-dropdown">
             <label htmlFor="eventSelector">Event</label>
-            <select
-              id="eventSelector"
-              value={selectedEvent?.id || ""}
-              onChange={(e) => handleEventChange(e.target.value)}
-            >
+            <select id="eventSelector" value={selectedEvent?.id || ""} onChange={(event) => handleEventChange(event.target.value)}>
               {events.map((event, index) => (
                 <option key={event.id} value={event.id}>
                   {event.event_name || `Event ${index + 1}`}
@@ -82,7 +74,7 @@ const SavedEventsView = () => {
           </div>
         </div>
 
-        {loading ? (
+        {isLoading ? (
           <p className="loading-text">Loading events...</p>
         ) : events.length === 0 ? (
           <p className="no-events-text">No events found.</p>
@@ -97,9 +89,9 @@ const SavedEventsView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                <tr className="spacer-row">
-                  <td/>
-                </tr>
+                  <tr className="spacer-row">
+                    <td />
+                  </tr>
                   <tr>
                     <td>
                       <strong>Event Type:</strong>
@@ -167,7 +159,7 @@ const SavedEventsView = () => {
                     <td>{selectedEvent.event_timeline}</td>
                   </tr>
                   <tr className="spacer-row">
-                    <td/>
+                    <td />
                   </tr>
 
                   <tr className="budget-section">
@@ -180,17 +172,11 @@ const SavedEventsView = () => {
               </table>
 
               <div className="event-actions">
-                <Link
-                  to={`/view-invitation/${selectedEvent.id}`}
-                  className="action-link"
-                >
+                <Link to={`/view-invitation/${selectedEvent.id}`} className="action-link">
                   View Invitation
                 </Link>
 
-                <Link
-                  to={`/edit-guest-list/${selectedEvent.id}`}
-                  className="action-link"
-                >
+                <Link to={`/edit-guest-list/${selectedEvent.id}`} className="action-link">
                   Edit Guest List
                 </Link>
               </div>

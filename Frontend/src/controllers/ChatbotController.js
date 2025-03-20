@@ -12,11 +12,9 @@ export const chatbotController = {
       });
 
       // If suggestions are returned, process them into an array
-      return response.data.suggestions
-        ? aiSuggestionsToArray(response.data.suggestions)
-        : [];
-    } catch (err) {
-      console.error("Error retrieving suggestions from backend", err);
+      return response.data.suggestions ? aiSuggestionsToArray(response.data.suggestions) : [];
+    } catch (error) {
+      console.error("Error retrieving suggestions from backend", error);
       return []; // Return an empty array if an error occurs
     }
   },

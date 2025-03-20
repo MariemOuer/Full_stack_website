@@ -5,7 +5,7 @@ import SignupView from "./views/SignupView";
 import DashboardView from "./views/DashboardView";
 import ViewInvitationView from "./views/ViewInvitationView";
 import EditGuestListView from "./views/EditGuestListView";
-import EditEventDetailsView from "./views/EditEventDetailsView";
+// import EditEventDetailsView from "./views/EditEventDetailsView";
 import ChatBotView from "./views/ChatbotView";
 import SavedEventsView from "./views/SavedEventsView";
 
@@ -25,7 +25,7 @@ function App() {
         <Route path="/events" element={currentUser ? <SavedEventsView /> : <Navigate to="/login" />} />
         <Route path="/view-invitation/:eventId" element={currentUser ? <ViewInvitationView /> : <Navigate to="/login" />} />
         <Route path="/edit-guest-list/:eventId" element={currentUser ? <EditGuestListView /> : <Navigate to="/login" />} />
-        <Route path="/edit-event-details/:eventId" element={currentUser ? <EditEventDetailsView /> : <Navigate to="/login" />} />
+        {/* <Route path="/edit-event-details/:eventId" element={currentUser ? <EditEventDetailsView /> : <Navigate to="/login" />} /> */}
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />

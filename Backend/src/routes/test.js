@@ -16,9 +16,9 @@ const db = mysql.createConnection({
 });
 
 // Connect to MySQL
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
+db.connect((error) => {
+  if (error) {
+    console.error("Database connection failed:", error);
     return;
   }
   console.log(" Connected to MySQL Database!");
@@ -36,20 +36,19 @@ const transporter = nodemailer.createTransport({
 });
 
 //  Send Email Function (Updated to Support HTML Emails)
-const sendEmail = async (to, subject, htmlContent) => {
+const sendEmail = async (recipientEmail, subject, htmlContent) => {
   try {
     await transporter.sendMail({
       from: `"Occasio Events" <occasio401@gmail.com>`,
-      to,
+      to: recipientEmail,
       subject,
       html: htmlContent, // Use `html` instead of `text` to send formatted emails
     });
-    console.log(` Email sent to ${to}`);
+    console.log(` Email sent to ${recipientEmail}`);
   } catch (error) {
-    console.error(` Error sending email to ${to}:`, error);
+    console.error(` Error sending email to ${recipientEmail}:`, error);
   }
 };
-
 
 // Test Email Route
 router.get("/send-test-email", async (req, res) => {
@@ -83,19 +82,13 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
   const { style } = req.body; // Get the invitation style from request
 
   try {
-    const [guests] = await db
-      .promise()
-      .query("SELECT email, name FROM guests WHERE event_id = ?", [eventId]);
+    const [guests] = await db.promise().query("SELECT email, name FROM guests WHERE event_id = ?", [eventId]);
 
     if (!guests.length) {
-      return res
-        .status(404)
-        .json({ message: "No guests found for this event" });
+      return res.status(404).json({ message: "No guests found for this event" });
     }
 
-    const [eventResult] = await db
-      .promise()
-      .query("SELECT * FROM event_responses WHERE id = ?", [eventId]);
+    const [eventResult] = await db.promise().query("SELECT * FROM event_responses WHERE id = ?", [eventId]);
 
     if (!eventResult.length) {
       return res.status(404).json({ message: "Event not found" });
@@ -112,9 +105,7 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
         message = `
           <div style="font-family: 'Times New Roman', serif; background-color: #fefdf6; padding: 20px; border-radius: 8px;">
             <h1 style="color: #6c5a51;">✨ You're Invited to a Magical Celebration! ✨</h1>
-            <p>🌸 Join us for <strong>${
-              event.event_name || "a special event"
-            }</strong></p>
+            <p>🌸 Join us for <strong>${event.event_name || "a special event"}</strong></p>
             <p>📅 Date: ${event.event_date || "TBD"}</p>
             <p>📍 Location: ${event.location || "TBD"}</p>
             <p>🎭 Theme: ${event.theme || "A wonderful surprise!"}</p>
@@ -127,9 +118,7 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
         message = `
           <div style="font-family: 'Georgia', serif; background-color: #fff7f3; padding: 20px; border-radius: 8px;">
             <h1 style="color: #5e4a4a;">💌 You're Invited!</h1>
-            <p>🎊 Celebrate <strong>${
-              event.event_name || "this special occasion"
-            }</strong></p>
+            <p>🎊 Celebrate <strong>${event.event_name || "this special occasion"}</strong></p>
             <p>📅 Date: ${event.event_date || "TBD"}</p>
             <p>📍 Location: ${event.location || "TBD"}</p>
             <a href="#" style="display: inline-block; background-color: #d16a6a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">🎟️ RSVP Now</a>
@@ -153,9 +142,7 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
         message = `
           <div style="font-family: 'Poppins', Arial, sans-serif; background-color: #ffffff; padding: 20px; border-radius: 8px;">
             <h1 style="color: #007bff;">🎉 Party Time! 🎉</h1>
-            <p>🥳 Let's have fun at <strong>${
-              event.event_name || "an amazing event"
-            }</strong></p>
+            <p>🥳 Let's have fun at <strong>${event.event_name || "an amazing event"}</strong></p>
             <p>📅 Date: ${event.event_date || "TBD"}</p>
             <a href="#" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">🎟️ RSVP Now</a>
           </div>
@@ -169,40 +156,20 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
     //  Send Emails
     for (const guest of guests) {
       await sendEmail(guest.email, subject, message);
-      await db
-        .promise()
-        .query("UPDATE guests SET status = 'Email Sent!' WHERE email = ?", [
-          guest.email,
-        ]);
+      await db.promise().query("UPDATE guests SET status = 'Email Sent!' WHERE email = ?", [guest.email]);
     }
 
     res.status(200).json({ message: "Invitations sent successfully!" });
   } catch (error) {
-    console.error("❌ Error sending invites:", error);
+    console.error("Error sending invites:", error);
     res.status(500).json({ message: "Error sending invitations" });
   }
 });
 
 /** -----------------------  EVENT & GUEST ROUTES ----------------------- **/
 
-
 router.post("/save-event", (req, res) => {
-  const {
-    user_email,
-    event_name,
-    event_type,
-    event_date,
-    event_length,
-    guest_count,
-    location,
-    catering,
-    theme,
-    entertainment,
-    budget,
-    accommodations,
-    special_requests,
-    event_timeline,
-  } = req.body;
+  const { user_email, event_name, event_type, event_date, event_length, guest_count, location, catering, theme, entertainment, budget, accommodations, special_requests, event_timeline } = req.body;
 
   const query = `
     INSERT INTO event_responses 
@@ -228,9 +195,9 @@ router.post("/save-event", (req, res) => {
     JSON.stringify(event_timeline),
   ];
 
-  db.query(query, values, (err, result) => {
-    if (err) {
-      console.error(" Error saving event:", err);
+  db.query(query, values, (error, result) => {
+    if (error) {
+      console.error(" Error saving event:", error);
       return res.status(500).json({ message: "Database error" });
     }
 
@@ -247,22 +214,18 @@ router.post("/save-event", (req, res) => {
     db.query(guestQuery, [eventId, eventId, eventId], (guestErr) => {
       if (guestErr) {
         console.error(" Error creating default guests:", guestErr);
-        return res
-          .status(500)
-          .json({ message: "Event saved, but guests not created" });
+        return res.status(500).json({ message: "Event saved, but guests not created" });
       }
-      res
-        .status(200)
-        .json({ message: " Event and guests created successfully!" });
+      res.status(200).json({ message: " Event and guests created successfully!" });
     });
   });
 });
 
 //  Get all saved events
 router.get("/events", (req, res) => {
-  db.query("SELECT * FROM event_responses", (err, results) => {
-    if (err) {
-      console.error("Error fetching events:", err);
+  db.query("SELECT * FROM event_responses", (error, results) => {
+    if (error) {
+      console.error("Error fetching events:", error);
       return res.status(500).json({ message: "Database error" });
     }
     res.status(200).json({ events: results });
@@ -272,36 +235,28 @@ router.get("/events", (req, res) => {
 //  Get specific event details
 router.get("/event/:eventId", (req, res) => {
   const { eventId } = req.params;
-  db.query(
-    "SELECT * FROM event_responses WHERE id = ?",
-    [eventId],
-    (err, result) => {
-      if (err) {
-        console.error(" Error fetching event:", err);
-        return res.status(500).json({ message: "Database error" });
-      }
-      if (result.length === 0) {
-        return res.status(404).json({ message: "Event not found" });
-      }
-      res.status(200).json(result[0]);
+  db.query("SELECT * FROM event_responses WHERE id = ?", [eventId], (err, result) => {
+    if (err) {
+      console.error(" Error fetching event:", err);
+      return res.status(500).json({ message: "Database error" });
     }
-  );
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    res.status(200).json(result[0]);
+  });
 });
 
 //  Get all guests for an event
 router.get("/event/:eventId/guests", (req, res) => {
   const { eventId } = req.params;
-  db.query(
-    "SELECT * FROM guests WHERE event_id = ?",
-    [eventId],
-    (err, results) => {
-      if (err) {
-        console.error(" Error fetching guests:", err);
-        return res.status(500).json({ message: "Database error" });
-      }
-      res.status(200).json(results);
+  db.query("SELECT * FROM guests WHERE event_id = ?", [eventId], (error, results) => {
+    if (error) {
+      console.error(" Error fetching guests:", error);
+      return res.status(500).json({ message: "Database error" });
     }
-  );
+    res.status(200).json(results);
+  });
 });
 
 // Route to Generate Suggestions Using OpenRouter AI
@@ -328,8 +283,7 @@ Please provide exactly 3 suggestions in the following format:
 
     console.log("Constructed prompt:", prompt);
 
-    const OPENROUTER_API_KEY =
-      "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"; // Hardcoded API Key
+    const OPENROUTER_API_KEY = "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"; // Hardcoded API Key
 
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -347,11 +301,7 @@ Please provide exactly 3 suggestions in the following format:
 
     console.log("AI API response:", JSON.stringify(response.data, null, 2));
 
-    if (
-      response.data.choices &&
-      response.data.choices.length > 0 &&
-      response.data.choices[0].message
-    ) {
+    if (response.data.choices && response.data.choices.length > 0 && response.data.choices[0].message) {
       const suggestionText = response.data.choices[0].message.content;
       console.log("Suggestion text from AI:", suggestionText);
       return res.json({ suggestions: suggestionText });
@@ -360,10 +310,7 @@ Please provide exactly 3 suggestions in the following format:
       return res.status(500).json({ error: "No suggestions available" });
     }
   } catch (error) {
-    console.error(
-      "Error retrieving suggestions:",
-      error.response ? error.response.data : error.message
-    );
+    console.error("Error retrieving suggestions:", error.response ? error.response.data : error.message);
     return res.status(500).json({ error: "Error retrieving suggestions" });
   }
 });
@@ -389,9 +336,9 @@ router.post("/event/:eventId/add-guest", (req, res) => {
 router.delete("/guests/:guestId", (req, res) => {
   const { guestId } = req.params;
 
-  db.query("DELETE FROM guests WHERE id = ?", [guestId], (err) => {
-    if (err) {
-      console.error(" Error removing guest:", err);
+  db.query("DELETE FROM guests WHERE id = ?", [guestId], (error) => {
+    if (error) {
+      console.error(" Error removing guest:", error);
       return res.status(500).json({ message: "Database error" });
     }
     res.status(200).json({ message: "Guest removed successfully!" });

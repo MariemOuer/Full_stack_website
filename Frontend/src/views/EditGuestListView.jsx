@@ -68,27 +68,32 @@ const EditGuestListView = () => {
       <div className="guest-list-container">
         <h1 className="guest-list-heading">Guest List</h1>
 
+        <div className="guest-list-options">
         {/* Dropdown to Select Invitation Style */}
-        <label htmlFor="style-select">Select Invitation Style:</label>
-        <select
-          id="style-select"
-          onChange={(e) => setSelectedStyle(e.target.value)}
-          value={selectedStyle}
-        >
-          <option value="whimsical">✨ Whimsical</option>
-          <option value="classic">💌 Classic</option>
-          <option value="professional">📢 Professional</option>
-          <option value="fun">🎉 Fun</option>
-        </select>
+        <div className="dropdown-selector">
+          <label htmlFor="style-select">Select Invitation Style:</label>
+          <select
+            id="style-select"
+            onChange={(e) => setSelectedStyle(e.target.value)}
+            value={selectedStyle}
+          >
+            <option value="whimsical">✨ Whimsical</option>
+            <option value="classic">💌 Classic</option>
+            <option value="professional">📢 Professional</option>
+            <option value="fun">🎉 Fun</option>
+          </select>
+        </div>
 
         {/* Send Invitations Button */}
         <button className="send-reminder-btn" onClick={handleSendInvites}>
           Send Invitations
         </button>
+        </div>
 
         {loading ? (
           <p>Loading guests...</p>
         ) : (
+          <div className="guest-table-wrapper">
           <table className="guest-table">
             <thead>
               <tr>
@@ -96,7 +101,7 @@ const EditGuestListView = () => {
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -107,21 +112,19 @@ const EditGuestListView = () => {
                   <td>{guest.phone || "N/A"}</td>
                   <td>{guest.status}</td>
                   <td>
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemoveGuest(guest.id)}
-                    >
-                      Remove
-                    </button>
+                    <img src='/trash-red.png' 
+                    alt="trashcan" className='remove-btn' 
+                    onClick={() => handleRemoveGuest(guest.id)}/>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
         )}
 
         <div className="add-guest-section">
-          <h2>Add New Guest</h2>
+          <h2>Add New Guest:</h2>
           <input
             type="text"
             placeholder="Name"

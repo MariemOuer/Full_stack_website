@@ -1,11 +1,11 @@
 /* Guest List Container */
 .guest-list-container {
-  background-color: #f7e8d7;
+  background-color: #f8f1e5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  align-items: left;
+  padding: 1% 8% 1% 8%;
   font-family: "Lato", sans-serif;
 }
 
@@ -15,24 +15,32 @@
   font-weight: bold;
   font-family: "Merriweather", serif;
   margin-bottom: 20px;
+  text-align: left;
+  width: 100%;
+}
+
+.guest-list-options {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Guest Table */
 .guest-table {
-  width: 80%;
+  width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 5px;
   text-align: center !important;
   background-color: #f8f1e5;
-  color: #5a189a;
+  color: #D72638;
+  border: solid 1px #ECC5BF;
 }
 
 .guest-table th {
-  background-color: #e2d4c4;
-  color: #5a189a;
-  font-size: 18px;
+  background-color: #FAEDE0;
+  font-size: 16px;
   padding: 12px;
   text-align: left;
+  border-bottom: solid 1px #ECC5BF;
 }
 
 .guest-table td {
@@ -40,19 +48,20 @@
   text-align: left;
 }
 
+.guest-table tr:hover {
+  background-color: #FAEDE0;
+}
+
 /* Remove Button */
 .remove-btn {
-  background-color: #d72638;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: opacity 0.3s ease;
+  padding-top: 2px;
+  width: 18px;
+  height: 18px;
+  opacity: 0.66;
 }
 
 .remove-btn:hover {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 /* Add Guest Section */
@@ -61,63 +70,146 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: left;
+  display: flex;
+  flex-direction: row;
+}
+
+.add-guest-section h2 {
+  font-size: 16px;
+  text-align: left;
+  color:#5A189A;
 }
 
 .add-guest-section input {
   padding: 10px;
   margin: 5px;
-  background-color: #e2d4c4;
-  border: none;
+  background-color: #FAEDE0;
+  border: solid 1px #ECC5BF;
+  border-radius: 0;
   font-size: 16px;
+  color: #D72638;
+}
+
+.add-guest-section input::placeholder {
+  color: #D72638;
+}
+
+.add-guest-section input:focus {
+  outline: none;
+  border: 1px solid #D72638;
 }
 
 .add-guest-btn {
-  background-color: #5a189a;
-  color: white;
+  background-color: #D72638;
+  color: #f8f1e5;
   padding: 8px 16px;
+  font-size: 16px;
+  height: 40px;
+  width: 125px;
   border: none;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 25px;
   transition: background-color 0.3s ease;
 }
 
 .add-guest-btn:hover {
-  background-color: #4c0e86;
+  background-color: #5A189A;
+}
+
+.dropdown-selector {
+  width: auto;
+}
+
+.dropdown-selector label {
+  color: #5A189A;
+  font-weight: bold;
+}
+
+.dropdown-selector select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ECC5BF;
+  border-radius: 6px;
+  background-color: #FDF1E5;
+  color: #D72638;
+  font-family: "Lato", sans-serif;
+}
+
+
+.send-reminder-btn {
+  background-color: #D72638;
+  width: 155px;
+  height: 40px;
+  color: #f8f1e5;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.send-reminder-btn:hover {
+  background-color: #5A189A;
+}
+
+.send-reminder-btn:active {
+  background-color: #5A189A;
 }
 
 /* Responsive Design */
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 1100px) {
+  .dropdown-selector {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+
+  .dropdown-selector select {
+    width: 160px;
+  }
+
+  .guest-list-options {
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
+  .guest-table-wrapper {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    width: 100%; /* Matches the table's container width */
+  }
+
   .guest-table {
-    width: 90%;
+    width: 100%; /* Ensures table stretches fully */
+    border-collapse: collapse;
+    white-space: initial; /* Allow wrapping to prevent squishing */
+    table-layout: auto; /* Keeps table layout responsive */
   }
 
   .guest-table th,
   .guest-table td {
-    font-size: 14px;
     padding: 8px;
   }
 
   .guest-list-heading {
     font-size: 32px;
   }
-}
-.send-reminder-btn {
-  background-color: #5a189a; /* Deep purple */
-  color: rgb(255, 255, 255);
-  font-size: 16px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
 
-.send-reminder-btn:hover {
-  background-color: #7b2cbf; /* Slightly lighter purple */
-  transform: scale(1.05);
-}
+  .add-guest-section {
+    width: 80%;
+    padding: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 10px 0 0 0;
+  }
 
-.send-reminder-btn:active {
-  background-color: #9d4edd; /* Even lighter purple */
-  transform: scale(0.95);
+  .add-guest-section h2 {
+    margin-bottom: 0px;
+  }
+
+  .add-guest-section input {
+    margin: 2px 0 2px 0;
+  }
 }

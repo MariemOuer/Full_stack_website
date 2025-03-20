@@ -64,7 +64,7 @@
     font-size: 16px;
     border: 1px solid #ECC5BF;
     border-radius: 6px;
-    background-color: #FDF1E5;
+    background-color: #F7E8D7;
     color: #D72638;
     font-family: "Lato", sans-serif;
   }
@@ -103,7 +103,7 @@
 
   /*Table Row Coloring */
   .event-table tr:hover{
-    background-color: #FAEDE0;
+    background-color: #F7E8D7;
   }
 
   .event-table .spacer-row:hover {
@@ -112,7 +112,7 @@
 
   /* Table Headers */
   .event-table th {
-    background-color: #FAEDE0;
+    background-color: #F7E8D7;
     color: #D72638;
     font-size: 20px;
     text-align: left;
@@ -136,7 +136,7 @@
   .event-table tbody tr:last-child td {
     font-weight: bold;
     color: #D72638;
-    background-color: #FAEDE0;
+    background-color: #F7E8D7;
     border-top: 1px solid #ECC5BF;
   }
   
@@ -147,7 +147,7 @@
     width: 25%;
     margin-left: 0;
     border: 0.5px solid #ECC5BF;
-    background-color: #FAEDE0;
+    background-color: #F7E8D7;
     text-align: left;
     padding-top: 85px;
   }
@@ -186,7 +186,7 @@
     .event-actions {
       width: 99.5%;
       min-width: 274px;
-      margin: -1px 0 0 0;
+      margin: -1px 0 30px 0;
       padding: 20px 0 15px 0;
     }
 

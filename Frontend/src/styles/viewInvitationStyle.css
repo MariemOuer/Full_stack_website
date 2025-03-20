@@ -1,16 +1,10 @@
-.container {
-    text-align: center;
-    padding: 20px;
-    font-family: "Lato", sans-serif;
-  }
-  
   .invitation-box {
     max-width: 450px;
     margin: 20px auto;
     padding: 30px;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 50px;
   }
   
   .whimsical {
@@ -41,57 +35,51 @@
     color: #007bff;
   }
   
-  h1 {
+  .invitation-box h1 {
     font-size: 28px;
     margin-bottom: 15px;
   }
   
-  p {
+  .invitation-box p {
     font-size: 18px;
     margin-bottom: 10px;
   }
   
-  .divider {
+  .invitation-box .divider {
     border-top: 1px solid #ddd;
     margin: 20px 0;
   }
   
-  .rsvp-btn {
-    display: inline-block;
-    padding: 12px 25px;
-    font-size: 16px;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  .invitation-page-container {
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    display: flex;
+    justify-content: center;
+    background-color: #F8F1E5;
+    padding: 8% 16% 1% 16%;
+    min-height: 60vh;
   }
-  
-  .whimsical .rsvp-btn {
-    background-color: #bea490;
-  }
-  
-  .classic .rsvp-btn {
-    background-color: #d16a6a;
-  }
-  
-  .professional .rsvp-btn {
-    background-color: #007bff;
-  }
-  
-  .fun .rsvp-btn {
-    background-color: #007bff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rsvp-btn:hover {
-    transform: scale(1.05);
-  }
-  
-  .footer-text {
-    font-size: 14px;
-    color: #777;
+
+  .invitation-footer {
     font-style: italic;
     margin-top: 20px;
+    font-size: 14px;
+  }
+
+  .invitation-page-container .left-page {
+    text-align: left;
+    margin-right: 50px;
+  }
+
+  .invitation-page-container .left-page h1 {
+    font-family: 'Merriweather', serif;
+    color: #5A189A;
+    font-weight: bold;
+  }
+
+  .invitation-page-container .left-page label {
+    color:#D72638;
+    font-weight: bold;
   }
   
   #style-select {
@@ -99,6 +87,20 @@
     font-size: 16px;
     margin: 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: solid 1px #ECC5BF;
+    color:#D72638;
+    margin: 10px 0;
+    background-color: #F7E8D7;
   }
-  
+
+  /* Responsive Design */
+  @media only screen and (max-width: 900px) {
+    .invitation-page-container {
+      padding: 10% 8% 1% 8%;
+      flex-direction: column;
+    }
+
+    .invitation-box {
+      margin: 10px 0 40px 0;
+    }
+  }

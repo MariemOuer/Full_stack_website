@@ -36,7 +36,7 @@
 }
 
 .guest-table th {
-  background-color: #FAEDE0;
+  background-color: #F7E8D7;
   font-size: 16px;
   padding: 12px;
   text-align: left;
@@ -49,7 +49,7 @@
 }
 
 .guest-table tr:hover {
-  background-color: #FAEDE0;
+  background-color: #F7E8D7;
 }
 
 /* Remove Button */
@@ -84,7 +84,7 @@
 .add-guest-section input {
   padding: 10px;
   margin: 5px;
-  background-color: #FAEDE0;
+  background-color: #F7E8D7;
   border: solid 1px #ECC5BF;
   border-radius: 0;
   font-size: 16px;
@@ -124,6 +124,7 @@
 .dropdown-selector label {
   color: #5A189A;
   font-weight: bold;
+  padding-right: 15px;
 }
 
 .dropdown-selector select {
@@ -131,7 +132,7 @@
   font-size: 16px;
   border: 1px solid #ECC5BF;
   border-radius: 6px;
-  background-color: #FDF1E5;
+  background-color: #F7E8D7;
   color: #D72638;
   font-family: "Lato", sans-serif;
 }
@@ -176,15 +177,15 @@
   }
 
   .guest-table-wrapper {
-    overflow-x: auto; /* Enables horizontal scrolling */
-    width: 100%; /* Matches the table's container width */
+    overflow-x: auto;
+    width: 100%;
   }
 
   .guest-table {
-    width: 100%; /* Ensures table stretches fully */
+    width: 100%;
     border-collapse: collapse;
-    white-space: initial; /* Allow wrapping to prevent squishing */
-    table-layout: auto; /* Keeps table layout responsive */
+    white-space: initial;
+    table-layout: auto;
   }
 
   .guest-table th,

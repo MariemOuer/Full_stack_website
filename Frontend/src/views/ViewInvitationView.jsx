@@ -44,7 +44,6 @@ const ViewInvitationView = () => {
             <p>📍 Location: {location || "TBD"}</p>
             <p>🎭 Theme: {theme || "A wonderful surprise!"}</p>
             <p>📝 Special Requests: {special_requests || "None"}</p>
-            <a href="#" className="rsvp-btn">🎟️ RSVP Now</a>
           </div>
         );
 
@@ -56,7 +55,6 @@ const ViewInvitationView = () => {
             <p>📅 Date: {event_date || "TBD"}</p>
             <p>📍 Location: {location || "TBD"}</p>
             <p>👥 Expected Guests: {guest_count || "Unknown"}</p>
-            <a href="#" className="rsvp-btn">🎟️ RSVP Now</a>
             <p className="footer-text">💖 We can't wait to celebrate with you!</p>
           </div>
         );
@@ -69,7 +67,6 @@ const ViewInvitationView = () => {
             <p>📅 Date: {event_date || "TBD"}</p>
             <p>📍 Location: {location || "TBD"}</p>
             <p>🎤 Entertainment: {entertainment || "Formal Networking"}</p>
-            <a href="#" className="rsvp-btn">📩 RSVP Here</a>
           </div>
         );
 
@@ -82,7 +79,6 @@ const ViewInvitationView = () => {
             <p>📍 Location: {location || "TBD"}</p>
             <p>🎶 Entertainment: {entertainment || "Surprise Acts!"}</p>
             <p>🍽️ Catering: {catering || "Delicious food provided!"}</p>
-            <a href="#" className="rsvp-btn">🎟️ RSVP Now</a>
           </div>
         );
 
@@ -94,17 +90,21 @@ const ViewInvitationView = () => {
   return (
     <div>
       <Navbar />
-      <div className="container">
-        <h1>📜 View Invitation</h1>
-        <label htmlFor="style-select">🎨 Choose an invitation style:</label>
+      <div className="invitation-page-container">
+        <div className="left-page">
+        <h1>View Invitation</h1>
+        <label htmlFor="style-select">Choose an invitation style:</label><br/>
         <select id="style-select" onChange={handleStyleChange} value={selectedStyle}>
-          <option value="whimsical">✨ Whimsical</option>
-          <option value="classic">💌 Classic</option>
-          <option value="professional">📢 Professional</option>
-          <option value="fun">🎉 Fun</option>
+          <option value="whimsical">Whimsical</option>
+          <option value="classic">Classic</option>
+          <option value="professional">Professional</option>
+          <option value="fun">Fun</option>
         </select>
+        </div>
 
-        {loading ? <p>⏳ Loading...</p> : renderInvitation()}
+        <div className="right-page">
+          {loading ? <p>Loading...</p> : renderInvitation()}
+        </div>
       </div>
       <Footer />
     </div>

@@ -77,10 +77,10 @@ const EditGuestListView = () => {
             onChange={(e) => setSelectedStyle(e.target.value)}
             value={selectedStyle}
           >
-            <option value="whimsical">✨ Whimsical</option>
-            <option value="classic">💌 Classic</option>
-            <option value="professional">📢 Professional</option>
-            <option value="fun">🎉 Fun</option>
+            <option value="whimsical">Whimsical</option>
+            <option value="classic">Classic</option>
+            <option value="professional">Professional</option>
+            <option value="fun">Fun</option>
           </select>
         </div>
 

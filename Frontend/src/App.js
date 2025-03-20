@@ -27,7 +27,7 @@ function App() {
         {/* <Route path="/edit-event-details/:eventId" element={currentUser ? <EditEventDetailsView /> : <Navigate to="/login" />} /> */}
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
     </Router>
   );

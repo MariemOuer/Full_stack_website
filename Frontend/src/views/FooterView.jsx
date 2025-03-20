@@ -19,7 +19,7 @@ const FooterView = () => {
             <strong>Navigation</strong>
           </p>
           <Link to="/chatbot">Chat Prompt</Link>
-          <Link to="/events">Create Invitation</Link>
+          {/* <Link to="/create-invitation">Create Invitation</Link> */}
           <Link to="/events">Invite Guests</Link>
         </div>
       </div>

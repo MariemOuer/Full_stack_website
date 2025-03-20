@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiService } from "../services/ApiService";
-import Navbar from "./NavbarView";
-import Footer from "./FooterView";
+
 import "../styles/invitationStyle.css";
 const ViewInvitationView = () => {
   const { eventId } = useParams();
@@ -96,7 +95,6 @@ const ViewInvitationView = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="invitation-page-container">
         <div className="left-page">
           <h1>View Invitation</h1>
@@ -112,7 +110,6 @@ const ViewInvitationView = () => {
 
         <div className="right-page">{isLoading ? <p>Loading...</p> : renderInvitation()}</div>
       </div>
-      <Footer />
     </div>
   );
 };

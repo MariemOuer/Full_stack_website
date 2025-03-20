@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { apiService } from "../services/ApiService";
 import { useParams } from "react-router-dom";
 import "../styles/guestListStyle.css";
-import Navbar from "./NavbarView";
-import Footer from "./FooterView";
 
 const EditGuestListView = () => {
   const { eventId } = useParams();
@@ -64,7 +62,6 @@ const EditGuestListView = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="guest-list-container">
         <h1 className="guest-list-heading">Guest List</h1>
 
@@ -127,7 +124,6 @@ const EditGuestListView = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

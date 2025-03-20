@@ -1,9 +1,12 @@
+/* footer.css */
+
 .footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   padding: 20px 50px;
-  background-color: #d72638;
+  background-color: #c0392b;
   color: #f9f4eb;
   font-size: 16px;
 }
@@ -12,13 +15,14 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px; /* Increased from 1200px */
 }
 
 .footer-section {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 200px; /* Added minimum width */
 }
 
 .footer-section h3 {
@@ -43,60 +47,28 @@
 
 .footer-bottom {
   margin-top: 15px;
-  font-size: 14px;
-  text-align: center;
-}
-
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 50px;
-  background-color: #d72638;
-  color: #f9f4eb;
-  font-size: 16px;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
   width: 100%;
-  max-width: 1200px;
-}
-
-.footer-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.footer-section h3 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.footer-section p {
-  margin: 0;
-}
-
-.footer-section a {
-  text-decoration: none;
-  color: #f9f4eb;
-  font-weight: 500;
-}
-
-.footer-section a:hover {
-  text-decoration: underline;
-}
-
-.footer-bottom {
-  margin-top: 15px;
+  max-width: 1600px; /* Match container max-width */
   font-size: 14px;
   text-align: center;
 }
 
-/*for Very Small Screens */
+/* for Extra Large Screens */
+@media (min-width: 1601px) {
+  .footer-container,
+  .footer-bottom {
+    padding: 0 5%; /* Add padding on very wide screens */
+  }
+}
+
+/* for Medium Screens */
+@media (max-width: 900px) {
+  .footer-container {
+    padding: 0 20px;
+  }
+}
+
+/* for Very Small Screens */
 @media (max-width: 600px) {
   .footer {
     padding: 15px 20px;
@@ -107,10 +79,12 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    padding: 0;
   }
 
   .footer-section {
     text-align: center;
+    min-width: unset;
   }
 
   .footer-section h3 {

@@ -19,9 +19,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  height: 60px;
-  max-width: 1200px;
+  padding: 0 30px; /* Increased padding */
+  height: 75px; /* Increased height */
+  /* max-width: 1600px; */
   margin: 0 auto;
 }
 
@@ -35,21 +35,21 @@
 .nav-center h2 {
   color: #e74c3c;
   margin: 0;
-  font-size: 24px;
+  font-size: 32px; /* Increased from 24px */
   font-weight: 700;
 }
 
 /* Desktop navigation links */
 .nav-left {
   display: flex;
-  gap: 20px;
+  gap: 30px; /* Increased from 20px */
 }
 
 .nav-link {
   color: #333;
   text-decoration: none;
-  font-size: 14px;
-  padding: 6px 0;
+  font-size: 16px; /* Increased from 14px */
+  padding: 8px 0; /* Increased from 6px */
   position: relative;
   transition: color 0.2s;
 }
@@ -62,7 +62,7 @@
   content: "";
   position: absolute;
   width: 0;
-  height: 2px;
+  height: 3px; /* Increased from 2px */
   bottom: 0;
   left: 0;
   background-color: #e74c3c;
@@ -77,23 +77,23 @@
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px; /* Increased from 15px */
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px; /* Increased from 8px */
 }
 
 .user-account {
-  font-size: 14px;
+  font-size: 16px; /* Increased from 14px */
   color: #666;
 }
 
 .user-icon {
-  width: 28px;
-  height: 28px;
+  width: 36px; /* Increased from 28px */
+  height: 36px; /* Increased from 28px */
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #ddd;
@@ -104,8 +104,8 @@
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 14px;
+  padding: 8px 16px; /* Increased from 6px 12px */
+  font-size: 16px; /* Increased from 14px */
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -125,21 +125,21 @@
   z-index: 1001;
   flex-direction: column;
   justify-content: space-between;
-  width: 30px;
-  height: 20px;
+  width: 36px; /* Increased from 30px */
+  height: 24px; /* Increased from 20px */
   position: relative;
 }
 
 .hamburger-line {
   display: block;
   width: 100%;
-  height: 2px;
+  height: 3px; /* Increased from 2px */
   background-color: #333;
   transition: all 0.3s ease;
 }
 
 .nav-toggle.active .hamburger-line:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
+  transform: translateY(10.5px) rotate(45deg); /* Adjusted for new size */
 }
 
 .nav-toggle.active .hamburger-line:nth-child(2) {
@@ -147,13 +147,13 @@
 }
 
 .nav-toggle.active .hamburger-line:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
+  transform: translateY(-10.5px) rotate(-45deg); /* Adjusted for new size */
 }
 
 /* Mobile dropdown styles */
 .mobile-dropdown {
   position: fixed;
-  top: 60px;
+  top: 75px; /* Adjusted to match new navbar height */
   left: 0;
   width: 100%;
   background-color: white;
@@ -166,21 +166,21 @@
 }
 
 .mobile-dropdown.open {
-  max-height: 400px; /* Enough height to fit all content */
+  max-height: 500px; /* Increased from 400px to fit larger elements */
   visibility: visible;
 }
 
 .mobile-dropdown-content {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px 20px;
+  padding: 15px 30px 25px; /* Increased padding */
 }
 
 .mobile-link {
-  padding: 15px 0;
+  padding: 20px 0; /* Increased from 15px */
   color: #333;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 18px; /* Increased from 16px */
   border-bottom: 1px solid #eee;
   transition: color 0.2s;
 }
@@ -192,32 +192,32 @@
 .mobile-user-info {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 15px 0;
+  gap: 15px; /* Increased from 10px */
+  padding: 20px 0; /* Increased from 15px */
   border-bottom: 1px solid #eee;
 }
 
 .mobile-user-icon {
-  width: 32px;
-  height: 32px;
+  width: 40px; /* Increased from 32px */
+  height: 40px; /* Increased from 32px */
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #ddd;
 }
 
 .mobile-user-account {
-  font-size: 14px;
+  font-size: 16px; /* Increased from 14px */
   color: #666;
 }
 
 .mobile-logout-button {
-  margin-top: 15px;
+  margin-top: 20px; /* Increased from 15px */
   background-color: #e74c3c;
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 12px;
-  font-size: 16px;
+  padding: 14px; /* Increased from 12px */
+  font-size: 18px; /* Increased from 16px */
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -239,7 +239,7 @@
   }
 
   .navbar-container {
-    padding: 0 15px;
+    padding: 0 20px; /* Slightly increased */
   }
 }
 
@@ -249,14 +249,44 @@
   }
 }
 
+/* Larger screen optimizations */
+@media (min-width: 1440px) {
+  .navbar-container {
+    height: 85px; /* Even larger for big screens */
+    padding: 0 40px;
+  }
+
+  .nav-center h2 {
+    font-size: 36px; /* Larger on big screens */
+  }
+
+  .nav-link {
+    font-size: 18px; /* Larger on big screens */
+  }
+
+  .user-icon {
+    width: 42px; /* Larger on big screens */
+    height: 42px;
+  }
+
+  .user-account {
+    font-size: 18px; /* Larger on big screens */
+  }
+
+  .logout-button {
+    padding: 10px 20px; /* Larger on big screens */
+    font-size: 18px;
+  }
+}
+
 /* Fix for very small screens */
 @media (max-width: 360px) {
   .nav-center h2 {
-    font-size: 20px;
+    font-size: 24px; /* Still larger than original but suitable for small screens */
   }
 
   .navbar-container {
-    padding: 0 10px;
+    padding: 0 15px;
   }
 }
 

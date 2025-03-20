@@ -1,206 +1,344 @@
-/* Full Page Background */
+/* Global Styles */
+:root {
+  --primary: #5a189a;
+  --secondary: #d72638;
+  --background: #f8f1e5;
+  --card-bg: #f8f1e5;
+  --card-hover: #f7e8d7;
+  --border: #ecc5bf;
+  --text-dark: #5a189a;
+  --text-muted: #d72638;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+}
+
+/* Main Container */
 .saved-events-container {
-    background-color: #f8f1e5;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1% 8% 1% 8%;
-    margin: 0;
+  background-color: var(--background);
+  min-height: 100vh;
+  padding: 2rem 4rem;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
+
+/* Header Section */
+.profile-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.welcome-text {
+  color: var(--primary);
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-family: "Merriweather", serif;
+  margin-bottom: 0.5rem;
+}
+
+.user-email {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-family: "Lato", sans-serif;
+}
+
+.user-email strong {
+  color: var(--primary);
+}
+
+/* Events Header Section */
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.saved-events-heading {
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: "Merriweather", serif;
+  margin-right: 1rem;
+  margin-bottom: 0;
+}
+
+/* Event Dropdown */
+.event-dropdown {
+  padding: 0.5rem 0;
+}
+
+.event-dropdown label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.event-dropdown select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--card-bg);
+  color: var(--text-dark);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  min-width: 200px;
+  transition: all 0.2s ease;
+}
+
+.event-dropdown select:hover,
+.event-dropdown select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* Event Box */
+.event-box {
+  display: flex;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--card-bg);
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+}
+
+/* Event Table */
+.event-table {
+  width: 75%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-right: 0.5px solid #ecc5bf;
+}
+
+.event-table th {
+  background-color: #f7e8d7;
+  color: #d72638;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 1px solid #ecc5bf;
+}
+
+.event-table th:last-child {
+  text-align: right;
+}
+
+.event-table td {
+  padding: 0.8rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  color: var(--text-dark);
+}
+
+.event-table tbody tr:hover {
+  background-color: var(--card-hover);
+}
+
+.event-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.event-table tbody tr td:first-child {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.event-table tbody tr td:last-child {
+  text-align: right;
+}
+
+/* Budget Row */
+.budget-section td {
+  background-color: var(--card-hover);
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+  color: var(--secondary);
+  border-top: 1px solid var(--border);
+}
+
+.budget-section td:last-child {
+  text-align: right;
+  font-size: 1.1rem;
+  color: #d72638;
+}
+
+/* Spacer Row */
+.spacer-row td {
+  height: 10px;
+  padding: 0;
+  border-bottom: none;
+}
+
+/* Event Actions */
+.event-actions {
+  width: 25%;
+  background-color: #f7e8d7;
+  border-left: none;
+  color: #5a189a;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.actions-title {
+  color: #d72638;
+  margin-bottom: 1.2rem;
+  font-family: "Merriweather", serif;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.action-link {
+  display: block;
+  text-decoration: none;
+  background-color: white;
+  color: #5a189a;
+  font-weight: bold;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  width: 85%;
+  transition: all 0.2s ease;
+  border: 1px solid #ecc5bf;
+}
+
+.action-link:hover {
+  background-color: var(--card-hover);
+  transform: translateY(-2px);
+}
+
+/* Loading and No Events States */
+.loading-container,
+.no-events-container {
+  text-align: center;
+  padding: 2rem;
+  border: 1px solid #ecc5bf;
+  background-color: var(--card-bg);
+  margin: 1rem 0;
+}
+
+.loading-text {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.no-events-text {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.no-events-subtext {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .saved-events-container {
+    padding: 1.5rem;
   }
-  
-  /* Welcome & Email */
-  .profile-header {
-    text-align: left;
-    width: 100%;
+
+  .event-content-wrapper {
+    padding: 1rem;
   }
-  
-  .welcome-text {
-    color: #5A189A;
-    font-size: 36px;
-    font-weight: bold;
-    font-family: "Merriweather", serif;
-  }
-  
-  .user-email {
-    font-size: 18px;
-    color: #5A189A;
-    font-family: "Lato", sans-serif;
-  }
-  
-  /* Saved Events & Event Dropdown */
+
   .events-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    margin-top: 20px;
-    font-weight: bold;
-    font-family: "Merriweather", serif;
-  }
-  
-  .saved-events-heading {
-    color: #5A189A;
-    font-size: 36px;
-    font-weight: bold;
-  }
-  
-  /* Event Dropdown */
-  .event-dropdown {
-    text-align: right;
-  }
-  
-  .event-dropdown label {
-    display: block;
-    font-size: 18px;
-    font-family: "Lato", sans-serif;
-    color: #D72638;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .event-dropdown select {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ECC5BF;
-    border-radius: 6px;
-    background-color: #F7E8D7;
-    color: #D72638;
-    font-family: "Lato", sans-serif;
-  }
-  
-  /* Event Box */
-  .event-box {
-    width: 100%;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* Table Containers */
-  .table-container {
-    display: flex;
-    gap: 40px;
-    width: 100%;
-  }
-  
-  /* Individual Tables */
-  .event-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 0.5px solid #ECC5BF;
-    font-family: "Lato", sans-serif;
-    font-size: 16px;
-    border-right: none;
-  }
-  
-  /* Table Borders */
-  .event-table th, .event-table td {
-    padding: 12px 40px 12px 40px;
-    text-align: left;
-    border: none;
-  }
-
-  /*Table Row Coloring */
-  .event-table tr:hover{
-    background-color: #F7E8D7;
-  }
-
-  .event-table .spacer-row:hover {
-    background-color: #f8f1e5;
-  }
-
-  /* Table Headers */
-  .event-table th {
-    background-color: #F7E8D7;
-    color: #D72638;
-    font-size: 20px;
-    text-align: left;
-    border-bottom: 1px solid #ECC5BF;
-  }
-  
-  /* Two-column layout */
-  .event-table tbody tr td:first-child {
-    color: #D72638;
-    font-weight: bold;
-    padding: 12px 1px 12px 40px;
-  }
-  
-  .event-table tbody tr td:last-child {
-    color: #D72638;
-    text-align: right;
-    padding: 12px 40px 12px 0px;
-  }
-
-  /* Full row for Total Cost */
-  .event-table tbody tr:last-child td {
-    font-weight: bold;
-    color: #D72638;
-    background-color: #F7E8D7;
-    border-top: 1px solid #ECC5BF;
-  }
-  
-  /* Action Links (View Invitation, Edit Guest List, etc.) */
-  .event-actions {
-    display: flex;
     flex-direction: column;
-    width: 25%;
-    margin-left: 0;
-    border: 0.5px solid #ECC5BF;
-    background-color: #F7E8D7;
-    text-align: left;
-    padding-top: 85px;
+    align-items: flex-start;
   }
-  
-  .action-link {
-    text-decoration: none;
-    color: #5A189A;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: "Lato", sans-serif;
-    margin: 0 40px 22px 40px;
+
+  .event-dropdown {
+    width: 100%;
+    margin-top: 1rem;
   }
-  
-  .action-link:hover {
-    text-decoration: underline;
+
+  .event-dropdown select {
+    width: 100%;
   }
-  
+
+  .event-box {
+    flex-direction: column;
+  }
+
+  .event-table,
+  .event-actions {
+    width: 100%;
+  }
+
   .event-table {
-    width: 75%;
-    border-collapse: collapse;
-    overflow: hidden;
+    border-radius: var(--radius) var(--radius) 0 0;
+    margin-bottom: -1px;
   }
 
-  /*Mobile View*/
-  @media (max-width: 700px) {
-    .event-table {
-      border-right: 1px solid #ECC5BF;
-      width: 100%;
-      margin: 0;
-    }
-
-    .event-box {
-      flex-direction: column;
-    }
-
-    .event-actions {
-      width: 99.5%;
-      min-width: 274px;
-      margin: -1px 0 30px 0;
-      padding: 20px 0 15px 0;
-    }
-
-    .events-header {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .event-dropdown{
-      display: flex;
-      width: 100%;
-      margin-bottom: 18px;
-      padding: 0;
-      flex-direction: column;
-      align-items: flex-end;
-    }
+  .event-actions {
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 1.5rem 0;
   }
+
+  .action-link {
+    width: 85%;
+  }
+}
+
+/* For small mobile screens */
+@media (max-width: 500px) {
+  .saved-events-container {
+    padding: 1rem;
+  }
+
+  .welcome-text {
+    font-size: 2rem;
+  }
+
+  .event-table td {
+    padding: 0.7rem 1rem;
+  }
+
+  .action-link {
+    width: 90%;
+  }
+}
+
+/* Animation for event selection change */
+.event-box {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Add this class to your React component for the animation */
+.event-fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Event dropdown animation */
+.event-dropdown select {
+  transition: all 0.2s ease;
+}
+
+.event-dropdown select:focus {
+  border-color: #5a189a;
+  transform: scale(1.02);
+}
+
+/* Action links hover animation */
+.action-link {
+  transition: all 0.25s ease;
+}
+
+.action-link:hover {
+  transform: translateY(-2px);
+  background-color: #f0f0f0;
+  border-color: #5a189a;
+}

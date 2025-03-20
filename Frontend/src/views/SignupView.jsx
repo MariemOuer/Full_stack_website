@@ -6,10 +6,9 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/main.css";
 import "../styles/signup.css";
 
-
 const SignupView = () => {
   const { signupWithEmail } = useAuthController();
-  const { setIsGuest } = useAuth(); 
+  const { setIsGuest } = useAuth();
   const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
@@ -28,7 +27,7 @@ const SignupView = () => {
     }
     try {
       await signupWithEmail(email, password, { firstName, lastName, phone });
-      navigate("/"); 
+      navigate("/");
     } catch (error) {
       setErrorMsg(error.message);
     }
@@ -36,34 +35,31 @@ const SignupView = () => {
 
   //add guest mode
   const handleGuestLogin = () => {
-    setIsGuest(true); 
-    navigate("/"); 
+    setIsGuest(true);
+    navigate("/");
   };
 
   return (
-    
-
     //html for signup
     <div className="signup-page">
-    <div className="auth-container">
-      <h2>Signup</h2>
-      <form onSubmit={handleSignup} className="auth-form">
-        <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-        <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-        <input type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-        <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <input type="password" placeholder="Confirm Password" value={confirmPwd} onChange={(e) => setConfirmPwd(e.target.value)} required />
-        {errorMsg && <p className="error">{errorMsg}</p>}
-      </form>
-      
-      <p className="registered-message">
-  Already Registered? <Link to="/login">Login Here</Link>
-</p>
+      <div className="auth-container">
+        <h2>Signup</h2>
+        <form onSubmit={handleSignup} className="auth-form">
+          <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+          <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+          <input type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+          <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input type="password" placeholder="Confirm Password" value={confirmPwd} onChange={(e) => setConfirmPwd(e.target.value)} required />
+          <button type="submit">Register</button>
+          {errorMsg && <p className="error">{errorMsg}</p>}
+        </form>
+
+        <p className="registered-message">
+          Already Registered? <Link to="/login">Login Here</Link>
+        </p>
+      </div>
     </div>
-  </div>
-  
-    
   );
 };
 

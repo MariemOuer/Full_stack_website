@@ -1,9 +1,5 @@
 import { auth } from "../firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 
 export const useAuthController = () => {
@@ -14,7 +10,7 @@ export const useAuthController = () => {
       if (user) {
         setCurrentUser({
           uid: user.uid,
-          email: user.email || "No Email", 
+          email: user.email || "No Email",
         });
       } else {
         setCurrentUser(null);
@@ -67,6 +63,6 @@ export const useAuthController = () => {
     currentUser,
     signupWithEmail,
     loginWithEmail,
-    loginAsGuest
+    loginAsGuest,
   };
 };

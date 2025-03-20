@@ -3,9 +3,11 @@ import { useAuthController } from "../controllers/AuthController";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import "../styles/login.css";
+import { useAuth } from "../context/AuthContext";
 
 const LoginView = () => {
   const { loginWithEmail, loginAsGuest, currentUser } = useAuthController();
+  const { setIsGuest } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -26,6 +28,7 @@ const LoginView = () => {
     e.preventDefault(); // Prevents link from redirecting immediately
     try {
       await loginAsGuest();
+      setIsGuest(true); // Set guest mode
       navigate("/"); // Redirect after successful guest login
     } catch (error) {
       setErrorMsg(error.message);
@@ -39,25 +42,12 @@ const LoginView = () => {
           <h2>Login</h2>
           {currentUser && (
             <p>
-              <strong>Email Address:</strong>{" "}
-              {currentUser.email || "Loading..."}
+              <strong>Email Address:</strong> {currentUser.email || "Loading..."}
             </p>
           )}
           <form onSubmit={handleLogin} className="auth-form">
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             <p className="guest-login">
               <a href="/" onClick={handleGuestLogin}>
                 Continue as Guest
@@ -76,11 +66,7 @@ const LoginView = () => {
           </form>
         </div>
 
-        <img
-          src="/loginwoman.png"
-          alt="Login Illustration"
-          className="login-image"
-        />
+        <img src="/loginwoman.png" alt="Login Illustration" className="login-image" />
       </div>
     </div>
   );

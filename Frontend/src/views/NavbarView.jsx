@@ -5,11 +5,12 @@ import { useAuth } from "../context/AuthContext"; // Import AuthContext
 import "../styles/navbar.css"; // Import CSS for styling
 
 const Navbar = () => {
-  const { currentUser, logout } = useAuth(); // Get current user & logout function
+  const { currentUser, logout, isGuest } = useAuth(); // Get current user & logout function
 
   const handleLogout = async () => {
     try {
       await logout();
+
       // Optionally, redirect to the login page or show a success message
     } catch (error) {
       console.error("Logout failed:", error);
@@ -23,7 +24,7 @@ const Navbar = () => {
         <Link to="/events">View Events</Link>
         {currentUser && (
           <button className="logout-btn" onClick={handleLogout}>
-            Logout
+            {isGuest ? "Login" : "Logout"}
           </button>
         )}
       </div>
@@ -35,10 +36,7 @@ const Navbar = () => {
       <div className="nav-right">
         {currentUser ? (
           <>
-            👤{" "}
-            {currentUser?.email?.toLowerCase() === "guest@gmail.com"
-              ? "Guest"
-              : currentUser?.email}
+            👤 {currentUser?.email?.toLowerCase() === "guest@gmail.com" ? "Guest" : currentUser?.email}
             <button className="hide" onClick={handleLogout}>
               Logout
             </button>

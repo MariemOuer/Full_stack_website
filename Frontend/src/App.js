@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import LoginView from "./views/LoginView";
 import SignupView from "./views/SignupView";
@@ -7,28 +8,48 @@ import EditGuestListView from "./views/EditGuestListView";
 import InvitationView from "./views/InvitationView";
 import ChatBotView from "./views/ChatbotView";
 import SavedEventsView from "./views/SavedEventsView";
+import Navbar from "./views/NavbarView";
+import FooterView from "./views/FooterView";
 
-function App() {
-  const { currentUser } = useAuth();
+function AppContent() {
+  const { currentUser, isGuest } = useAuth();
+  const navigate = useNavigate();
+  const currentPath = window.location.pathname; // Get current URL path
+
+  useEffect(() => {
+    if (!currentUser && !isGuest && currentPath !== "/signup") {
+      // navigate("/login");
+    }
+  }, [currentUser, isGuest, navigate, currentPath]);
 
   return (
+    <>
+      <Navbar />
+      <div className="content">
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/login" element={!currentUser && !isGuest ? <LoginView /> : <Navigate to="/" />} />
+          <Route path="/signup" element={!currentUser && !isGuest ? <SignupView /> : <Navigate to="/" />} />
+
+          {/* Other accessible pages */}
+          <Route path="/view-invitation/:eventId" element={<InvitationView />} />
+          <Route path="/chatbot" element={<ChatBotView />} />
+          <Route path="/saved-events" element={<SavedEventsView />} />
+          <Route path="/edit-guest-list/:eventId" element={<EditGuestListView />} />
+
+          {/* Private Routes (Only If Logged In or Guest) */}
+          <Route path="/" element={currentUser || isGuest ? <DashboardView /> : <Navigate to="/login" />} />
+        </Routes>
+      </div>
+      <FooterView />
+    </>
+  );
+}
+
+function App() {
+  return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={!currentUser ? <LoginView /> : <Navigate to="/" />} />
-        <Route path="/signup" element={!currentUser ? <SignupView /> : <Navigate to="/" />} />
-
-        {/* Private Routes (only if logged in) */}
-        <Route path="/" element={currentUser ? <DashboardView /> : <Navigate to="/login" />} />
-        <Route path="/chatbot" element={currentUser ? <ChatBotView /> : <Navigate to="/login" />} />
-        <Route path="/events" element={currentUser ? <SavedEventsView /> : <Navigate to="/login" />} />
-        <Route path="/view-invitation/:eventId" element={currentUser ? <InvitationView /> : <Navigate to="/login" />} />
-        <Route path="/edit-guest-list/:eventId" element={currentUser ? <EditGuestListView /> : <Navigate to="/login" />} />
-        {/* <Route path="/edit-event-details/:eventId" element={currentUser ? <EditEventDetailsView /> : <Navigate to="/login" />} /> */}
-
-        {/* Fallback */}
-        {/* <Route path="*" element={<Navigate to="/" />} /> */}
-      </Routes>
+      <AppContent />
     </Router>
   );
 }

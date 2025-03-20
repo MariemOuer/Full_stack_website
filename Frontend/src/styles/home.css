@@ -1,6 +1,18 @@
 /* Import Merriweather and Lato fonts */
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap");
 
+/* Animation keyframes for fade-in effects */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Set the background color for the entire page (scoped to homepage) */
 .homepage-background {
   background-color: #f8f1e5; /* Apply background color to the entire page */
@@ -11,20 +23,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
 }
 
 .homepage-container {
   font-family: "Lato", sans-serif;
   background-color: #f8f1e5; /* Ensure the container has the same background color */
   margin: 0 auto; /* Center the container horizontally */
-  padding: 20px;
+  padding: 40px 20px; /* Increased vertical padding */
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto; /* Allow rows to adjust based on content */
-  gap: 20px; /* Reduce gap between sections */
-  max-width: 1200px;
-  width: 100%; /* Ensure the container takes full width */
-  min-height: 100vh; /* Ensure the container covers the full viewport height */
+  gap: 40px; /* Increased gap for better spacing */
+  width: 90%; /* Increased width to fill more of the screen */
+  max-width: 1600px; /* Increased max-width */
+  min-height: 90vh; /* Reduce slightly from 100vh to avoid scrollbar */
   box-sizing: border-box; /* Include padding in height calculation */
 }
 
@@ -33,34 +47,37 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
 .homepage-container .homepage-text h2 {
   color: #5a189a;
   font-family: "Merriweather", serif;
-  font-size: 42px;
+  font-size: 48px; /* Increased font size */
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .homepage-container .homepage-text p {
-  font-size: 20px;
+  font-size: 22px; /* Increased font size */
   color: #5a189a;
-  line-height: 1.6;
+  line-height: 1.7;
+  margin-bottom: 30px; /* Added spacing */
 }
 
 .homepage-container .cta-link {
   color: #d72638;
-  font-size: 22px;
+  font-size: 24px; /* Increased font size */
   text-decoration: underline;
   font-weight: bold;
-  margin-top: 0px;
+  margin-top: 10px;
   display: inline-block;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .homepage-container .cta-link:hover {
   color: #b51d2e;
+  transform: translateX(5px); /* Slight movement on hover */
 }
 
 /* Top Right: Image Section */
@@ -68,45 +85,59 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.8s ease-out 0.2s forwards; /* Delayed animation */
+  opacity: 0; /* Start hidden */
+  animation-fill-mode: forwards;
 }
 
 .homepage-container .homepage-image img {
   width: 100%;
-  max-width: 450px;
-  border-radius: 10px;
+  max-width: 550px; /* Increased max-width */
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
+  transition: transform 0.5s ease;
+}
+
+.homepage-container .homepage-image img:hover {
+  transform: scale(1.02); /* Slight scale on hover */
 }
 
 /* Bottom Left: How It Works */
 .homepage-container .homepage-how-it-works {
   display: flex;
   flex-direction: column;
-  margin-top: -30px;
+  margin-top: 0px; /* Removed negative margin */
+  animation: fadeIn 0.8s ease-out 0.4s forwards; /* More delayed animation */
+  opacity: 0; /* Start hidden */
+  animation-fill-mode: forwards;
 }
 
 .homepage-container .how-it-works-image {
   width: 100%;
-  max-width: 150px; /* Make the moodboard image even smaller */
+  max-width: 180px; /* Increased size */
   border-radius: 10px;
-  margin-bottom: 10px; /* Reduce margin */
+  margin-bottom: 20px; /* Increased margin */
   align-self: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
 }
 
 .homepage-container .homepage-how-it-works h3 {
   font-family: "Merriweather", serif;
-  font-size: 42px; /* Reduce font size */
+  font-size: 42px;
   color: #5a189a;
-  margin-bottom: 0px; /* Reduce margin */
+  margin-bottom: 20px; /* Increased margin */
 }
 
 .homepage-container .homepage-how-it-works ol {
-  font-size: 25px; /* Reduce font size */
+  font-size: 22px;
   color: #5a189a;
-  padding-left: 20px;
-  text-align: left; /* Align list text to the left */
+  padding-left: 25px;
+  text-align: left;
 }
 
 .homepage-container .homepage-how-it-works ol li {
-  margin-bottom: 8px; /* Reduce margin */
+  margin-bottom: 15px; /* Increased margin */
+  padding-left: 5px;
 }
 
 .homepage-container .homepage-how-it-works ol strong {
@@ -117,76 +148,149 @@
 .homepage-container .homepage-team {
   display: flex;
   flex-direction: column;
-  margin-top: 70px;
+  margin-top: 0; /* Removed margin top */
+  animation: fadeIn 0.8s ease-out 0.6s forwards; /* Most delayed animation */
+  opacity: 0; /* Start hidden */
+  animation-fill-mode: forwards;
 }
 
 .homepage-container .team-header {
   font-family: "Merriweather", serif;
-  font-size: 42px; /* Adjust font size as needed */
+  font-size: 42px;
   color: #5a189a;
-  margin-bottom: 20px; /* Add space below the header */
+  margin-bottom: 30px; /* Increased margin */
   text-align: left;
 }
 
 .homepage-container .team-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 25px; /* Increased gap */
 }
 
 .homepage-container .team-member-card {
   background: #f7e8d7;
-  padding: 20px; /* Adjust padding */
-  border-radius: 10px;
-  border: 0.5px ridge #5a189a; /* Add border with color #5A189A */
+  padding: 25px; /* Increased padding */
+  border-radius: 12px; /* Increased radius */
+  border: 1px solid #5a189a; /* Changed from ridge to solid, thicker */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.homepage-container .team-member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(90, 24, 154, 0.15);
 }
 
 .homepage-container .card-top {
   display: flex;
-  align-items: flex-start; /* Align items to the top */
+  align-items: flex-start;
   margin-bottom: 15px;
 }
 
 .homepage-container .member-image {
-  width: 60px; /* Adjust image size */
+  width: 70px; /* Increased size */
+  height: 70px; /* Added height to ensure circle */
+  object-fit: cover; /* Ensure image fills the space properly */
   border-radius: 50%;
-  margin-right: 10px; /* Space between image and text */
+  margin-right: 15px; /* Increased space */
+  border: 2px solid #5a189a; /* Added border */
 }
 
 .homepage-container .member-info {
-  flex: 1; /* Allow text to take remaining space */
+  flex: 1;
 }
 
 .homepage-container .member-info h4 {
   font-family: "Merriweather", serif;
-  font-size: 16px; /* Adjust font size */
+  font-size: 18px; /* Increased size */
   color: #5a189a;
-  margin: 5px; /* Remove default margin */
+  margin: 5px 0; /* Adjusted margin */
 }
 
 .homepage-container .member-info p {
-  font-size: 14px; /* Adjust font size */
+  font-size: 16px; /* Increased size */
   color: #5a189a;
-  margin: 5px; /* Remove default margin */
+  margin: 5px 0; /* Adjusted margin */
 }
 
 .homepage-container .member-description {
-  font-size: 16px; /* Adjust font size */
+  font-size: 16px;
   color: #5a189a;
-  text-align: left; /* Left-align description */
-  margin: 0; /* Remove default margin */
+  text-align: left;
+  margin: 10px 0 0 0; /* Added top margin */
+  line-height: 1.5;
+}
+
+/* Additional styles to improve layout */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+/* Remove excess space at bottom */
+.homepage-background br {
+  display: none;
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .homepage-container {
+    width: 95%;
+    gap: 30px;
+  }
+
+  .homepage-container .homepage-text h2 {
+    font-size: 42px;
+  }
+}
+
 @media (max-width: 900px) {
   .homepage-container {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto; /* Stack sections vertically */
-    gap: 20px; /* Reduce gap for mobile */
-    height: auto; /* Reset height for mobile */
+    grid-template-rows: auto auto auto auto;
+    gap: 50px; /* Increased gap for vertical layout */
+    width: 90%;
+    padding: 30px 15px;
   }
 
   .homepage-container .team-grid {
     grid-template-columns: 1fr;
+  }
+
+  .homepage-container .homepage-text {
+    text-align: center;
+  }
+
+  .homepage-container .team-header,
+  .homepage-container .homepage-how-it-works h3 {
+    text-align: center;
+  }
+
+  .homepage-container .homepage-how-it-works ol {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80%;
+  }
+}
+
+/* Small screens/mobile */
+@media (max-width: 600px) {
+  .homepage-container .homepage-text h2 {
+    font-size: 32px;
+  }
+
+  .homepage-container .homepage-text p {
+    font-size: 18px;
+  }
+
+  .homepage-container .homepage-how-it-works h3,
+  .homepage-container .team-header {
+    font-size: 32px;
+  }
+
+  .homepage-container .homepage-how-it-works ol {
+    font-size: 18px;
+    max-width: 100%;
   }
 }

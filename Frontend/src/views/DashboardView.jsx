@@ -1,8 +1,7 @@
-// src/views/DashboardView.jsx
 import { Link } from "react-router-dom";
 import Navbar from "./NavbarView";
 import FooterView from "./FooterView";
-import "../styles/home.css";
+import "../styles/home.css"; // Keep this import if you want to maintain backward compatibility
 
 const DashboardView = () => {
   const teamMembers = [
@@ -56,8 +55,7 @@ const DashboardView = () => {
               handle the details so you can focus on making unforgettable memories.
             </p>
             <Link to="/chatbot" className="cta-link">
-              {" "}
-              Plan your next event now →{" "}
+              Plan your next event now →
             </Link>
           </div>
 
@@ -93,27 +91,18 @@ const DashboardView = () => {
               {teamMembers.map((member, index) => (
                 <div key={index} className="team-member-card">
                   <div className="card-top">
-                    <img src={member.image} alt="Team Member" className="member-image" />
+                    <img src={member.image} alt={`${member.name} - ${member.role}`} className="member-image" />
                     <div className="member-info">
                       <h4>{member.name}</h4>
                       <p>{member.role}</p>
                     </div>
                   </div>
+                  <p className="member-description">{member.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
       </div>
     </div>
   );

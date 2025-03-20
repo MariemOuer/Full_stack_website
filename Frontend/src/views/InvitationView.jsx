@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import { apiService } from "../services/ApiService";
 import Navbar from "./NavbarView";
 import Footer from "./FooterView";
-import "../styles/viewInvitationStyle.css";
-
+import "../styles/invitationStyle.css";
 const ViewInvitationView = () => {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);

@@ -64,7 +64,7 @@ const Navbar = () => {
           {/* <Link to="/create-invitation" className="nav-link">
             Create Invitation
           </Link> */}
-          <Link to="/events" className="nav-link">
+          <Link to="/saved-events" className="nav-link">
             Invite Guests
           </Link>
         </div>
@@ -99,7 +99,7 @@ const Navbar = () => {
             {/* <Link to="/create-invitation" className="mobile-link">
               Create Invitation
             </Link> */}
-            <Link to="/events" className="mobile-link">
+            <Link to="/saved-events" className="mobile-link">
               Invite Guests
             </Link>
             <div className="mobile-user-info">

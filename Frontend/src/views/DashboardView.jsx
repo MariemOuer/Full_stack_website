@@ -46,7 +46,6 @@ const DashboardView = () => {
 
   return (
     <div>
-      <Navbar></Navbar>
       <div className="homepage-background">
         <div className="homepage-container">
           {/* Top Left: Text Section */}
@@ -116,7 +115,6 @@ const DashboardView = () => {
         <br></br>
         <br></br>
       </div>
-      <FooterView></FooterView>
     </div>
   );
 };

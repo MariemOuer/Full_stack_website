@@ -11,7 +11,7 @@ router.post("/suggestions", async (req, res) => {
     }
 
     // Updated prompt with instruction to limit responses to two sentences each.
-    const prompt = `You are an event planning assistant. ALL ANSWERS MUST BE IN ONE CONTINUOUS LINE. IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK. Based on the following details:
+    const prompt = `You are an event planning assistant. ALL ANSWERS MUST IN ENGLISH AND BE IN ONE CONTINUOUS LINE. IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK. Based on the following details:
 ${context}
 
 and the question:

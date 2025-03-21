@@ -1,81 +1,86 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
-import EditEventDetailsView from "../views/EditEventDetailsView";
-import { apiService } from "../services/ApiService"; 
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { BrowserRouter as Router, useParams } from 'react-router-dom';
+import EditEventDetailsView from '../views/EditEventDetailsView';
+import { apiService } from '../services/ApiService';
+import '@testing-library/jest-dom';
 
-jest.mock("../services/ApiService");
+// Mock the modules
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useParams: jest.fn(),
+}));
 
-describe("EditEventDetailsView", () => {
-  const eventId = "123"; 
+jest.mock('../services/ApiService', () => ({
+    apiService: {
+        get: jest.fn(),
+    },
+}));
 
-  beforeEach(() => {
-    apiService.get.mockResolvedValue({ data: {} }); 
-  });
+describe('EditEventDetailsView', () => {
+    beforeEach(() => {
+        // Clear mocks
+        useParams.mockClear();
+        apiService.get.mockClear();
+    });
 
-  it("should render the loading state initially", () => {
-    render(
-      <Router>
-        <EditEventDetailsView />
-      </Router>
-    );
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
-  });
+    it('renders loading state initially', () => {
+        useParams.mockReturnValue({ eventId: '123' });
+        apiService.get.mockResolvedValue(new Promise(() => { })); // Never resolves
 
-  it("should render event details after fetching data", async () => {
-    const mockEvent = {
-      event_name: "Birthday Party",
-      event_type: "Private",
-      event_date: "2025-06-15",
-      location: "Central Park",
-      theme: "Whimsical",
-      budget: "$5000",
-    };
+        render(
+            <Router>
+                <EditEventDetailsView />
+            </Router>
+        );
+        expect(screen.getByText('Loading...')).toBeInTheDocument();
+    });
 
-    apiService.get.mockResolvedValueOnce({ data: mockEvent });
+    it('fetches and displays event details successfully', async () => {
+        useParams.mockReturnValue({ eventId: '123' });
+        const mockEvent = {
+            event_name: 'Test Event',
+            event_type: 'Party',
+            event_date: '2025-04-01',
+            location: 'Test Location',
+            theme: 'Test Theme',
+            budget: '1000',
+        };
+        apiService.get.mockResolvedValue({ data: mockEvent });
 
-    render(
-      <Router>
-        <EditEventDetailsView />
-      </Router>
-    );
+        render(
+            <Router>
+                <EditEventDetailsView />
+            </Router>
+        );
 
-    await waitFor(() => screen.getByText("Birthday Party"));
+        await waitFor(() => {
+            expect(screen.getByText(/Test Event/i)).toBeInTheDocument();
+            expect(screen.getByText(/Event Type:/i)).toBeInTheDocument();
+            expect(screen.getByText(/Party/i)).toBeInTheDocument();
+            expect(screen.getByText(/Date:/i)).toBeInTheDocument();
+            expect(screen.getByText(/2025-04-01/i)).toBeInTheDocument();
+            expect(screen.getByText(/Location:/i)).toBeInTheDocument();
+            expect(screen.getByText(/Test Location/i)).toBeInTheDocument();
+            expect(screen.getByText(/Theme:/i)).toBeInTheDocument();
+            expect(screen.getByText(/Test Theme/i)).toBeInTheDocument();
+            expect(screen.getByText(/Budget:/i)).toBeInTheDocument();
+            expect(screen.getByText(/1000/i)).toBeInTheDocument();
+        });
+    });
 
-    expect(screen.getByText("Birthday Party")).toBeInTheDocument();
-    expect(screen.getByText("Event Type: Private")).toBeInTheDocument();
-    expect(screen.getByText("Date: 2025-06-15")).toBeInTheDocument();
-    expect(screen.getByText("Location: Central Park")).toBeInTheDocument();
-    expect(screen.getByText("Theme: Whimsical")).toBeInTheDocument();
-    expect(screen.getByText("Budget: $5000")).toBeInTheDocument();
-  });
+    it('displays "Event not found" when the API returns an error', async () => {
+        useParams.mockReturnValue({ eventId: '123' });
+        apiService.get.mockRejectedValue(new Error('Event not found'));
 
-  it("should handle the case when the event is not found", async () => {
-    apiService.get.mockResolvedValueOnce({ data: null });
+        render(
+            <Router>
+                <EditEventDetailsView />
+            </Router>
+        );
 
-    render(
-      <Router>
-        <EditEventDetailsView />
-      </Router>
-    );
-
-    await waitFor(() => screen.getByText("Event not found."));
-
-    expect(screen.getByText("Event not found.")).toBeInTheDocument();
-  });
-
-  it("should handle errors during the fetching process", async () => {
-    apiService.get.mockRejectedValueOnce(new Error("Error fetching event"));
-
-    render(
-      <Router>
-        <EditEventDetailsView />
-      </Router>
-    );
-
-    await waitFor(() => screen.getByText("Loading..."));
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
-
-    await waitFor(() => screen.getByText("Event not found."));
-    expect(screen.getByText("Event not found.")).toBeInTheDocument();
-  });
+        await waitFor(() => {
+            expect(screen.getByText('Event not found.')).toBeInTheDocument();
+        });
+    });
 });

@@ -2,16 +2,14 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import NavbarView from "../views/NavbarView";
-// Import Jest DOM for toBeInTheDocument matcher
 import "@testing-library/jest-dom";
 
-// Correct Jest mock setup
 jest.mock("../context/AuthContext", () => ({
-  useAuth: jest.fn(), // Ensure useAuth is a mocked function
+  useAuth: jest.fn(),
 }));
 
 beforeEach(() => {
-  useAuth.mockReset(); // Reset mock before each test
+  useAuth.mockReset(); 
 });
 
 describe("NavbarView", () => {
@@ -33,7 +31,6 @@ describe("NavbarView", () => {
         <NavbarView />
       </Router>
     );
-    // Use a more specific selector with data-testid
     expect(screen.getAllByText(/Logout/i)[0]).toBeInTheDocument();
     expect(screen.getByText(/user@example.com/i)).toBeInTheDocument();
   });
@@ -46,9 +43,6 @@ describe("NavbarView", () => {
       </Router>
     );
     expect(screen.getByText(/Guest/i)).toBeInTheDocument();
-    // There appears to be a Login button in the component even when logged in as a guest
-    // We'll just check that at least one Logout button exists
-    // Use getAllByText to get the first logout button
     expect(screen.getAllByText(/Logout/i)[0]).toBeInTheDocument();
   });
 
@@ -60,7 +54,6 @@ describe("NavbarView", () => {
         <NavbarView />
       </Router>
     );
-    // Use getAllByText to get the first logout button
     const logoutButton = screen.getAllByText(/Logout/i)[0];
     fireEvent.click(logoutButton);
     expect(mockLogout).toHaveBeenCalledTimes(1);

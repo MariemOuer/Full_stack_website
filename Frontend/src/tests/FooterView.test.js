@@ -13,20 +13,38 @@ describe("FooterView", () => {
   });
 
   it("should render the footer correctly", () => {
-    // Be more specific to avoid multiple matches
-    expect(screen.getByText(/Occasio/i)).toBeInTheDocument();
+    // Use `getAllByText` to handle multiple occurrences
+    const occasioElements = screen.getAllByText(/Occasio/i);
+    expect(occasioElements.length).toBeGreaterThan(0); // At least one should exist
+  
     expect(screen.getByText(/Contact Us/i)).toBeInTheDocument();
     expect(screen.getByText(/occasio.planner@gmail.com/i)).toBeInTheDocument();
     expect(screen.getByText(/Navigation/i)).toBeInTheDocument();
     expect(screen.getByText(/2025. Occasio. All Rights Reserved./i)).toBeInTheDocument();
   });
+  
 
   it("should have correct links in the footer", () => {
-    // Ensure the links are rendered as <Link> components
-    expect(screen.getByRole("link", { name: /Chat Prompt/i })).toHaveAttribute("href", "/chatbot");
-    expect(screen.getByRole("link", { name: /Create Invitation/i })).toHaveAttribute("href", "/events");
-    expect(screen.getByRole("link", { name: /Invite Guests/i })).toHaveAttribute("href", "/events");
-  });
+    const links = screen.queryAllByRole("link");
+    console.log("Links Found:", links.map(link => link.textContent.trim())); // Trim removes extra spaces
+  
+    const chatPrompt = screen.queryByRole("link", { name: /Chat Prompt/i });
+    const createInvitation = screen.queryByRole("link", { name: /Create Invitation/i });
+    const inviteGuests = screen.queryByRole("link", { name: /Invite Guests/i });
+  
+    console.log("Chat Prompt Link:", chatPrompt);
+    console.log("Create Invitation Link:", createInvitation);
+    console.log("Invite Guests Link:", inviteGuests);
+  
+    expect(chatPrompt).toBeTruthy();
+    expect(chatPrompt).toHaveAttribute("href", "/chatbot");
+  
+    expect(createInvitation).toBeTruthy();
+    expect(createInvitation).toHaveAttribute("href", "/events");
+  
+    expect(inviteGuests).toBeTruthy();
+    expect(inviteGuests).toHaveAttribute("href", "/events");
+  });  
 
   it("should render the footer with the correct classes", () => {
     const footer = screen.getByRole("contentinfo"); // Semantic role for <footer>
@@ -38,7 +56,8 @@ describe("FooterView", () => {
 
   // Additional test for handling the presence of the links
   it("should render all navigation links correctly", () => {
-    const links = screen.getAllByRole("link");
+    const links = screen.queryAllByRole("link");
+    console.log("Links found in Footer:", links.map((link) => link.textContent));
     const linkNames = links.map(link => link.textContent);
     
     // Ensure all the links are present in the footer

@@ -1,13 +1,10 @@
-// controllers/SavedEventsController.js
-
-import { apiService } from "../services/ApiService";
+import { EventModel } from "../models/EventModel";
 
 export const SavedEventsController = {
-  // Fetch all events from the backend
   async fetchEvents() {
     try {
-      const response = await apiService.get("/events");
-      return response.data.events || [];
+      const events = await EventModel.getAllEvents();
+      return events;
     } catch (error) {
       console.error("Error fetching events:", error);
       return [];

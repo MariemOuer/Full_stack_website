@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { apiService } from "../services/ApiService";
+import { UserModel } from "../models/UserModel";
 
 export const useUsersController = () => {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
     try {
-      // GET /db-test => returns an array of user objects
-      const response = await apiService.get("/db-test");
-      // e.g. response.data => [ { id:1, name:'Alice', age:25 }, ... ]
-      setUsers(response.data);
+      const data = await UserModel.fetchUsers();
+      setUsers(data);
     } catch (error) {
       console.error("Failed to fetch users:", error);
     }

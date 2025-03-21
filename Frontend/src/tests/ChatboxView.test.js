@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, act } from "@testing-library/react"
 import ChatbotView from "../views/ChatbotView";
 import { chatbotController } from "../controllers/ChatbotController";
 import { useAuth } from "../context/AuthContext";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 jest.mock("../context/AuthContext", () => ({
   useAuth: jest.fn(),
@@ -22,7 +22,7 @@ describe("ChatbotView", () => {
       currentUser: { email: "testuser@gmail.com" },
       logout: jest.fn(),
     });
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    jest.spyOn(window, "alert").mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -34,9 +34,9 @@ describe("ChatbotView", () => {
       render(<ChatbotView />);
     });
     expect(await screen.findByText("Chat with Optimo")).toBeInTheDocument();
-    expect(await screen.findByText(
-      "Hello! My name is Optimo, your Occasio AI assistant to help you decide the details for your upcoming event! What type of event are you planning?"
-    )).toBeInTheDocument();
+    expect(
+      await screen.findByText("Hello! My name is Optimo, your Occasio AI assistant to help you decide the details for your upcoming event! What type of event are you planning?")
+    ).toBeInTheDocument();
   });
 
   test("allows user to enter input and submit", async () => {
@@ -83,7 +83,7 @@ describe("ChatbotView", () => {
       render(<ChatbotView />);
     });
 
-    const saveEventButton = await screen.findByText(/save event/i);
+    const saveEventButton = await screen.findByText(/save-button/i);
 
     await act(async () => {
       fireEvent.click(saveEventButton);

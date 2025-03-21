@@ -1,6 +1,3 @@
-/* Import Merriweather and Lato fonts */
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap');
-
 .login-page {
   background-color: #f9f4eb;
   margin: 0;
@@ -24,7 +21,7 @@
 
 .login-page h2 {
   color: #5A189A;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: bold;
   text-align: left;
   font-family: 'Merriweather', serif;
@@ -58,7 +55,7 @@
   padding: 12px;
   font-size: 16px;
   border: 1px solid #D72638;
-  background: #f9f4eb;
+  background: #F7E8D7;
   outline: none;
   color: #D72638;
   margin-top: 10px;
@@ -67,7 +64,7 @@
 
 .login-page input[type="email"]:focus,
 .login-page input[type="password"]:focus {
-  border-color: #D72638;
+  border-color: #5A189A;
 }
 
 /* Login button */
@@ -76,12 +73,11 @@
   font-size: 16px;
   background-color: #D72638;
   border: none;
-  color: white;
+  color: #f8f1e5;
   border-radius: 25px;
   cursor: pointer;
-  width: 100%;
-  max-width: 140px;
-  margin-left: 20px;
+  width: 130px;
+  margin: 0;
 }
 
 .login-page button:hover {
@@ -99,26 +95,11 @@
 .login-page .auth-buttons {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 15px;
-}
-
-/* Register link styling */
-.login-page .register-link {
-  color: #D72638;
-  margin: 0;
-  line-height: 1.5;
-  text-align: left;
-}
-
-.login-page .register-link a {
-  color: #D72638;
-  text-decoration: underline;
-}
-
-.login-page .register-here {
-  white-space: nowrap;
-  font-weight: bold;
+  justify-content: left;
+  margin-top: 12px;
+  padding: 0%;
+  width: 100%;
+  gap: 30px;
 }
 
 /* Login image styling */
@@ -134,21 +115,16 @@
   .login-page .login-wrapper {
     flex-direction: column;
     gap: 30px;
+    padding: 0 8% 0 0;
   }
 
   .login-page .login-image {
-    width: 180px;
-    margin-left: 0;
+    display: none;
   }
 
   .login-page .auth-container {
     margin: 20px 0;
     padding: 15px;
-  }
-
-  .login-page button {
-    width: 100%;
-    max-width: none;
   }
 }
 
@@ -167,24 +143,5 @@
   }
   .login-image{
     display: none; 
-
-
   }
-}
-
-.signup-link {
-  text-decoration: none;
-  color: white;
-}
-
-.signup-button {
-  background-color: #007bff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.signup-button:hover .signup-link {
-  color: #f8f9fa;
 }

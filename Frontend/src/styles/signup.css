@@ -1,38 +1,44 @@
 .signup-page {
   background-color: #f9f4eb;
   margin: 0;
-  padding: 20px;
+  padding: 1% 8% 1% 8%;
   min-height: 100vh;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 60px;
 }
+
 .signup-page h2 {
   color: #5A189A;
   font-weight: bold;
+  font-family: "Merriweather", serif;
+  font-size: 36px;
 }
 
 .signup-page .auth-container {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
-  margin: 100px 0 0 250px;
-  padding: 20px;
   background: none;
   height: auto;
   min-height: 400px;
   box-shadow: none;
   position: relative; 
+  width: 50%;
 }
 
-.signup-page .auth-container::after {
-  content: "";
-  position: absolute;
-  top: 100px;
-  right: -500px;
-  width: 380px;
-  height: 400px;
-  background: url("/public/signup.png") no-repeat center center;
-  background-size: contain; 
+.signup-page .signup-img-container {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.signup-page .signup-image {
+  width: 250px;
+  height: auto;
+}
+
 
 .signup-page .auth-form {
   display: flex;
@@ -53,7 +59,7 @@
   padding: 12px;
   font-size: 16px;
   border: 1px solid #D72638;
-  background: #f9f4eb;
+  background: #F7E8D7;
   outline: none;
   color: #D72638;
   margin-top: 10px;
@@ -64,7 +70,7 @@
 .signup-page input[type="email"]:focus,
 .signup-page input[type="password"]:focus,
 .signup-page input[type="tel"]:focus {
-  border-color: #D72638;
+  border-color: #5A189A;
 }
 
 /* Sign up button */
@@ -73,10 +79,11 @@
   font-size: 16px;
   background-color: #D72638;
   border: none;
-  color: #ffffff;
+  color: #f9f4eb;
   border-radius: 25px;
   margin: 10px 0 0 0;
   cursor: pointer;
+  width: 130px;
 }
 
 .signup-page .auth-buttons {
@@ -92,10 +99,8 @@
 }
 
 .signup-page button:hover {
-  background-color: #D72638;
+  background-color: #b71c2c;
 }
-
-
 
 .signup-page input::placeholder {
   color: #D72638;
@@ -116,45 +121,32 @@
 
 /* for Very Small Screens */
 @media (max-width: 600px) {
-  .signup-page .login-wrapper {
-    flex-direction: column;
-    gap: 30px;
+  .signup-page {
+    justify-content: center;
+    padding: 1% 8% 1% 8%;
   }
 
   .signup-page .auth-container {
     margin: 20px 0;
-    padding: 15px;
+    width: 100%;
+    padding: 0 8% 0 0;
+    display: block;
   }
 
-  .signup-page h2 {
-    font-size: 24px;
+  .signup-page .signup-img-container {
+    display: none;
   }
 
-  .signup-page .auth-container::after {
-    display: none; 
+  .signup-page .signup-image {
+    display: none;
   }
 
   .signup-page .auth-form {
     gap: 8px;
   }
 
-  .signup-page input {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .signup-page button {
-    font-size: 14px;
-    padding: 10px;
-  }
-
   .signup-page .auth-buttons {
     flex-direction: column;
     align-items: center;
-  }
-
-
-  .signup-page .registered-message {
-    font-size: 14px;
   }
 }

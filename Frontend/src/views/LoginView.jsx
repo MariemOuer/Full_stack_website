@@ -14,24 +14,28 @@ const LoginView = () => {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       await loginWithEmail(email, password);
       navigate("/");
     } catch (error) {
-      setErrorMsg(error.message);
+      setErrorMessage(error.message);
     }
   };
 
   const handleGuestLogin = async (e) => {
-    e.preventDefault(); // Prevents link from redirecting immediately
+    e.preventDefault();
     try {
       await loginAsGuest();
-      setIsGuest(true); // Set guest mode
-      navigate("/"); // Redirect after successful guest login
+      setIsGuest(true);
+      navigate("/");
     } catch (error) {
-      setErrorMsg(error.message);
+      setErrorMessage(error.message);
     }
   };
 
@@ -46,23 +50,23 @@ const LoginView = () => {
             </p>
           )}
           <form onSubmit={handleLogin} className="auth-form">
-            <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input type="email" placeholder="Email Address" value={email} onChange={(event) => setEmail(event.target.value)} required />
+            <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} required />
             <p className="guest-login">
               <a href="/" onClick={handleGuestLogin}>
                 Continue as Guest
               </a>
             </p>
             <div className="auth-buttons">
-              <button type="submit">Login</button>
-              <button className="signup-button">
-                <Link to="/signup" className="signup-link">
-                  Signup
-                </Link>
+              <button type="submit" className="login-button">
+                Login
+              </button>
+              <button className="signup-button" onClick={handleSignupClick}>
+                Signup
               </button>
             </div>
 
-            {errorMsg && <p className="error">{errorMsg}</p>}
+            {errorMessage && <p className="error">{errorMessage}</p>}
           </form>
         </div>
 

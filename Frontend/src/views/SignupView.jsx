@@ -51,6 +51,10 @@ const SignupView = () => {
           Already Registered? <Link to="/login">Login Here</Link>
         </p>
       </div>
+
+      <div className="signup-img-container">
+      <img src="/signup.png" alt="Signup Illustration" className="signup-image" />
+      </div>
     </div>
   );
 };

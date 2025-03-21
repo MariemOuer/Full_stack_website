@@ -1,6 +1,8 @@
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
+import { apiService } from "../services/ApiService";
+
 
 export const useAuthController = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -47,6 +49,7 @@ export const useAuthController = () => {
     try {
       const guestEmail = "guest@gmail.com";
       const guestPassword = "123456";
+      await apiService.post("/cleanup-guest");
       const userCredential = await signInWithEmailAndPassword(auth, guestEmail, guestPassword);
       setCurrentUser({
         uid: userCredential.user.uid,

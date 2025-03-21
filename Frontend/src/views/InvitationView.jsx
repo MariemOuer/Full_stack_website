@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import { apiService } from "../services/ApiService";
 import Navbar from "./NavbarView";
 import Footer from "./FooterView";
-import "../styles/viewInvitationStyle.css";
+import "../styles/invitationStyle.css";
 
-const ViewInvitationView = () => {
+const InvitationView = () => {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
   const [selectedStyle, setSelectedStyle] = useState("whimsical");
 
   useEffect(() => {
@@ -18,22 +18,23 @@ const ViewInvitationView = () => {
         setEventData(response.data);
       } catch (error) {
         console.error("Error fetching event:", error);
+        console.error("Error fetching event:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     fetchEvent();
   }, [eventId]);
 
-  const handleStyleChange = (e) => {
-    setSelectedStyle(e.target.value);
+  const handleStyleChange = (event) => {
+    setSelectedStyle(event.target.value);
   };
 
   const renderInvitation = () => {
     if (!eventData) return <p>Event not found.</p>;
-  
+
     const { event_name, event_date, location, theme } = eventData;
-  
+
     const content = {
       whimsical: {
         title: "Be Our Guest!",
@@ -68,9 +69,9 @@ const ViewInvitationView = () => {
         footerClass: "fun-footer",
       },
     };
-  
+
     const { title, description, subtitleClass, boxClass, textClass, footerClass } = content[selectedStyle];
-  
+
     return (
       <div className={`invitation-box ${boxClass}`}>
         <h1>{title}</h1>
@@ -83,13 +84,10 @@ const ViewInvitationView = () => {
           <br />
           <strong>Theme:</strong> {theme || "A wonderful surprise!"}
         </p>
-        <p className={`invitation-footer ${footerClass}`}>
-          We can't wait to see you there!
-        </p>
+        <p className={`invitation-footer ${footerClass}`}>We can't wait to see you there!</p>
       </div>
     );
   };
-  
 
   return (
     <div>
@@ -97,25 +95,19 @@ const ViewInvitationView = () => {
       <div className="invitation-page-container">
         <div className="left-page">
           <h1>View Invitation</h1>
-          <label htmlFor="style-select">Choose an invitation style:</label><br/>
-          <select
-            id="style-select"
-            onChange={handleStyleChange}
-            value={selectedStyle}
-          >
+          <label htmlFor="style-select">Choose an invitation style:</label>
+          <select id="style-select" onChange={handleStyleChange} value={selectedStyle}>
             <option value="whimsical">Whimsical</option>
             <option value="classic">Classic</option>
             <option value="professional">Professional</option>
             <option value="fun">Fun</option>
           </select>
         </div>
-        <div className="right-page">
-          {loading ? <p>Loading...</p> : renderInvitation()}
-        </div>
+        <div className="right-page">{loading ? <p>Loading...</p> : renderInvitation()}</div>
       </div>
       <Footer />
     </div>
   );
 };
 
-export default ViewInvitationView;
+export default InvitationView;

@@ -16,7 +16,7 @@ ${context}
 
 and the question:
 ${question}
-
+IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK BOZO
 Please provide exactly 3 suggestions in the following format:
 - Option 1: [suggestion]
 - Option 2: [suggestion]

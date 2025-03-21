@@ -44,7 +44,7 @@ export const useAuthController = () => {
     }
   };
 
-  // 🔥 Fix: Guest Login uses a preset email/password
+  // Guest Login uses a preset email/password
   const loginAsGuest = async () => {
     try {
       const guestEmail = "guest@gmail.com";

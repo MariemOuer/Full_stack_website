@@ -24,7 +24,7 @@ Please provide exactly 3 suggestions in the following format:
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "mistralai/mistral-small-3.1-24b-instruct",
+        model: "mistralai/mistral-small-3.1-24b-instruct:free",
         messages: [{ role: "user", content: prompt }],
       },
       {

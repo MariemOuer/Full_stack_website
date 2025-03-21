@@ -64,7 +64,7 @@ router.post("/suggestions", async (req, res) => {
     }
 
     // Updated prompt with instruction to limit responses to two sentences each.
-    const prompt = `You are an event planning assistant. DONT USE ANY BOLDING OR ITALICS OR COMMAS AND ONLY GIVE ANSWERS IN SENTENCES AND NO NEWLINE CHARACTERS IN EACH OPTION. Based on the following details:
+    const prompt = `You are an event planning assistant. DONT USE ANY BOLDING OR ITALICS OR COMMAS AND ONLY GIVE ANSWERS IN SENTENCES. DO NOT USE NEWLINE CHARACTERS WITHIN OPTIONS. Based on the following details:
 ${context}
 
 and the question:

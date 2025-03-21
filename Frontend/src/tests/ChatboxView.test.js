@@ -64,7 +64,7 @@ describe("ChatbotView", () => {
       render(<ChatbotView />);
     });
 
-    const idkButton = await screen.findByText("I don't know");
+    const idkButton = await screen.findByText(/i don't know/i);
 
     await act(async () => {
       fireEvent.click(idkButton);
@@ -83,7 +83,7 @@ describe("ChatbotView", () => {
       render(<ChatbotView />);
     });
 
-    const saveEventButton = await screen.findByText("Save Event");
+    const saveEventButton = await screen.findByText(/save event/i);
 
     await act(async () => {
       fireEvent.click(saveEventButton);

@@ -1,5 +1,3 @@
-// components/ChatbotView.js
-
 import React, { useState, useEffect, useRef } from "react";
 import { chatbotController } from "../controllers/ChatbotController";
 import { useAuth } from "../context/AuthContext";
@@ -31,20 +29,35 @@ const ChatbotView = () => {
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const chatBoxRef = useRef(null);
+  const inputRef = useRef(null);
   const isInitialized = useRef(false);
+
+  const resetChatbot = () => {
+    setMessages([{ sender: "bot", text: questions[0] }]);
+    setCurrentQuestion(0);
+    setInput("");
+    setLoading(false);
+    setSuggestions([]);
+    setShowPopup(false);
+    setIsCompleted(false);
+    isInitialized.current = true;
+  };
 
   useEffect(() => {
     // Check if we've already initialized to prevent double messages
     if (!isInitialized.current) {
-      isInitialized.current = true;
-
-      // Directly set the first message
-      if (messages.length === 0) {
-        setMessages([{ sender: "bot", text: questions[0] }]);
-      }
+      resetChatbot();
     }
   }, []);
+
+  // Auto-focus input when loading is complete, suggestions change, or question changes
+  useEffect(() => {
+    if (!loading && !suggestions.length && !showPopup && !isCompleted) {
+      inputRef.current?.focus();
+    }
+  }, [loading, suggestions, currentQuestion, showPopup, isCompleted]);
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -53,13 +66,6 @@ const ChatbotView = () => {
   }, [messages, suggestions]);
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  // On mount, display the first question as a bot message.
-  // useEffect(() => {
-  //   if (messages.length === 0 && currentQuestion < questions.length) {
-  //     addBotMessage(questions[currentQuestion]);
-  //   }
-  // }, [currentQuestion, messages.length]);
 
   const addBotMessage = (text) => {
     setMessages((prev) => [...prev, { sender: "bot", text }]);
@@ -70,14 +76,21 @@ const ChatbotView = () => {
   };
 
   const handleUserInput = async (userAnswer) => {
+    // Prevent input when popup is shown or event is completed
+    if (showPopup || isCompleted) return;
+
     let answer = userAnswer || input.trim();
     if (!answer) return;
 
+    // Clear suggestions immediately when an answer is submitted
+    setSuggestions([]);
+
     const isIdkClicked = answer.toLowerCase() === "i don't know";
 
-    if (isIdkClicked) {
-      setLoading(true);
+    // Disable input during processing
+    setLoading(true);
 
+    if (isIdkClicked) {
       // Build context from previous answers
       let contextText = "";
       if (currentQuestion > 0) {
@@ -85,12 +98,13 @@ const ChatbotView = () => {
         contextText = questions
           .slice(0, currentQuestion)
           .map((q, index) => `${q}: ${previousUserAnswers[index]?.text || "No answer provided"}`)
-
           .join("\n");
       }
 
       const extractedSuggestions = await chatbotController.getSuggestions(contextText, questions[currentQuestion]);
       setSuggestions(extractedSuggestions);
+
+      // Key change: Set loading to false immediately when suggestions arrive
       setLoading(false);
       return;
     }
@@ -107,8 +121,11 @@ const ChatbotView = () => {
       const nextQ = currentQuestion + 1;
       setCurrentQuestion(nextQ);
       addBotMessage(questions[nextQ]);
+      setLoading(false);
     } else {
       setShowPopup(true);
+      setIsCompleted(true);
+      setLoading(false);
     }
     setSuggestions([]);
   };
@@ -119,6 +136,7 @@ const ChatbotView = () => {
     nextQuestion();
   };
 
+  // Rest of the code remains the same as in the original implementation
   const handleSaveEvent = async () => {
     const userAnswers = messages.filter((m) => m.sender === "user").map((m) => m.text);
     const payload = {
@@ -140,6 +158,10 @@ const ChatbotView = () => {
 
     const message = await chatbotController.saveEvent(payload);
     alert(message);
+  };
+
+  const closePopup = () => {
+    resetChatbot();
   };
 
   const formatMessage = (text) => {
@@ -201,24 +223,25 @@ const ChatbotView = () => {
 
           <div className="input-container">
             <input
+              ref={inputRef}
               type="text"
               placeholder="Type your answer..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="input-field"
-              disabled={loading || suggestions.length > 0}
+              disabled={loading || showPopup || isCompleted}
               onKeyPress={(e) => {
                 if (e.key === "Enter") handleUserInput();
               }}
             />
-            <button onClick={() => handleUserInput()} className="send-button" disabled={loading || !input.trim() || suggestions.length > 0} aria-label="Send">
+            <button onClick={() => handleUserInput()} className="send-button" disabled={loading || !input.trim() || showPopup || isCompleted} aria-label="Send">
               <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
               </svg>
             </button>
 
-            {currentQuestion > 0 && suggestions.length === 0 && (
+            {currentQuestion > 0 && suggestions.length === 0 && !showPopup && !isCompleted && (
               <button onClick={() => handleUserInput("I don't know")} className="idk-button" disabled={loading}>
                 I don't know
               </button>
@@ -231,7 +254,7 @@ const ChatbotView = () => {
             <div className="popup">
               <div className="popup-header">
                 <h2>Event Summary</h2>
-                <button className="popup-close" onClick={() => setShowPopup(false)}>
+                <button className="popup-close" onClick={closePopup}>
                   ×
                 </button>
               </div>
@@ -253,7 +276,7 @@ const ChatbotView = () => {
                 <button className="save-button" onClick={handleSaveEvent} disabled={loading}>
                   {loading ? "Saving..." : "Save Event"}
                 </button>
-                <button className="close-button" onClick={() => setShowPopup(false)}>
+                <button className="close-button" onClick={closePopup}>
                   Close
                 </button>
               </div>

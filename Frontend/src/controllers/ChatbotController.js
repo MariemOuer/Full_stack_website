@@ -26,7 +26,7 @@ export const chatbotController = {
 function aiSuggestionsToArray(text) {
   return text
     .split("\n")
-    .filter((line) => line.trim().startsWith("- Option"))
-    .map((line) => line.replace(/^- Option\s*\d+:\s*/, "").trim())
+    .filter((line) => /\s*-\s*Option\s*\d+:/.test(line))
+    .map((line) => line.replace(/.*-\s*Option\s*\d+:\s*/, "").trim())
     .filter(Boolean);
 }

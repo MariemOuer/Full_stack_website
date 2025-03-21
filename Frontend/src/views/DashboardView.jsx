@@ -61,8 +61,7 @@ const DashboardView = () => {
               details so you can focus on making unforgettable memories.
             </p>
             <Link to="/chatbot" className="cta-link">
-              {" "}
-              Plan your next event now →{" "}
+              {" "}Plan your next event now →{" "}
             </Link>
           </div>
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/footer.css"; 
+import "../styles/footer.css";
 
 const FooterView = () => {
   return (
@@ -8,12 +8,16 @@ const FooterView = () => {
       <div className="footer-container">
         <div className="footer-section">
           <h3>Occasio</h3>
-          <p><strong>Contact Us</strong></p>
+          <p>
+            <strong>Contact Us</strong>
+          </p>
           <p>occasio.planner@gmail.com</p>
         </div>
 
         <div className="footer-section">
-          <p><strong>Navigation</strong></p>
+          <p>
+            <strong>Navigation</strong>
+          </p>
           <Link to="/chatbot">Chat Prompt</Link>
           <Link to="/events">Create Invitation</Link>
           <Link to="/events">Invite Guests</Link>

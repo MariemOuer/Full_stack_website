@@ -17,16 +17,16 @@ const ViewInvitationView = () => {
         const response = await apiService.get(`/event/${eventId}`);
         setEventData(response.data);
       } catch (error) {
-        console.error("❌ Error fetching event:", error);
+        console.error("Error fetching event:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     fetchEvent();
   }, [eventId]);
 
-  const handleStyleChange = (e) => {
-    setSelectedStyle(e.target.value);
+  const handleStyleChange = (event) => {
+    setSelectedStyle(event.target.value);
   };
 
   const renderInvitation = () => {
@@ -79,20 +79,14 @@ const ViewInvitationView = () => {
         <div className="left-page">
           <h1>View Invitation</h1>
           <label htmlFor="style-select">Choose an invitation style:</label>
-          <select
-            id="style-select"
-            onChange={handleStyleChange}
-            value={selectedStyle}
-          >
+          <select id="style-select" onChange={handleStyleChange} value={selectedStyle}>
             <option value="whimsical">Whimsical</option>
             <option value="classic">Classic</option>
             <option value="professional">Professional</option>
             <option value="fun">Fun</option>
           </select>
         </div>
-        <div className="right-page">
-          {loading ? <p>Loading...</p> : renderInvitation()}
-        </div>
+        <div className="right-page">{loading ? <p>Loading...</p> : renderInvitation()}</div>
       </div>
       <Footer />
     </div>

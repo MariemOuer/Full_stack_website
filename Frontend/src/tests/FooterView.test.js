@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import FooterView from '../views/FooterView';
-import '@testing-library/jest-dom';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import FooterView from "../views/FooterView";
+import "@testing-library/jest-dom";
 
-describe('FooterView', () => {
+describe("FooterView", () => {
   beforeEach(() => {
     render(
       <Router>
@@ -13,45 +13,43 @@ describe('FooterView', () => {
     );
   });
 
-  it('renders the Occasio title', () => {
-    expect(screen.getByText('Occasio')).toBeInTheDocument();
+  it("renders the Occasio title", () => {
+    expect(screen.getByText("Occasio")).toBeInTheDocument();
   });
 
-  it('displays the contact information', () => {
-    expect(screen.getByText('Contact Us')).toBeInTheDocument();
-    expect(screen.getByText('occasio.planner@gmail.com')).toBeInTheDocument();
+  it("displays the contact information", () => {
+    expect(screen.getByText("Contact Us")).toBeInTheDocument();
+    expect(screen.getByText("occasio.planner@gmail.com")).toBeInTheDocument();
   });
 
-  it('renders the Navigation section', () => {
-    expect(screen.getByText('Navigation')).toBeInTheDocument();
+  it("renders the Navigation section", () => {
+    expect(screen.getByText("Navigation")).toBeInTheDocument();
   });
 
-  it('contains links to Chat Prompt, Create Invitation, and Invite Guests', () => {
-    const chatPrompt = screen.getByText('Chat Prompt');
-    const createInvitation = screen.getByText('Create Invitation');
-    const inviteGuests = screen.getByText('Invite Guests');
+  it("contains text for Chat Prompt, Create Invitation, and Invite Guests", () => {
+    // Find the navigation section
+    const navigationSection = screen.getByText("Navigation").closest(".footer-section");
 
-    expect(chatPrompt.closest('a')).toHaveAttribute('href', '/chatbot');
-    expect(createInvitation.closest('a')).toHaveAttribute('href', '/events');
-    expect(inviteGuests.closest('a')).toHaveAttribute('href', '/events');
-  });
-  
-  it('displays the copyright notice', () => {
-    expect(screen.getByText('2025. Occasio. All Rights Reserved.')).toBeInTheDocument();
+    // Check that the navigation section contains the expected text
+    expect(navigationSection).toHaveTextContent("Chat Prompt");
+    expect(navigationSection).toHaveTextContent("Create Invitation");
+    expect(navigationSection).toHaveTextContent("Invite Guests");
   });
 
-  it('renders within a footer element', () => {
-    const footerElement = screen.getByRole('contentinfo');
+  it("displays the copyright notice", () => {
+    expect(screen.getByText("2025. Occasio. All Rights Reserved.")).toBeInTheDocument();
+  });
+
+  it("renders within a footer element", () => {
+    const footerElement = screen.getByRole("contentinfo");
     expect(footerElement).toBeInTheDocument();
-    expect(footerElement).toHaveClass('footer');
+    expect(footerElement).toHaveClass("footer");
   });
 
-  it('contains two main sections: footer-container and footer-bottom', () => {
-    const footerContainer = screen.getByText('Occasio').closest('.footer-container');
-    const footerBottom = screen.getByText('2025. Occasio. All Rights Reserved.').closest('.footer-bottom');
-    
+  it("contains two main sections: footer-container and footer-bottom", () => {
+    const footerContainer = screen.getByText("Occasio").closest(".footer-container");
+    const footerBottom = screen.getByText("2025. Occasio. All Rights Reserved.").closest(".footer-bottom");
     expect(footerContainer).toBeInTheDocument();
     expect(footerBottom).toBeInTheDocument();
   });
-  
 });

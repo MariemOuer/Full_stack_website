@@ -32,7 +32,7 @@ describe("InvitationView", () => {
     jest.clearAllMocks();
   });
 
-  it("renders loading state initially", () => {
+  it("renders loading state initially", async () => {
     // Mock the API call to delay resolution so we can see the loading state
     apiService.get.mockImplementation(() => new Promise((resolve) => setTimeout(() => resolve({ data: mockEvent }), 100)));
 
@@ -64,6 +64,9 @@ describe("InvitationView", () => {
   });
 
   it("displays error message when event is not found", async () => {
+    // Silence console error for this test since we're testing the error path
+    jest.spyOn(console, "error").mockImplementation(() => {});
+
     // Mock the API to reject with an error
     apiService.get.mockRejectedValue(new Error("Event not found"));
 
@@ -79,6 +82,9 @@ describe("InvitationView", () => {
 
     // Check for error message
     expect(screen.getByText("Event not found.")).toBeInTheDocument();
+
+    // Restore console.error
+    console.error.mockRestore();
   });
 
   it("renders Navbar and Footer", async () => {

@@ -64,18 +64,16 @@ router.post("/suggestions", async (req, res) => {
     }
 
     // Updated prompt with instruction to limit responses to two sentences each.
-    const prompt = `You are an event planning assistant. Based on the following details:
+    const prompt = `You are an event planning assistant. DONT USE ANY BOLDING OR ITALICS OR COMMAS AND ONLY GIVE ANSWERS IN SENTENCES AND NO NEWLINE CHARACTERS IN EACH OPTION. Based on the following details:
 ${context}
 
 and the question:
 ${question}
-
+IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK.
 Please provide exactly 3 suggestions in the following format:
 - Option 1: [suggestion]
 - Option 2: [suggestion]
-- Option 3: [suggestion]
-
-Keep each suggestion to a maximum of two sentences.`;
+- Option 3: [suggestion]`;
 
     const OPENROUTER_API_KEY = "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";
 
@@ -95,6 +93,7 @@ Keep each suggestion to a maximum of two sentences.`;
 
     if (response.data.choices && response.data.choices.length > 0 && response.data.choices[0].message) {
       const suggestionText = response.data.choices[0].message.content;
+      console.log(suggestionText);
       return res.json({ suggestions: suggestionText });
     } else {
       return res.status(500).json({ error: "No suggestions available" });

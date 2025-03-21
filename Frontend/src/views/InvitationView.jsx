@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import { apiService } from "../services/ApiService";
 import Navbar from "./NavbarView";
 import Footer from "./FooterView";
-import "../styles/viewInvitationStyle.css";
+import "../styles/invitationStyle.css";
 
-const ViewInvitationView = () => {
+const InvitationView = () => {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
   const [selectedStyle, setSelectedStyle] = useState("whimsical");
 
   useEffect(() => {
@@ -93,4 +93,4 @@ const ViewInvitationView = () => {
   );
 };
 
-export default ViewInvitationView;
+export default InvitationView;

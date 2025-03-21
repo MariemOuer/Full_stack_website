@@ -56,7 +56,7 @@ describe("ChatbotView", () => {
   });
 
   test("displays suggestions when user clicks 'I don't know'", async () => {
-    chatbotController.getSuggestions.mockResolvedValue(["Suggestion 1", "Suggestion 2"]);
+    chatbotController.getSuggestions.mockResolvedValue(["Suggestion 1", "Suggestion 2", "Suggestion 3"]);
 
     await act(async () => {
       render(<ChatbotView />);
@@ -87,6 +87,7 @@ describe("ChatbotView", () => {
       expect(screen.getByText("Here are some suggestions:")).toBeInTheDocument();
       expect(screen.getByText("Suggestion 1")).toBeInTheDocument();
       expect(screen.getByText("Suggestion 2")).toBeInTheDocument();
+      expect(screen.getByText("Suggestion 3")).toBeInTheDocument();
     });
   });
 

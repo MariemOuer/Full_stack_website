@@ -23,6 +23,7 @@ const questions = [
 ];
 
 const initialQuestionIndex = 0;
+const minNumberOfSuggestions = 3;
 
 const ChatbotView = () => {
   const { currentUser } = useAuth();
@@ -104,7 +105,12 @@ const ChatbotView = () => {
           .join("\n");
       }
 
-      const extractedSuggestions = await chatbotController.getSuggestions(contextText, questions[currentQuestion]);
+      var extractedSuggestions = [];
+      // Key change: Loop until suggestions are extracted
+      while (extractedSuggestions.length < minNumberOfSuggestions) {
+        extractedSuggestions = await chatbotController.getSuggestions(contextText, questions[currentQuestion]);
+      }
+
       setSuggestions(extractedSuggestions);
 
       // Key change: Set loading to false immediately when suggestions arrive
@@ -124,12 +130,11 @@ const ChatbotView = () => {
       const nextQuestionIndex = currentQuestion + 1;
       setCurrentQuestion(nextQuestionIndex);
       addBotMessage(questions[nextQuestionIndex]);
-      setIsLoading(false);
     } else {
       setIsPopupShown(true);
       setIsCompleted(true);
-      setIsLoading(false);
     }
+    setIsLoading(false);
     setSuggestions([]);
   };
 
@@ -141,7 +146,7 @@ const ChatbotView = () => {
 
   // Rest of the code remains the same as in the original implementation
   const handleSaveEvent = async () => {
-    const userAnswers = messages.filter((m) => m.sender === "user").map((m) => m.text);
+    const userAnswers = messages.filter((message) => message.sender === "user").map((message) => message.text);
     const payload = {
       user_email: checkIfCurrentUserIsGuest(currentUser) ? "Guest" : currentUser?.email,
       event_name: "",
@@ -264,7 +269,7 @@ const ChatbotView = () => {
 
               <div className="popup-content">
                 {questions.map((question, index) => {
-                  const userAnswer = messages.filter((m) => m.sender === "user")[index]?.text || "No answer provided";
+                  const userAnswer = messages.filter((message) => message.sender === "user")[index]?.text || "No answer provided";
 
                   return (
                     <div key={index} className="summary-item">

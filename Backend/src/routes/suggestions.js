@@ -11,16 +11,13 @@ router.post("/suggestions", async (req, res) => {
     }
 
     // Updated prompt with instruction to limit responses to two sentences each.
-    const prompt = `You are an event planning assistant. ALL ANSWERS MUST BE IN ONE LINE. IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK. Based on the following details:
+    const prompt = `You are an event planning assistant. ALL ANSWERS MUST BE IN ONE CONTINUOUS LINE. IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK. Based on the following details:
 ${context}
 
 and the question:
 ${question}
-IF YOU DO NOT FOLLOW THE INSTRUCTIONS YOU WILL FAIL THE TASK BOZO
 Please provide exactly 3 suggestions in the following format:
-- Option 1: [suggestion]
-- Option 2: [suggestion]
-- Option 3: [suggestion]`;
+- Option 1: [suggestion]`;
 
     const OPENROUTER_API_KEY = "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";
 

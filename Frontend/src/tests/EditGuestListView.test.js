@@ -1,38 +1,51 @@
+import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, useParams } from "react-router-dom";
+import { apiService } from "../services/ApiService";
 import EditGuestListView from "../views/EditGuestListView";
-import { apiService } from "../services/ApiService"; 
+import "@testing-library/jest-dom";
 
-jest.mock("../services/ApiService"); 
+// Mock the modules
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: jest.fn(),
+}));
+
+jest.mock("../services/ApiService", () => ({
+  apiService: {
+    get: jest.fn(),
+    post: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
 
 describe("EditGuestListView", () => {
-  const eventId = "123"; 
-
   beforeEach(() => {
-    apiService.get.mockResolvedValue({ data: [] }); 
-    apiService.post.mockResolvedValue({}); 
-    apiService.delete.mockResolvedValue({});
+    // Clear mocks
+    useParams.mockClear();
+    apiService.get.mockClear();
+    apiService.post.mockClear();
+    apiService.delete.mockClear();
   });
 
-  it("should render the guest list page correctly", async () => {
+  it("renders loading state initially", () => {
+    useParams.mockReturnValue({ eventId: "123" });
+    apiService.get.mockResolvedValue(new Promise(() => {})); // Never resolves
+
     render(
       <Router>
         <EditGuestListView />
       </Router>
     );
-
-    expect(screen.getByText("Guest List")).toBeInTheDocument();
-    expect(screen.getByText("Select Invitation Style:")).toBeInTheDocument();
-    expect(screen.getByText("Send Invitations")).toBeInTheDocument();
-    expect(screen.getByText("Add New Guest:")).toBeInTheDocument();
+    expect(screen.getByText(/Loading guests.../i)).toBeInTheDocument();
   });
 
-  it("should load guests and display them", async () => {
+  it("fetches and displays guest list successfully", async () => {
+    useParams.mockReturnValue({ eventId: "123" });
     const mockGuests = [
-      { id: "1", name: "John Doe", email: "john@example.com", phone: "1234567890", status: "Pending" },
-      { id: "2", name: "Jane Doe", email: "jane@example.com", phone: "0987654321", status: "Confirmed" },
+      { id: 1, name: "John Doe", email: "john@example.com", phone: "123-456-7890" },
+      { id: 2, name: "Jane Smith", email: "jane@example.com", phone: "987-654-3210" },
     ];
-
     apiService.get.mockResolvedValue({ data: mockGuests });
 
     render(
@@ -41,37 +54,20 @@ describe("EditGuestListView", () => {
       </Router>
     );
 
-    await waitFor(() => screen.getByText("John Doe"));
-    expect(screen.getByText("Jane Doe")).toBeInTheDocument();
-    expect(screen.getByText("1234567890")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+      expect(screen.getByText(/john@example.com/i)).toBeInTheDocument();
+      expect(screen.getByText(/123-456-7890/i)).toBeInTheDocument();
+      expect(screen.getByText(/Jane Smith/i)).toBeInTheDocument();
+      expect(screen.getByText(/jane@example.com/i)).toBeInTheDocument();
+      expect(screen.getByText(/987-654-3210/i)).toBeInTheDocument();
+    });
   });
 
-  it("should allow adding a new guest", async () => {
-    render(
-      <Router>
-        <EditGuestListView />
-      </Router>
-    );
-
-    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "New Guest" } });
-    fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "new@example.com" } });
-    fireEvent.change(screen.getByPlaceholderText("Phone"), { target: { value: "5555555555" } });
-
-    apiService.post.mockResolvedValueOnce({});
-
-    fireEvent.click(screen.getByText("Add Guest"));
-
-    await waitFor(() => expect(apiService.post).toHaveBeenCalledWith(
-      `/event/123/add-guest`, { name: "New Guest", email: "new@example.com", phone: "5555555555" }
-    ));
-  });
-
-  it("should allow removing a guest", async () => {
-    const mockGuests = [
-      { id: "1", name: "John Doe", email: "john@example.com", phone: "1234567890", status: "Pending" },
-    ];
-
-    apiService.get.mockResolvedValueOnce({ data: mockGuests });
+  it("adds a new guest to the list", async () => {
+    useParams.mockReturnValue({ eventId: "123" });
+    apiService.get.mockResolvedValue({ data: [] }); // Start with no guests
+    apiService.post.mockResolvedValue({}); // Mock successful post
 
     render(
       <Router>
@@ -79,40 +75,73 @@ describe("EditGuestListView", () => {
       </Router>
     );
 
-    await waitFor(() => screen.getByText("John Doe"));
+    const nameInput = screen.getByPlaceholderText(/Name/i);
+    const emailInput = screen.getByPlaceholderText(/Email/i);
+    const phoneInput = screen.getByPlaceholderText(/Phone/i);
+    const addGuestButton = screen.getByText(/Add Guest/i);
 
-    apiService.delete.mockResolvedValueOnce({});
+    fireEvent.change(nameInput, { target: { value: "Test Guest" } });
+    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(phoneInput, { target: { value: "111-222-3333" } });
+    fireEvent.click(addGuestButton);
 
-    fireEvent.click(screen.getByAltText("trashcan"));
-
-    await waitFor(() => expect(apiService.delete).toHaveBeenCalledWith(`/guests/1`));
+    await waitFor(() => {
+      expect(apiService.post).toHaveBeenCalledWith(
+        "/event/123/add-guest",
+        expect.objectContaining({
+          name: "Test Guest",
+          email: "test@example.com",
+          phone: "111-222-3333",
+        })
+      );
+    });
   });
 
-  it("should allow selecting an invitation style", async () => {
+  it("removes a guest from the list", async () => {
+    useParams.mockReturnValue({ eventId: "123" });
+    const mockGuests = [{ id: 1, name: "John Doe", email: "john@example.com", phone: "123-456-7890" }];
+    apiService.get.mockResolvedValue({ data: mockGuests });
+    apiService.delete.mockResolvedValue({}); // Mock successful delete
+
     render(
       <Router>
         <EditGuestListView />
       </Router>
     );
 
-    fireEvent.change(screen.getByLabelText("Select Invitation Style:"), { target: { value: "classic" } });
+    await waitFor(() => {
+        expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+    });
 
-    expect(screen.getByLabelText("Select Invitation Style:")).toHaveValue("classic");
+    const removeButton = screen.getByAltText("trashcan");
+    fireEvent.click(removeButton);
+
+    await waitFor(() => {
+      expect(apiService.delete).toHaveBeenCalledWith("/guests/1");
+    });
   });
 
-  it("should handle sending invitations", async () => {
+  it("selects invitation style and sends invitations", async () => {
+    useParams.mockReturnValue({ eventId: "123" });
+    apiService.get.mockResolvedValue({ data: [] }); // Guests not relevant for this test
+    apiService.post.mockResolvedValue({}); // Mock successful post
+
     render(
       <Router>
         <EditGuestListView />
       </Router>
     );
 
-    apiService.post.mockResolvedValueOnce({});
+    const styleSelect = screen.getByLabelText(/Select Invitation Style:/i);
+    const sendInvitesButton = screen.getByText(/Send Invitations/i);
 
-    fireEvent.click(screen.getByText("Send Invitations"));
+    fireEvent.change(styleSelect, { target: { value: "classic" } });
+    fireEvent.click(sendInvitesButton);
 
-    await waitFor(() => expect(apiService.post).toHaveBeenCalledWith(
-      `/event/123/send-invites`, { style: "whimsical" }
-    ));
+    await waitFor(() => {
+      expect(apiService.post).toHaveBeenCalledWith("/event/123/send-invites", {
+        style: "classic",
+      });
+    });
   });
 });

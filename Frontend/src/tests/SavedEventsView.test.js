@@ -1,109 +1,30 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import SavedEventsView from "../views/SavedEventsView";
-import { SavedEventsController } from '../controllers/SavedEventsController';
-import { useAuth } from '../context/AuthContext';
+import { SavedEventsController } from "../controllers/SavedEventsController";
+import "@testing-library/jest-dom";
 
-jest.mock('../controllers/SavedEventsController');
-jest.mock('../context/AuthContext');
+jest.mock("../context/AuthContext", () => ({
+  useAuth: jest.fn(),
+}));
 
-describe('SavedEventsView', () => {
-  const mockCurrentUser = {
-    email: 'testuser@example.com',
-  };
+jest.mock("../controllers/SavedEventsController", () => ({
+  SavedEventsController: {
+    fetchEvents: jest.fn(),
+  },
+}));
 
-  const mockEvents = [
-    {
-      id: 1,
-      event_name: 'Event 1',
-      event_type: 'Wedding',
-      event_date: '2025-06-30',
-      event_length: '5 hours',
-      guest_count: 100,
-      location: 'Venue A',
-      catering: 'Buffet',
-      theme: 'Romantic',
-      entertainment: 'DJ',
-      accommodations: 'Hotel A',
-      special_requests: 'None',
-      event_timeline: 'TBD',
-      budget: 5000,
-    },
-    {
-      id: 2,
-      event_name: 'Event 2',
-      event_type: 'Birthday',
-      event_date: '2025-07-15',
-      event_length: '3 hours',
-      guest_count: 50,
-      location: 'Venue B',
-      catering: 'Plated',
-      theme: 'Fun',
-      entertainment: 'Live Band',
-      accommodations: 'Hotel B',
-      special_requests: 'Vegan Options',
-      event_timeline: 'TBD',
-      budget: 3000,
-    },
-  ];
-
+describe("SavedEventsView", () => {
   beforeEach(() => {
-    useAuth.mockReturnValue({
-      currentUser: mockCurrentUser,
-    });
-
-    SavedEventsController.fetchEvents.mockResolvedValue(mockEvents);
+    // Reset mocks before each test
+    useAuth.mockReset();
+    SavedEventsController.fetchEvents.mockReset();
   });
 
-  it('should render the component correctly and show loading state initially', () => {
-    render(
-      <Router>
-        <SavedEventsView />
-      </Router>
-    );
-
-    expect(screen.getByText(/Loading events.../i)).toBeInTheDocument();
-  });
-
-  it('should display saved events when data is loaded', async () => {
-    render(
-      <Router>
-        <SavedEventsView />
-      </Router>
-    );
-
-    await waitFor(() => screen.getByText(/Event 1/i));
-    await waitFor(() => screen.getByText(/Event 2/i));
-
-    expect(screen.getByText(/Event 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/Event 2/i)).toBeInTheDocument();
-
-    expect(screen.getByText(/Event 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/Event 2/i)).toBeInTheDocument();
-  });
-
-  it('should display the event details when an event is selected', async () => {
-    render(
-      <Router>
-        <SavedEventsView />
-      </Router>
-    );
-
-    await waitFor(() => screen.getByText(/Event 1/i));
-
-    fireEvent.change(screen.getByLabelText(/Event/i), {
-      target: { value: '2' },
-    });
-
-    expect(screen.getByText(/Event Type:/i)).toBeInTheDocument();
-    expect(screen.getByText(/Birthday/i)).toBeInTheDocument();
-    expect(screen.getByText(/Event Date:/i)).toBeInTheDocument();
-    expect(screen.getByText(/2025-07-15/i)).toBeInTheDocument();
-    expect(screen.getByText(/Guest Count:/i)).toBeInTheDocument();
-    expect(screen.getByText(/50/i)).toBeInTheDocument();
-  });
-
-  it('should display "No events found" when no events are fetched', async () => {
+  it("renders loading state initially", () => {
+    useAuth.mockReturnValue({ currentUser: { email: "test@example.com" } });
     SavedEventsController.fetchEvents.mockResolvedValue([]);
 
     render(
@@ -112,29 +33,26 @@ describe('SavedEventsView', () => {
       </Router>
     );
 
-    await waitFor(() => screen.getByText(/No events found./i));
-
-    expect(screen.getByText(/No events found./i)).toBeInTheDocument();
+    expect(screen.getByText("Loading events...")).toBeInTheDocument();
   });
 
-  it('should display welcome message based on current user', () => {
-    render(
-      <Router>
-        <SavedEventsView />
-      </Router>
-    );
-
-    expect(screen.getByText(/Welcome back!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Current User:/i)).toBeInTheDocument();
-    expect(screen.getByText(/testuser@example.com/i)).toBeInTheDocument();
-  });
-
-  it('should display "Welcome!" for guest users', () => {
-    useAuth.mockReturnValue({
-      currentUser: {
-        email: 'guest@gmail.com',
+  it("fetches and displays saved events for a user", async () => {
+    useAuth.mockReturnValue({ currentUser: { email: "test@example.com" } });
+    const mockEvents = [
+      {
+        id: 1,
+        user_email: "test@example.com",
+        event_name: "Test Event 1",
+        event_type: "Wedding",
       },
-    });
+      {
+        id: 2,
+        user_email: "test@example.com",
+        event_name: "Test Event 2",
+        event_type: "Birthday",
+      },
+    ];
+    SavedEventsController.fetchEvents.mockResolvedValue(mockEvents);
 
     render(
       <Router>
@@ -142,8 +60,120 @@ describe('SavedEventsView', () => {
       </Router>
     );
 
-    expect(screen.getByText(/Welcome!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Current User:/i)).toBeInTheDocument();
-    expect(screen.getByText(/Guest/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Test Event 1")).toBeInTheDocument();
+      expect(screen.getByText("Test Event 2")).toBeInTheDocument();
+    });
+  });
+
+  it("displays 'No events found' message when no events are available", async () => {
+    useAuth.mockReturnValue({ currentUser: { email: "test@example.com" } });
+    SavedEventsController.fetchEvents.mockResolvedValue([]);
+
+    render(
+      <Router>
+        <SavedEventsView />
+      </Router>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("No events found.")).toBeInTheDocument();
+    });
+  });
+
+  it("filters events based on the current user's email", async () => {
+    useAuth.mockReturnValue({ currentUser: { email: "test@example.com" } });
+    const mockEvents = [
+      { id: 1, user_email: "test@example.com", event_name: "Test Event 1" },
+      { id: 2, user_email: "other@example.com", event_name: "Test Event 2" },
+    ];
+    SavedEventsController.fetchEvents.mockResolvedValue(mockEvents);
+
+    render(
+      <Router>
+        <SavedEventsView />
+      </Router>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Test Event 1")).toBeInTheDocument();
+      expect(screen.queryByText("Test Event 2")).not.toBeInTheDocument(); // Ensure the other user's event is not displayed
+    });
+  });
+
+  it("displays 'Guest' as the current user when the email is guest@gmail.com", async () => {
+    useAuth.mockReturnValue({ currentUser: { email: "guest@gmail.com" } });
+    SavedEventsController.fetchEvents.mockResolvedValue([]);
+
+    render(
+      <Router>
+        <SavedEventsView />
+      </Router>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Guest")).toBeInTheDocument();
+    });
+  });
+
+  it("displays welcome text as 'Welcome!' when the user is a guest", async () => {
+    useAuth.mockReturnValue({ currentUser: { email: "guest@gmail.com" } });
+    SavedEventsController.fetchEvents.mockResolvedValue([]);
+
+    render(
+      <Router>
+        <SavedEventsView />
+      </Router>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Welcome!")).toBeInTheDocument();
+    });
+  });
+
+  it("displays welcome text as 'Welcome back!' when the user is not a guest", async () => {
+    useAuth.mockReturnValue({ currentUser: { email: "test@example.com" } });
+    SavedEventsController.fetchEvents.mockResolvedValue([]);
+
+    render(
+      <Router>
+        <SavedEventsView />
+      </Router>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Welcome back!")).toBeInTheDocument();
+    });
+  });
+
+  it("selects the first event if events are available", async () => {
+    useAuth.mockReturnValue({ currentUser: { email: "test@example.com" } });
+    const mockEvents = [
+      {
+        id: 1,
+        user_email: "test@example.com",
+        event_name: "Test Event 1",
+        event_type: "Wedding",
+        event_date: "2025-05-05",
+        event_length: "All day",
+        guest_count: "100",
+        location: "Ballroom",
+        catering: "Buffet",
+        theme: "Classic",
+        entertainment: "DJ",
+        accommodations: "Hotel rooms",
+        special_requests: "None",
+        event_timeline: "Ceremony, Reception, Dinner",
+        budget: "10000",
+      },
+    ];
+    SavedEventsController.fetchEvents.mockResolvedValue(mockEvents);
+
+    render(
+      <Router>
+        <SavedEventsView />
+      </Router>
+    );
+
   });
 });

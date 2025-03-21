@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import React from "react";
 
-// Import the component to test (after all mocks are set up)
+
 import LoginView from "../views/LoginView";
 import DashboardView from "../views/DashboardView";
 

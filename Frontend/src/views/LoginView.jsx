@@ -12,7 +12,7 @@ const LoginView = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignupClick = () => {
     navigate("/signup");

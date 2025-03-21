@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuthController } from "../controllers/AuthController";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import "../styles/login.css";
 import { useAuth } from "../context/AuthContext";
@@ -55,11 +55,9 @@ const LoginView = () => {
             </p>
             <div className="auth-buttons">
               <button type="submit">Login</button>
-              <button className="signup-button">
-                <Link to="/signup" className="signup-link">
-                  Signup
-                </Link>
-              </button>
+              <button className="signup-button" onClick={() => navigate("/signup")}>
+                Signup
+                </button>
             </div>
 
             {errorMsg && <p className="error">{errorMsg}</p>}

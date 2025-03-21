@@ -1,3 +1,12 @@
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import React from "react";
+
+// Import the component to test (after all mocks are set up)
+import LoginView from "../views/LoginView";
+import DashboardView from "../views/DashboardView";
+
+
 // Mock CSS files - these must be the first jest.mocks
 jest.mock("../styles/main.css", () => ({}), { virtual: true });
 jest.mock("../styles/login.css", () => ({}), { virtual: true });
@@ -10,7 +19,6 @@ const mockLoginAsGuest = jest.fn().mockResolvedValue(true);
 
 // Mock modules with explicit references to our mock functions
 jest.mock("react-router-dom", () => ({
-  // Don't use requireActual, just mock what we need
   BrowserRouter: ({ children }) => children,
   Routes: ({ children }) => children,
   Route: ({ children }) => children,
@@ -36,24 +44,15 @@ jest.mock("../controllers/AuthController", () => ({
 
 // Mock DashboardView to call navigate('/login') when rendered
 jest.mock("../views/DashboardView", () => {
+  const React = jest.requireActual("react"); // Import React dynamically
   return function MockDashboardView() {
     const navigate = require("react-router-dom").useNavigate();
-    // Call navigate in useEffect to avoid calling during render
-    require("react").useEffect(() => {
+    React.useEffect(() => {
       navigate("/login");
     }, [navigate]);
     return <div>Dashboard</div>;
   };
 });
-
-// Import testing utilities
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import React from "react";
-
-// Import the component to test (after all mocks are set up)
-import LoginView from "../views/LoginView";
-import DashboardView from "../views/DashboardView";
-import SignupView from "../views/SignupView";
 
 // Basic test suite for LoginView
 describe("LoginView Tests", () => {
@@ -63,15 +62,7 @@ describe("LoginView Tests", () => {
 
   // Simple smoke test to verify the component can render
   test("component renders without crashing", () => {
-    try {
-      render(<LoginView />);
-      // If we get here without error, the test passes
-      expect(true).toBeTruthy();
-    } catch (error) {
-      console.error("Render error:", error);
-      // This will fail the test if render throws
-      expect(error).toBeUndefined();
-    }
+    expect(() => render(<LoginView />)).not.toThrow();
   });
 
   // Test the mock functions directly
@@ -93,22 +84,21 @@ describe("LoginView Tests", () => {
     expect(mockSetIsGuest).toHaveBeenCalledWith(true);
   });
 
-  // Test Case 1: Successful Login with Valid Credentials
+  // Test Case 1.1: Successful Login with Valid Credentials
   test("should log in successfully with valid credentials and redirect to dashboard", async () => {
     render(<LoginView />);
 
     // Get elements using more specific selectors
     const emailInput = screen.getByPlaceholderText("Email Address");
     const passwordInput = screen.getByPlaceholderText("Password");
-    // Use a more specific selector for the login button
     const loginButton = screen.getByRole("button", { name: /login/i });
 
     // Fill in the email and password fields
     fireEvent.change(emailInput, {
-      target: { value: "mariemouertatani01@gmail.com" },
+      target: { value: "test@example.com" },
     });
     fireEvent.change(passwordInput, {
-      target: { value: "123456" },
+      target: { value: "password123" },
     });
 
     // Click the login button
@@ -116,41 +106,45 @@ describe("LoginView Tests", () => {
 
     // Wait for the login process to complete
     await waitFor(() => {
-      expect(mockLoginWithEmail).toHaveBeenCalledWith("mariemouertatani01@gmail.com", "123456");
+      expect(mockLoginWithEmail).toHaveBeenCalledWith("test@example.com", "password123");
+    });
+
+    await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/");
     });
   });
 
-  // Test Case 2: Failed Login with Invalid Credentials
-  test("should handle login failure", async () => {
-    // Setup mock to simulate login failure
-    mockLoginWithEmail.mockRejectedValueOnce(new Error("Invalid email or password"));
+  // Test Case 1.2: Failed Login with Invalid Credentials
+    test("should display an error message when login fails with invalid credentials", async () => {
+    // Setup mock to simulate Firebase login failure
+    mockLoginWithEmail.mockRejectedValueOnce(new Error("Firebase: Error (auth/invalid-credential)"));
 
     render(<LoginView />);
 
     // Get elements using more specific selectors
     const emailInput = screen.getByPlaceholderText("Email Address");
     const passwordInput = screen.getByPlaceholderText("Password");
-    // Use a more specific selector for the login button
     const loginButton = screen.getByRole("button", { name: /login/i });
 
-    fireEvent.change(emailInput, {
-      target: { value: "invalid@example.com" },
-    });
-    fireEvent.change(passwordInput, {
-      target: { value: "wrongpassword" },
-    });
+    fireEvent.change(emailInput, { target: { value: "invalid@example.com" } });
+    fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
 
     // Click the login button
     fireEvent.click(loginButton);
 
     // Check that the login function was called with the wrong credentials
     await waitFor(() => {
-      expect(mockLoginWithEmail).toHaveBeenCalledWith("invalid@example.com", "wrongpassword");
+        expect(mockLoginWithEmail).toHaveBeenCalledWith("invalid@example.com", "wrongpassword");
     });
-  });
 
-  // Test Case 3: Login as Guest
+    // Check that the Firebase error message is displayed
+    await waitFor(() => {
+        expect(screen.getByText("Firebase: Error (auth/invalid-credential)")).toBeInTheDocument();
+    });
+    });
+
+
+  // Test Case 1.3: Login as Guest
   test("should log in as a guest and redirect to dashboard", async () => {
     render(<LoginView />);
 
@@ -161,12 +155,30 @@ describe("LoginView Tests", () => {
     // Wait for the guest login process to complete
     await waitFor(() => {
       expect(mockLoginAsGuest).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
       expect(mockSetIsGuest).toHaveBeenCalledWith(true);
+    });
+
+    await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/");
     });
   });
 
-  // Test Case 5: Redirect to Login Page if Not Authenticated
+  // Test Case 2.1: Navigation to Signup Page
+  test("should navigate to the signup page when the signup button is clicked", () => {
+    render(<LoginView />);
+
+    // Find the signup button
+    const signupButton = screen.getByRole("button", { name: /signup/i });
+    fireEvent.click(signupButton);
+
+    // Verify navigation to the signup page
+    expect(mockNavigate).toHaveBeenCalledWith("/signup");
+  });
+
+  // Test Case 2.2: Redirect to Login Page if Not Authenticated
   test("should redirect to the login page if the user is not authenticated", async () => {
     // Render the dashboard component which should redirect if not authenticated
     render(<DashboardView />);
@@ -175,5 +187,22 @@ describe("LoginView Tests", () => {
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/login");
     });
+  });
+
+  // Test Case 3.1: Responsive Design on Mobile Devices
+  test("should display the login form correctly on mobile devices", async () => {
+    // Mock window.innerWidth to simulate a mobile device
+    global.innerWidth = 500;
+    global.dispatchEvent(new Event("resize"));
+
+    render(<LoginView />);
+
+    // Check that the image is hidden
+    const image = screen.getByAltText('Login Illustration');
+    console.log('Computed display:',window.getComputedStyle(image).display);
+
+    await waitFor(() => {
+      expect(window.getComputedStyle(image).display).toBe('none');
+      })
   });
 });

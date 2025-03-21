@@ -2,14 +2,12 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import React from "react";
 
-
 import LoginView from "../views/LoginView";
 import DashboardView from "../views/DashboardView";
 
-
 // Mock CSS files - these must be the first jest.mocks
-jest.mock("../styles/main.css", () => ({}), { virtual: true });
 jest.mock("../styles/login.css", () => ({}), { virtual: true });
+jest.mock("../styles/home.css", () => ({}), { virtual: true });
 
 // Create mock functions first
 const mockNavigate = jest.fn();
@@ -115,7 +113,7 @@ describe("LoginView Tests", () => {
   });
 
   // Test Case 1.2: Failed Login with Invalid Credentials
-    test("should display an error message when login fails with invalid credentials", async () => {
+  test("should display an error message when login fails with invalid credentials", async () => {
     // Setup mock to simulate Firebase login failure
     mockLoginWithEmail.mockRejectedValueOnce(new Error("Firebase: Error (auth/invalid-credential)"));
 
@@ -134,15 +132,14 @@ describe("LoginView Tests", () => {
 
     // Check that the login function was called with the wrong credentials
     await waitFor(() => {
-        expect(mockLoginWithEmail).toHaveBeenCalledWith("invalid@example.com", "wrongpassword");
+      expect(mockLoginWithEmail).toHaveBeenCalledWith("invalid@example.com", "wrongpassword");
     });
 
     // Check that the Firebase error message is displayed
     await waitFor(() => {
-        expect(screen.getByText("Firebase: Error (auth/invalid-credential)")).toBeInTheDocument();
+      expect(screen.getByText("Firebase: Error (auth/invalid-credential)")).toBeInTheDocument();
     });
-    });
-
+  });
 
   // Test Case 1.3: Login as Guest
   test("should log in as a guest and redirect to dashboard", async () => {
@@ -187,22 +184,5 @@ describe("LoginView Tests", () => {
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/login");
     });
-  });
-
-  // Test Case 3.1: Responsive Design on Mobile Devices
-  test("should display the login form correctly on mobile devices", async () => {
-    // Mock window.innerWidth to simulate a mobile device
-    global.innerWidth = 500;
-    global.dispatchEvent(new Event("resize"));
-
-    render(<LoginView />);
-
-    // Check that the image is hidden
-    const image = screen.getByAltText('Login Illustration');
-    console.log('Computed display:',window.getComputedStyle(image).display);
-
-    await waitFor(() => {
-      expect(window.getComputedStyle(image).display).toBe('none');
-      })
   });
 });

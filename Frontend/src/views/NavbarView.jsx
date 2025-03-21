@@ -51,13 +51,13 @@ const Navbar = () => {
       </div>
       <div className="nav-center">
         <Link to="/home" style={{ textDecoration: "none" }}>
-          <h2 className="nav-title">Occasio AI</h2>
+          <h2 className="nav-title">Occasio</h2>
         </Link>
       </div>
       <div className="nav-right">
         {currentUser ? (
           <>
-            👤 {currentUser?.email?.toLowerCase() === "guest@gmail.com" ? "Guest" : currentUser?.email}
+            {currentUser?.email?.toLowerCase() === "guest@gmail.com" ? "Guest" : currentUser?.email} 👤
             <button className="hide" onClick={handleLogout}>
               Logout
             </button>

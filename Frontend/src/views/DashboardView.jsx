@@ -49,7 +49,6 @@ const DashboardView = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="homepage-background">
         <div className="homepage-container">
           {/* Top Left: Text Section */}
           <div className="homepage-text">
@@ -81,18 +80,18 @@ const DashboardView = () => {
             <h3>How it Works</h3>
             <ol>
               <li>
-                <strong>Plan Your Event:</strong> Enter event details and
+                <strong> Plan Your Event:</strong> Enter event details and
                 preferences.
               </li>
               <li>
-                <strong>Get Recommendations:</strong> Receive personalized
+                <strong> Get Recommendations:</strong> Receive personalized
                 suggestions for venues, catering, and more.
               </li>
               <li>
-                <strong>Create Custom Invitations</strong>
+                <strong> Create Custom Invitations</strong>
               </li>
               <li>
-                <strong>Manage Guests:</strong> Send invites and track RSVPs
+                <strong> Manage Guests:</strong> Send invites and track RSVPs
                 effortlessly.
               </li>
             </ol>
@@ -120,17 +119,6 @@ const DashboardView = () => {
             </div>
           </div>
         </div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-      </div>
       <FooterView></FooterView>
     </div>
   );

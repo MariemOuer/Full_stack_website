@@ -14,6 +14,10 @@ const LoginView = () => {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -25,11 +29,11 @@ const LoginView = () => {
   };
 
   const handleGuestLogin = async (e) => {
-    e.preventDefault(); // Prevents link from redirecting immediately
+    e.preventDefault();
     try {
       await loginAsGuest();
-      setIsGuest(true); // Set guest mode
-      navigate("/"); // Redirect after successful guest login
+      setIsGuest(true);
+      navigate("/");
     } catch (error) {
       setErrorMsg(error.message);
     }
@@ -54,11 +58,9 @@ const LoginView = () => {
               </a>
             </p>
             <div className="auth-buttons">
-              <button type="submit">Login</button>
-              <button className="signup-button">
-                <Link to="/signup" className="signup-link">
-                  Signup
-                </Link>
+              <button type="submit" className="login-button">Login</button>
+              <button className="signup-button" onClick={handleSignupClick}>
+                Signup
               </button>
             </div>
 

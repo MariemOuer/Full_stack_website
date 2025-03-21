@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 50px;
+  padding: 1% 8% 1% 8%;
   background-color: #D72638; 
   color: #f9f4eb;
   font-size: 16px;
@@ -10,20 +10,25 @@
 
 .footer-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
-  max-width: 1200px;
+}
+
+.footer-lower {
+  display: flex;
+  flex-direction: row;
 }
 
 .footer-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  margin-right: 100px;
 }
 
-.footer-section h3 {
+.footer-container h3 {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: normal;
+  font-family: "Merriweather", serif;
   margin-bottom: 10px;
 }
 
@@ -34,57 +39,7 @@
 .footer-section a {
   text-decoration: none;
   color: #f9f4eb;
-  font-weight: 500;
-}
-
-.footer-section a:hover {
-  text-decoration: underline;
-}
-
-.footer-bottom {
-  margin-top: 15px;
-  font-size: 14px;
-  text-align: center;
-}
-
-
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 50px;
-  background-color: #D72638; 
-  color: #f9f4eb;
-  font-size: 16px;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.footer-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.footer-section h3 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.footer-section p {
-  margin: 0;
-}
-
-.footer-section a {
-  text-decoration: none;
-  color: #f9f4eb;
-  font-weight: 500;
+  font-weight: normal;
 }
 
 .footer-section a:hover {
@@ -112,6 +67,11 @@
 
   .footer-section {
     text-align: center;
+    margin: 0 0 20px 0;
+  }
+
+  .footer-lower {
+    flex-direction: column;
   }
 
   .footer-section h3 {

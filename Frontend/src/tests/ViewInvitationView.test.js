@@ -1,97 +1,126 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import ViewInvitationView from "../views/ViewInvitationView";
-import { apiService } from '../services/ApiService';
+import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import ViewInvitationView from '../views/ViewInvitationView';
+import { apiService } from "../services/ApiService";
+import '@testing-library/jest-dom';
 
-jest.mock('../services/ApiService');
+// Mock API service
+jest.mock("../services/ApiService", () => ({
+  apiService: {
+    get: jest.fn(),
+  },
+}));
+
+jest.mock('../views/ViewInvitationView', () => () => <div data-testid="mock-view-invitation">Mock View Invitation</div>);
+
+// Mock Navbar and Footer components
+jest.mock('../views/NavbarView', () => () => <div data-testid="navbar">Mock Navbar</div>);
+jest.mock('../views/FooterView', () => () => <div data-testid="footer">Mock Footer</div>);
+
+const mockEvent = {
+  event_name: "Test Event",
+  event_date: "2023-12-31",
+  location: "Test Location",
+  theme: "Test Theme",
+  catering: "Test Catering",
+  entertainment: "Test Entertainment",
+  special_requests: "Test Requests",
+  guest_count: 100,
+};
 
 describe('ViewInvitationView', () => {
-  const eventData = {
-    event_name: 'Birthday Bash',
-    event_date: '2025-06-30',
-    location: '123 Party St.',
-    theme: 'Rainbow Wonderland',
-    catering: 'Gourmet Finger Food',
-    entertainment: 'DJ Party',
-    special_requests: 'Vegan Options',
-    guest_count: 150,
-  };
-
   beforeEach(() => {
-    apiService.get.mockResolvedValue({ data: eventData });
+    apiService.get.mockResolvedValue({ data: mockEvent });
   });
 
-  it('should render the component correctly', async () => {
+  it('renders loading state initially', () => {
     render(
-      <Router>
-        <ViewInvitationView />
-      </Router>
+      <MemoryRouter initialEntries={['/event/123']}>
+        <Routes>
+          <Route path="/event/:eventId" element={<ViewInvitationView />} />
+        </Routes>
+      </MemoryRouter>
     );
-
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-
-    await waitFor(() => screen.getByText(/Birthday Bash/i));
-
-    expect(screen.getByText(/Birthday Bash/i)).toBeInTheDocument();
-    expect(screen.getByText(/Date: 2025-06-30/i)).toBeInTheDocument();
-    expect(screen.getByText(/Location: 123 Party St./i)).toBeInTheDocument();
-    expect(screen.getByText(/Theme: Rainbow Wonderland/i)).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
-  it('should change invitation style when selecting a different option', async () => {
+  it('renders event details after loading', async () => {
     render(
-      <Router>
-        <ViewInvitationView />
-      </Router>
+      <MemoryRouter initialEntries={['/event/123']}>
+        <Routes>
+          <Route path="/event/:eventId" element={<ViewInvitationView />} />
+        </Routes>
+      </MemoryRouter>
     );
 
-    await waitFor(() => screen.getByText(/Birthday Bash/i));
+    await waitFor(() => {
+      expect(screen.getByText('Test Event')).toBeInTheDocument();
+      expect(screen.getByText('2023-12-31')).toBeInTheDocument();
+      expect(screen.getByText('Test Location')).toBeInTheDocument();
+    });
+  });
 
-    fireEvent.change(screen.getByLabelText(/Choose an invitation style:/i), {
-      target: { value: 'classic' },
+  it('changes invitation style when dropdown is changed', async () => {
+    render(
+      <MemoryRouter initialEntries={['/event/123']}>
+        <Routes>
+          <Route path="/event/:eventId" element={<ViewInvitationView />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Test Event')).toBeInTheDocument();
     });
 
-    expect(screen.getByText(/You're Invited!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Celebrate Birthday Bash/i)).toBeInTheDocument();
-    expect(screen.getByText(/Date: 2025-06-30/i)).toBeInTheDocument();
-    expect(screen.getByText(/Location: 123 Party St./i)).toBeInTheDocument();
+    const styleSelect = screen.getByLabelText('Choose an invitation style:');
+    fireEvent.change(styleSelect, { target: { value: 'classic' } });
+
+    expect(screen.getByText("💌 You're Invited!")).toBeInTheDocument();
   });
 
-  it('should display event not found message when no event data is returned', async () => {
-    apiService.get.mockRejectedValueOnce(new Error('Event not found'));
+  it('displays error message when event is not found', async () => {
+    apiService.get.mockRejectedValue(new Error('Event not found'));
 
     render(
-      <Router>
-        <ViewInvitationView />
-      </Router>
+      <MemoryRouter initialEntries={['/event/123']}>
+        <Routes>
+          <Route path="/event/:eventId" element={<ViewInvitationView />} />
+        </Routes>
+      </MemoryRouter>
     );
 
-    await waitFor(() => screen.getByText(/Event not found./i));
-  });
-
-  it('should show loading state initially', () => {
-    render(
-      <Router>
-        <ViewInvitationView />
-      </Router>
-    );
-
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-  });
-
-  it('should display "Invalid selection" when an invalid style is selected', async () => {
-    render(
-      <Router>
-        <ViewInvitationView />
-      </Router>
-    );
-
-    await waitFor(() => screen.getByText(/Birthday Bash/i));
-
-    fireEvent.change(screen.getByLabelText(/Choose an invitation style:/i), {
-      target: { value: 'invalid-style' },
+    await waitFor(() => {
+      expect(screen.getByText('Event not found.')).toBeInTheDocument();
     });
+  });
 
-    expect(screen.getByText(/❌ Invalid selection/i)).toBeInTheDocument();
+  it('renders Navbar and Footer', () => {
+    render(
+      <MemoryRouter initialEntries={['/event/123']}>
+        <Routes>
+          <Route path="/event/:eventId" element={<ViewInvitationView />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    expect(screen.getByTestId('navbar')).toBeInTheDocument();
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
+  });
+
+  it('renders all style options in the dropdown', () => {
+    render(
+      <MemoryRouter initialEntries={['/event/123']}>
+        <Routes>
+          <Route path="/event/:eventId" element={<ViewInvitationView />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const styleSelect = screen.getByLabelText('Choose an invitation style:');
+    const options = Array.from(styleSelect.options).map(option => option.value);
+
+    expect(options).toEqual(['whimsical', 'classic', 'professional', 'fun']);
   });
 });

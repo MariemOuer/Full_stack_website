@@ -24,7 +24,10 @@ export const chatbotController = {
 
 // Helper function
 function aiSuggestionsToArray(text) {
-  return text
+  // Remove the reasoning part of the text
+  const reasoningRemoved = text.replace(/<reasoning>[\s\S]*?<\/reasoning>/g, "");
+
+  return reasoningRemoved
     .split("\n")
     .filter((line) => /\s*-\s*Option\s*\d+:/.test(line))
     .map((line) => line.replace(/.*-\s*Option\s*\d+:\s*/, "").trim())

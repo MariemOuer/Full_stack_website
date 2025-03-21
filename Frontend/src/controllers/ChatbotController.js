@@ -1,43 +1,32 @@
-// controllers/ChatbotController.js
-
-import { apiService } from "../services/ApiService"; // Import the API service to make API calls
+import { ChatbotModel } from "../models/ChatbotModel";
 
 export const chatbotController = {
-  // Get suggestions from the backend based on context and the current question
   async getSuggestions(contextText, question) {
     try {
-      const response = await apiService.post("/suggestions", {
-        context: contextText,
-        question,
-      });
-
-      // If suggestions are returned, process them into an array
-      return response.data.suggestions
-        ? aiSuggestionsToArray(response.data.suggestions)
-        : [];
+      const suggestionsText = await ChatbotModel.getSuggestions(contextText, question);
+      return aiSuggestionsToArray(suggestionsText);
     } catch (err) {
       console.error("Error retrieving suggestions from backend", err);
-      return []; // Return an empty array if an error occurs
+      return [];
     }
   },
 
-  // Save the event data to the backend
   async saveEvent(eventData) {
     try {
-      const response = await apiService.post("/save-event", eventData);
-      return response.data.message; // Return the success message from the backend
+      const message = await ChatbotModel.saveEventToDatabase(eventData);
+      return message;
     } catch (error) {
       console.error("Error saving event:", error);
-      return "Failed to save event. Please try again."; // Return error message if saving fails
+      return "Failed to save event. Please try again.";
     }
   },
 };
 
-// Helper function to convert AI suggestion text into an array of suggestions
+// Helper function
 function aiSuggestionsToArray(text) {
   return text
     .split("\n")
-    .filter((line) => line.trim().startsWith("- Option"))
-    .map((line) => line.replace(/^- Option\s*\d+:\s*/, "").trim())
+    .filter((line) => /\s*-\s*Option\s*\d+:/.test(line))
+    .map((line) => line.replace(/.*-\s*Option\s*\d+:\s*/, "").trim())
     .filter(Boolean);
 }

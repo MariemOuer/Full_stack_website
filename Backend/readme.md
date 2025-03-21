@@ -1,7 +1,7 @@
-# 🚀 Express API - Vercel Deployment Guide
+#  Express API - Vercel Deployment Guide
 
 // RUN THE BACKEND 
-## 🏃‍♂️ Run Locally
+##  Run Locally
 Install dependencies (if needed): npm install
 Start the development server: node index.js
 Open your browser and visit: http://localhost:3000
@@ -33,4 +33,3 @@ vercel --prod
 To test if you have cors issues:
 curl -i [api] on your terminal
 
-🚀 Happy coding!

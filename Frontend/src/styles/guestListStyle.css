@@ -114,7 +114,7 @@
 }
 
 .add-guest-btn:hover {
-  background-color: #5A189A;
+  background-color: #b71c2c;
 }
 
 .dropdown-selector {
@@ -152,11 +152,11 @@
 }
 
 .send-reminder-btn:hover {
-  background-color: #5A189A;
+  background-color: #a71e2f;
 }
 
 .send-reminder-btn:active {
-  background-color: #5A189A;
+  background-color: #a71e2f;
 }
 
 /* Responsive Design */

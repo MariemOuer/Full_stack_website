@@ -1,48 +1,117 @@
+  /* General Styles */
   .invitation-box {
     max-width: 450px;
-    margin: 20px auto;
-    padding: 30px;
+    margin: auto;
+    padding: 50px;
     border-radius: 12px;
     text-align: center;
-    margin-left: 50px;
   }
-  
-  .whimsical {
+
+  .divider {
+    border-width: 0.5px;
+    margin: 20px 0;
+    border-top: 1px solid #ccc;
+  }
+
+  /* Whimsical Styles */
+  .whimsical-box {
+    font-family: 'Times New Roman', serif;
     background-color: #fefdf6;
+    color: #43634e;
     border: 1px solid #e3dec6;
-    font-family: "Times New Roman", serif;
-    color: #6c5a51;
+    padding: 50px;
   }
-  
-  .classic {
+
+  .whimsical-sub {
+    color: #64836f;
+    font-size: 20px;
+  }
+
+  .whimsical-text {
+    color: #64836f;
+    font-size: 16px;
+  }
+
+  .whimsical-footer {
+    color: #64836f;
+    font-size: 12px;
+  }
+
+  /* Classic Styles */
+  .classic-box {
+    font-family: 'Georgia', serif;
     background-color: #fff7f3;
+    color: #d16a6a;
     border: 1px solid #e4d7d3;
-    font-family: "Georgia", serif;
-    color: #5e4a4a;
+    padding: 50px;
   }
-  
-  .professional {
+
+  .classic-sub {
+    color: #8a6d6d;
+    font-size: 20px;
+  }
+
+  .classic-text {
+    color: #8a6d6d;
+    font-size: 16px;
+  }
+
+  .classic-footer {
+    color: #8a6d6d;
+    font-size: 12px;
+  }
+
+  /* Professional Styles */
+  .professional-box {
+    font-family: 'Arial', sans-serif;
     background-color: #ffffff;
+    color: #2172ec;
     border: 1px solid #dcdcdc;
-    font-family: "Arial", sans-serif;
-    color: #333;
+    padding: 50px;
   }
-  
-  .fun {
+
+  .professional-sub {
+    color: #555;
+    font-size: 20px;
+  }
+
+  .professional-text {
+    color: #555;
+    font-size: 16px;
+  }
+
+  .professional-footer {
+    color: #9c9c9c;
+    font-size: 12px;
+  }
+
+  /* Fun Styles */
+  .fun-box {
+    font-family: 'Poppins', Arial, sans-serif;
     background-color: #ffffff;
-    border: 1.5px solid #007bff;
-    font-family: "Poppins", Arial, sans-serif;
-    color: #007bff;
+    color: #cd645c;
+    border: 1.5px solid #EB726A;
+    padding: 50px;
   }
-  
+
+  .fun-sub {
+    color: #555;
+    font-size: 20px;
+  }
+
+  .fun-text {
+    color: #555;
+    font-size: 16px;
+  }
+
+  .fun-footer {
+    color: #555;
+    font-size: 12px;
+  }
+
   .invitation-box h1 {
-    font-size: 28px;
+    font-size: 32px;
     margin-bottom: 15px;
-  }
-  
-  .invitation-box p {
-    font-size: 18px;
-    margin-bottom: 10px;
   }
   
   .invitation-box .divider {

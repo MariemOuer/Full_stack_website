@@ -19,12 +19,13 @@ ${question}
 Please provide exactly 3 suggestions in the following format:
 - Option 1: [suggestion]`;
 
-    const OPENROUTER_API_KEY = "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";
+    const OPENROUTER_API_KEY = "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";
 
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "rekaai/reka-flash-3:free",
+        model: "mistralai/mistral-small-3.1-24b-instruct:free",
+        models: ["deepseek/deepseek-r1-zero:free", "rekaai/reka-flash-3:free"],
         messages: [{ role: "user", content: prompt }],
       },
       {

@@ -105,10 +105,11 @@ const ChatbotView = () => {
           .join("\n");
       }
 
-      var extractedSuggestions = [];
+      let extractedSuggestions = [];
       // Key change: Loop until suggestions are extracted
       while (extractedSuggestions.length < minNumberOfSuggestions) {
         extractedSuggestions = await chatbotController.getSuggestions(contextText, questions[currentQuestion]);
+        delay(1000);
       }
 
       setSuggestions(extractedSuggestions);

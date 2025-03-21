@@ -33,27 +33,34 @@ jest.mock("react-router-dom", () => ({
 describe('FooterView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    render(
+  });
+
+  const renderFooterView = () => {
+    return render(
       <Router>
         <FooterView />
       </Router>
     );
-  });
+  };
 
   it('renders the Occasio title', () => {
+    renderFooterView();
     expect(screen.getByText('Occasio')).toBeInTheDocument();
   });
 
   it('displays the contact information', () => {
+    renderFooterView();
     expect(screen.getByText('Contact Us')).toBeInTheDocument();
     expect(screen.getByText('occasio.planner@gmail.com')).toBeInTheDocument();
   });
 
   it('renders the Navigation section', () => {
+    renderFooterView();
     expect(screen.getByText('Navigation')).toBeInTheDocument();
   });
 
   it('contains links to Chat Prompt, Create Invitation, and Invite Guests', () => {
+    renderFooterView();
     // Find the links by their text content
     const chatPrompt = screen.getByRole('link', { name: /Chat Prompt/i });
     const createInvitation = screen.getByRole('link', { name: /Create Invitation/i });
@@ -66,6 +73,7 @@ describe('FooterView', () => {
   });
 
   it('navigates to the correct pages when links are clicked', () => {
+    renderFooterView();
     // Find the links by their text content
     const chatPrompt = screen.getByRole('link', { name: /Chat Prompt/i });
     const createInvitation = screen.getByRole('link', { name: /Create Invitation/i });
@@ -83,18 +91,22 @@ describe('FooterView', () => {
   });
 
   it('displays the copyright notice', () => {
+    renderFooterView();
     expect(screen.getByText('2025. Occasio. All Rights Reserved.')).toBeInTheDocument();
   });
 
   it('renders within a footer element', () => {
+    renderFooterView();
     const footerElement = screen.getByRole('contentinfo');
     expect(footerElement).toBeInTheDocument();
     expect(footerElement).toHaveClass('footer');
   });
 
   it('contains two main sections: footer-container and footer-bottom', () => {
-    const footerContainer = screen.getByText('Occasio').closest('.footer-container');
-    const footerBottom = screen.getByText('2025. Occasio. All Rights Reserved.').closest('.footer-bottom');
+    renderFooterView();
+    // Use Testing Library queries to find elements
+    const footerContainer = screen.getByTestId('footer-container');
+    const footerBottom = screen.getByTestId('footer-bottom');
 
     expect(footerContainer).toBeInTheDocument();
     expect(footerBottom).toBeInTheDocument();

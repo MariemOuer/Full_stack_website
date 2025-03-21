@@ -1,3 +1,10 @@
+.signup-page {
+  background-color: #f9f4eb;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+
+}
 .signup-page h2 {
   color: #5A189A;
   font-weight: bold;
@@ -10,6 +17,8 @@
   margin: 100px 0 0 250px;
   padding: 20px;
   background: none;
+  height: auto;
+  min-height: 400px;
   box-shadow: none;
   position: relative; 
 }
@@ -19,8 +28,8 @@
   position: absolute;
   top: 100px;
   right: -500px;
-  width: 300px;
-  height: 300px;
+  width: 380px;
+  height: 400px;
   background: url("/public/signup.png") no-repeat center center;
   background-size: contain; 
 }
@@ -41,12 +50,14 @@
 .signup-page input[type="password"],
 .signup-page input[type="tel"] {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
-  border: 2px solid #D72638; 
-  background: #F7E8D7; 
+  border: 1px solid #D72638;
+  background: #f9f4eb;
   outline: none;
   color: #D72638;
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
 .signup-page input[type="text"]:focus,
@@ -70,8 +81,8 @@
 
 .signup-page .auth-buttons {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 10px;
   margin-top: 15px;
 }
 
@@ -84,27 +95,7 @@
   background-color: #D72638;
 }
 
-/* Guest login button */
-.signup-page .guest-btn {
-  background: none;
-  color: #D72638;
-  padding: 12px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 10px 0 0 0;
-  text-align: left;
-  width: auto;
-  margin-top: 10px;
-  width: 100%;
-  border-radius: 25px;
-}
 
-/* Guest button hover */
-.signup-page .guest-btn:hover {
-  background: #ba9d9d;
-}
 
 .signup-page input::placeholder {
   color: #D72638;
@@ -125,15 +116,18 @@
 
 /* for Very Small Screens */
 @media (max-width: 600px) {
+  .signup-page .login-wrapper {
+    flex-direction: column;
+    gap: 30px;
+  }
+
   .signup-page .auth-container {
-    max-width: 90%;
-    margin: 50px auto;
+    margin: 20px 0;
     padding: 15px;
-    text-align: center;
   }
 
   .signup-page h2 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .signup-page .auth-container::after {
@@ -159,10 +153,6 @@
     align-items: center;
   }
 
-  .signup-page .guest-btn {
-    font-size: 14px;
-    padding: 10px;
-  }
 
   .signup-page .registered-message {
     font-size: 14px;

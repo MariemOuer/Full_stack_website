@@ -1,4 +1,4 @@
-/* Ensure the navbar spans the full width at the top and remains fixed */
+
 
 .hide {
   color: #f9f4eb;
@@ -16,8 +16,8 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   top: 0;
   left: 0;
-  width: 100%; /* Full width */
-  z-index: 1000; /* Ensures the navbar is above other content */
+  width: 100%;
+  z-index: 1000;
 }
 
 /* Left & Right Section */
@@ -38,13 +38,11 @@
   position: relative;
 }
 
-/* Remove hover & transform effect from Logout */
 .nav-left a:hover,
 .nav-right a:hover {
   color: #a71e2f;
 }
 
-/* Logout button styled like a text link */
 .logout-btn {
   background: none;
   border: none;
@@ -55,43 +53,91 @@
   padding: 0;
 }
 
-/* Prevent button hover effects */
 .logout-btn:hover {
   color: #a71e2f;
   background-color: #f8f1e5;
 }
 
-/* Centered Title */
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .nav-center h2 {
   font-size: 24px;
   font-weight: bold;
   color: #d72638;
 }
 
-/* Profile Icon */
-.profile-icon {
-  font-size: 20px;
+/* Mobile Menu Toggle */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #d72638;
+  cursor: pointer;
+  padding: 10px;
 }
+
+/* Mobile Dropdown Menu */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  background: #f8f1e5;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.mobile-menu a, .mobile-menu button {
+  display: block;
+  color: #d72638;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
+}
+
+.mobile-menu a:hover, .mobile-menu button:hover {
+  background: #e0d5c7;
+
+
+}
+
+.menu-toggle:hover {
+  background-color: #d8c3a5; /* Dark beige */
+}
+
 
 /* Responsive Navbar */
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    padding: 10px;
-    text-align: center;
+  .menu-toggle {
+    display: block;
   }
-
-  .nav-left,
-  .nav-right {
-    justify-content: center;
-    width: 100%;
+  .nav-left, .nav-right {
+    display: none;
   }
-
+  .mobile-menu {
+    display: block;
+    
+  }
   .nav-center {
-    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
   }
-
-  .logout-btn {
-    font-size: 14px;
+  .navbar{
+    padding: 10% 8% 1% 3%;
+    
   }
 }

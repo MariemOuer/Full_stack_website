@@ -1,46 +1,40 @@
 /* Import Merriweather and Lato fonts */
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap');
 
-/* Set the background color for the entire page */
 .login-page {
   background-color: #f9f4eb;
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  min-height: 100vh; /* Ensure the background covers the full viewport height */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   display: flex;
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
-  font-family: 'Lato', sans-serif; /* Apply Lato font to all text */
+  justify-content: center;
+  align-items: center;
+  font-family: 'Lato', sans-serif;
 }
 
 .login-page .login-wrapper {
   width: 100%;
   display: flex;
-  justify-content: center; /* Center the wrapper horizontally */
-  align-items: center; /* Center the wrapper vertically */
-}
-
-.login-page .login-wrapper {
-  display: flex;
-  align-items: center; /* Center items vertically */
-  gap: 50px; /* Add space between the form and the image */
-  max-width: 1200px; /* Limit the maximum width of the wrapper */
-  width: 90%; /* Make the wrapper responsive */
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  max-width: 1000px;
+  width: 90%;
 }
 
 .login-page h2 {
   color: #5A189A;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: bold;
-  text-align: left; /* Left-align the heading */
-  font-family: 'Merriweather', serif; /* Apply Merriweather font to the heading */
+  text-align: left;
+  font-family: 'Merriweather', serif;
 }
 
 .login-page .auth-container {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
-  width: 100%; /* Make the container responsive */
+  max-width: 380px;
+  width: 100%;
   padding: 20px;
   background: none;
   box-shadow: none;
@@ -50,7 +44,7 @@
 .login-page .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .login-page label {
@@ -61,13 +55,14 @@
 .login-page input[type="email"],
 .login-page input[type="password"] {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   border: 1px solid #D72638;
   background: #f9f4eb;
   outline: none;
   color: #D72638;
-  margin-top: 15px;
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
 .login-page input[type="email"]:focus,
@@ -81,16 +76,16 @@
   font-size: 16px;
   background-color: #D72638;
   border: none;
-  color: #ffffff;
+  color: white;
   border-radius: 25px;
   cursor: pointer;
-  width: 100%; /* Make the button responsive */
-  max-width: 120px; /* Limit the button width */
-  margin-left: 50px; /* Add space between the text and the button */
+  width: 100%;
+  max-width: 140px;
+  margin-left: 20px;
 }
 
 .login-page button:hover {
-  background-color: #D72638;
+  background-color: #b71c2c;
 }
 
 .login-page input::placeholder {
@@ -103,17 +98,17 @@
 /* Auth buttons container */
 .login-page .auth-buttons {
   display: flex;
-  align-items: center; /* Vertically center items */
-  justify-content: space-between; /* Space out text and button */
+  align-items: center;
+  justify-content: space-between;
   margin-top: 15px;
 }
 
 /* Register link styling */
 .login-page .register-link {
   color: #D72638;
-  margin: 0; /* Remove default margin */
-  line-height: 1.5; /* Improve spacing between lines */
-  text-align: left; /* Align text to the left */
+  margin: 0;
+  line-height: 1.5;
+  text-align: left;
 }
 
 .login-page .register-link a {
@@ -122,62 +117,68 @@
 }
 
 .login-page .register-here {
-  white-space: nowrap; /* Prevent "Register Here" from breaking into multiple lines */
-  font-weight: bold; /* Bold "Register Here" */
+  white-space: nowrap;
+  font-weight: bold;
 }
 
 /* Login image styling */
 .login-page .login-image {
-  width: 300px; /* Set a fixed width for the image */
-  height: auto; /* Maintain aspect ratio */
-  margin-left: 50px; /* Push the image to the right */
-  margin-top: 20px; /* Push the image down slightly */
+  width: 250px;
+  height: auto;
+  margin-left: 30px;
+  margin-top: 10px;
 }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .login-page .login-wrapper {
-    flex-direction: column; /* Stack items vertically on smaller screens */
-    gap: 20px; /* Reduce space between items */
+    flex-direction: column;
+    gap: 30px;
   }
 
   .login-page .login-image {
-    display: none; /* Hide the image on smaller screens */
+    width: 180px;
+    margin-left: 0;
   }
 
   .login-page .auth-container {
-    margin: 20px 0; /* Adjust margin for smaller screens */
-    padding: 15px; /* Reduce padding for smaller screens */
+    margin: 20px 0;
+    padding: 15px;
   }
 
   .login-page button {
-    width: 100%; /* Make the button full width on smaller screens */
-    max-width: none; /* Remove max-width restriction */
+    width: 100%;
+    max-width: none;
   }
 }
 
 @media (max-width: 480px) {
   .login-page h2 {
-    font-size: 24px; /* Reduce heading size for very small screens */
+    font-size: 24px;
   }
 
   .login-page input[type="email"],
   .login-page input[type="password"] {
-    font-size: 14px; /* Reduce font size for inputs on very small screens */
+    font-size: 14px;
   }
 
   .login-page button {
-    font-size: 14px; /* Reduce button font size for very small screens */
+    font-size: 14px;
+  }
+  .login-image{
+    display: none; 
+
+
   }
 }
 
 .signup-link {
-  text-decoration: none; /* Removes underline */
-  color: white; /* Makes text white */
+  text-decoration: none;
+  color: white;
 }
 
 .signup-button {
-  background-color: #007bff; /* Adjust button color */
+  background-color: #007bff;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -185,5 +186,5 @@
 }
 
 .signup-button:hover .signup-link {
-  color: #f8f9fa; /* Slightly lighter white on hover */
+  color: #f8f9fa;
 }

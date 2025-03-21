@@ -127,6 +127,34 @@ router.post("/event/:eventId/add-guest", (req, res) => {
   });
 });
 
+// ✅ Cleanup guest session data before starting fresh
+router.post("/cleanup-guest", async (req, res) => {
+    const guestIdentifier = "Guest"; // <- matches user_email in your DB
+  
+    try {
+      // 1. Delete guests linked to guest-created events
+      await db.promise().query(
+        `DELETE FROM guests 
+         WHERE event_id IN (
+           SELECT id FROM event_responses WHERE user_email = ?
+         )`,
+        [guestIdentifier]
+      );
+  
+      // 2. Delete guest-created events
+      await db.promise().query(
+        `DELETE FROM event_responses WHERE user_email = ?`,
+        [guestIdentifier]
+      );
+  
+      res.status(200).json({ message: "Guest session cleaned successfully." });
+    } catch (err) {
+      console.error("❌ Error cleaning guest session:", err);
+      res.status(500).json({ message: "Failed to reset guest session." });
+    }
+  });
+  
+
 module.exports = router;
 
 

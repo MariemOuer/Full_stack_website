@@ -82,7 +82,7 @@ Keep each suggestion to a maximum of two sentences.`;
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "rekaai/reka-flash-3:free",
+        model: "mistralai/mistral-small-3.1-24b-instruct",
         messages: [{ role: "user", content: prompt }],
       },
       {
@@ -93,11 +93,7 @@ Keep each suggestion to a maximum of two sentences.`;
       }
     );
 
-    if (
-      response.data.choices &&
-      response.data.choices.length > 0 &&
-      response.data.choices[0].message
-    ) {
+    if (response.data.choices && response.data.choices.length > 0 && response.data.choices[0].message) {
       const suggestionText = response.data.choices[0].message.content;
       return res.json({ suggestions: suggestionText });
     } else {
@@ -114,26 +110,25 @@ module.exports = router;
 /**
  * This module defines the API route for generating event planning suggestions using OpenRouter AI.
  * It allows users to receive AI-generated suggestions for event-related queries in a structured format.
- * 
+ *
  * - `express.Router()`: Creates a new router instance for handling AI suggestion requests.
  * - `axios`: Used to send requests to the OpenRouter AI API.
  * - `dotenv`: Ensures environment variables (such as API keys) are properly loaded.
- * 
+ *
  * ## Route:
- * 
+ *
  * ### POST `/suggestions`
  * - Expects a `context` (event details) and a `question` (user query) in the request body.
  * - Constructs a structured prompt for the AI model to generate exactly **three suggestions**.
  * - Ensures that each suggestion is **limited to a maximum of two sentences** to prevent excessive response length.
  * - Calls OpenRouter AI’s API using the `"rekaai/reka-flash-3:free"` model.
  * - Returns the AI-generated suggestions in a structured JSON response.
- * 
+ *
  * ## Error Handling:
  * - Returns `400` if no question is provided in the request.
  * - Returns `500` if the AI response is invalid or unavailable.
  * - Logs errors if the API request fails or encounters unexpected issues.
- * 
- * This module enhances the event management system by leveraging AI-generated insights 
+ *
+ * This module enhances the event management system by leveraging AI-generated insights
  * to assist users in planning events more efficiently.
  */
-

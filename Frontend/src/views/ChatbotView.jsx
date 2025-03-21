@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/chatbotStyle.css";
 import Navbar from "./NavbarView";
 import FooterView from "./FooterView";
-import { checkIfCurrentUserIsGuest } from "../utils/GuestHelpers";
 
 const questions = [
   "Hello! My name is Optimo, your Occasio AI assistant to help you decide the details for your upcoming event! What type of event are you planning?",
@@ -22,14 +21,12 @@ const questions = [
   "Please provide a **timeline** of your event (e.g., First Hour: Drinks & Appetizers, Second Hour: Cake Cutting, etc.).",
 ];
 
-const initialQuestionIndex = 0;
-
 const ChatbotView = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const [messages, setMessages] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestion] = useState(initialQuestionIndex);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -96,15 +93,15 @@ const ChatbotView = () => {
     if (isIdkClicked) {
       // Build context from previous answers
       let contextText = "";
-      if (currentQuestionIndex > initialQuestionIndex) {
-        const previousUserAnswers = messages.filter((message) => message.sender === "user");
+      if (currentQuestion > 0) {
+        const previousUserAnswers = messages.filter((m) => m.sender === "user");
         contextText = questions
           .slice(0, currentQuestion)
           .map((q, index) => `${q}: ${previousUserAnswers[index]?.text || "No answer provided"}`)
           .join("\n");
       }
 
-      const extractedSuggestions = await chatbotController.getSuggestions(contextText, questions[currentQuestionIndex]);
+      const extractedSuggestions = await chatbotController.getSuggestions(contextText, questions[currentQuestion]);
       setSuggestions(extractedSuggestions);
 
       // Key change: Set loading to false immediately when suggestions arrive
@@ -141,9 +138,9 @@ const ChatbotView = () => {
 
   // Rest of the code remains the same as in the original implementation
   const handleSaveEvent = async () => {
-    const userAnswers = messages.filter((message) => message.sender === "user").map((message) => message.text);
+    const userAnswers = messages.filter((m) => m.sender === "user").map((m) => m.text);
     const payload = {
-      user_email: checkIfCurrentUserIsGuest(currentUser) ? "Guest" : currentUser?.email,
+      user_email: currentUser?.email?.toLowerCase() === "guest@gmail.com" ? "Guest" : currentUser?.email,
       event_name: "",
       event_type: userAnswers[0] || "",
       event_date: userAnswers[1] || "",
@@ -190,15 +187,15 @@ const ChatbotView = () => {
 
         <div className="chatbot-main">
           <div className="chat-box" ref={chatBoxRef}>
-            {messages.map((message, index) => (
-              <div key={index} className={`message ${message.sender === "user" ? "user-message" : "bot-message"}`}>
-                <div className={`message-bubble ${message.sender === "user" ? "user-bubble" : "bot-bubble"}`}>
-                  <p dangerouslySetInnerHTML={{ __html: formatMessage(message.text) }}></p>
+            {messages.map((msg, idx) => (
+              <div key={idx} className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}>
+                <div className={`message-bubble ${msg.sender === "user" ? "user-bubble" : "bot-bubble"}`}>
+                  <p dangerouslySetInnerHTML={{ __html: formatMessage(msg.text) }}></p>
                 </div>
               </div>
             ))}
 
-            {isLoading && (
+            {loading && (
               <div className="message bot-message">
                 <div className="message-bubble bot-bubble typing-indicator">
                   <span></span>
@@ -215,9 +212,9 @@ const ChatbotView = () => {
                 <p>Here are some suggestions:</p>
               </div>
               <div className="suggestion-buttons">
-                {suggestions.map((suggestion, index) => (
-                  <button key={index} className="suggestion-button" onClick={() => handleSuggestionClick(suggestion)}>
-                    {suggestion}
+                {suggestions.map((sugg, i) => (
+                  <button key={i} className="suggestion-button" onClick={() => handleSuggestionClick(sugg)}>
+                    {sugg}
                   </button>
                 ))}
               </div>
@@ -230,7 +227,7 @@ const ChatbotView = () => {
               type="text"
               placeholder="Type your answer..."
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={(e) => setInput(e.target.value)}
               className="input-field"
               disabled={loading || showPopup || isCompleted}
               onKeyPress={(e) => {
@@ -263,12 +260,12 @@ const ChatbotView = () => {
               </div>
 
               <div className="popup-content">
-                {questions.map((question, index) => {
-                  const userAnswer = messages.filter((message) => message.sender === "user")[index]?.text || "No answer provided";
+                {questions.map((q, idx) => {
+                  const userAnswer = messages.filter((m) => m.sender === "user")[idx]?.text || "No answer provided";
 
                   return (
-                    <div key={index} className="summary-item">
-                      <h3 dangerouslySetInnerHTML={{ __html: formatMessage(question) }}></h3>
+                    <div key={idx} className="summary-item">
+                      <h3 dangerouslySetInnerHTML={{ __html: formatMessage(q) }}></h3>
                       <p>{userAnswer}</p>
                     </div>
                   );
@@ -276,8 +273,8 @@ const ChatbotView = () => {
               </div>
 
               <div className="popup-actions">
-                <button className="save-button" onClick={handleSaveEvent} disabled={isLoading}>
-                  {isLoading ? "Saving..." : "Save Event"}
+                <button className="save-button" onClick={handleSaveEvent} disabled={loading}>
+                  {loading ? "Saving..." : "Save Event"}
                 </button>
                 <button className="close-button" onClick={closePopup}>
                   Close

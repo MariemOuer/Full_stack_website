@@ -18,6 +18,7 @@ const InvitationView = () => {
         setEventData(response.data);
       } catch (error) {
         console.error("Error fetching event:", error);
+        console.error("Error fetching event:", error);
       } finally {
         setIsLoading(false);
       }
@@ -38,36 +39,52 @@ const InvitationView = () => {
       whimsical: {
         title: "Be Our Guest!",
         description: `Join us for <strong>${event_name || "a special event"}</strong>`,
+        subtitleClass: "whimsical-sub",
+        boxClass: "whimsical-box",
+        textClass: "whimsical-text",
+        footerClass: "whimsical-footer",
       },
       classic: {
         title: "You're Invited!",
         description: `Celebrate <strong>${event_name || "this special occasion with us"}</strong>`,
+        subtitleClass: "classic-sub",
+        boxClass: "classic-box",
+        textClass: "classic-text",
+        footerClass: "classic-footer",
       },
       professional: {
         title: "You're Invited to Our Professional Event",
         description: `<strong>${event_name || "Business Event"}</strong>`,
+        subtitleClass: "professional-sub",
+        boxClass: "professional-box",
+        textClass: "professional-text",
+        footerClass: "professional-footer",
       },
       fun: {
         title: "🎉 Party Time! 🎉",
         description: `Let's have fun at <strong>${event_name || "our amazing event"}</strong>`,
+        subtitleClass: "fun-sub",
+        boxClass: "fun-box",
+        textClass: "fun-text",
+        footerClass: "fun-footer",
       },
     };
 
-    const { title, description } = content[selectedStyle];
+    const { title, description, subtitleClass, boxClass, textClass, footerClass } = content[selectedStyle];
 
     return (
-      <div className={`invitation-box ${selectedStyle}`}>
+      <div className={`invitation-box ${boxClass}`}>
         <h1>{title}</h1>
-        <p dangerouslySetInnerHTML={{ __html: description }} />
+        <p className={subtitleClass} dangerouslySetInnerHTML={{ __html: description }} />
         <div className="divider" />
-        <p>
+        <p className={textClass}>
           <strong>Date:</strong> {event_date || "TBD"}
           <br />
           <strong>Location:</strong> {location || "TBD"}
           <br />
           <strong>Theme:</strong> {theme || "A wonderful surprise!"}
         </p>
-        <div className="invitation-footer">We can't wait to see you there!</div>
+        <p className={`invitation-footer ${footerClass}`}>We can't wait to see you there!</p>
       </div>
     );
   };

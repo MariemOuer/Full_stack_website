@@ -32,6 +32,8 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
       let title = "";
       let description = "";
       let styleBlock = "";
+      let tableStyle = "";
+      let pointColourStyle = "";
 
       switch (style) {
         case "whimsical":
@@ -40,9 +42,11 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
           styleBlock = `
             font-family: 'Times New Roman', serif;
             background-color: #fefdf6;
-            color: #6c5a51;
+            color: #43634e;
             border: 1px solid #e3dec6;
           `;
+          tableStyle = `background-color: #ecf2e6;`;
+          pointColourStyle = `color: #64836f;`;
           break;
         case "classic":
           title = "You're Invited!";
@@ -50,9 +54,11 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
           styleBlock = `
             font-family: 'Georgia', serif;
             background-color: #fff7f3;
-            color: #5e4a4a;
+            color: #d16a6a;
             border: 1px solid #e4d7d3;
           `;
+          tableStyle = `background-color: #fbece6;`;
+          pointColourStyle = `color: #8a6d6d;`;
           break;
         case "professional":
           title = "You're Invited to Our Professional Event";
@@ -60,9 +66,11 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
           styleBlock = `
             font-family: 'Arial', sans-serif;
             background-color: #ffffff;
-            color: #333;
+            color: #2172ec;
             border: 1px solid #dcdcdc;
           `;
+          tableStyle = `background-color: #f7f7f7;`;
+          pointColourStyle = `color: #555;`;
           break;
         case "fun":
           title = "🎉 Party Time! 🎉";
@@ -70,28 +78,37 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
           styleBlock = `
             font-family: 'Poppins', Arial, sans-serif;
             background-color: #ffffff;
-            color: #007bff;
-            border: 1.5px solid #007bff;
+            color: #cd645c;
+            border: 1.5px solid #EB726A;
           `;
+          tableStyle = `background-color: #fedfd7;`;
+          pointColourStyle = `color: #555;`;
+
           break;
         default:
           return res.status(400).json({ message: "Invalid invitation style" });
       }
 
       const message = `
-        <div style="max-width: 450px; margin: auto; padding: 30px; border-radius: 12px; text-align: center; ${styleBlock}">
-          <h1>${title}</h1>
-          <p>${description}</p>
-          <hr style="margin: 20px 0;" />
-          <p>
-            <strong>Date:</strong> ${event_date || "TBD"}<br/>
-            <strong>Location:</strong> ${location || "TBD"}<br/>
-            <strong>Theme:</strong> ${theme || "A wonderful surprise!"}
-          </p>
-          <p style="font-style: italic; margin-top: 20px; font-size: 14px;">
-            We can't wait to see you there!
-          </p>
-        </div>
+      <table style="margin: auto; width:100%; padding: 60px 0 60px 0; ${tableStyle}">
+        <tr>
+        <td style="padding: 0; font-size: 16px;">
+          <div style="max-width: 450px; margin: auto; padding: 50px; border-radius: 12px; text-align: center; ${styleBlock}">
+            <h1 style="font-size: 32px;">${title}</h1>
+            <p style="font-size: 20px; ${pointColourStyle}">${description}</p>
+            <hr style=" border-width: 0.5px; margin: 20px 0;" />
+            <p style="font-size: 16px; ${pointColourStyle}">
+              <strong>Date:</strong> ${event_date || "TBD"}<br/>
+              <strong>Location:</strong> ${location || "TBD"}<br/>
+              <strong>Theme:</strong> ${theme || "A wonderful surprise!"}
+            </p>
+            <p style="font-style: italic; font-size: 14px; ${pointColourStyle}">
+              We can't wait to see you there!
+            </p>
+          </div>
+        </td>
+        </tr>
+      </table>
       `;
 
       await sendEmail(guest.email, subject, message);
@@ -102,7 +119,7 @@ router.post("/event/:eventId/send-invites", async (req, res) => {
 
     res.status(200).json({ message: "Invitations sent successfully!" });
   } catch (error) {
-    console.error("❌ Error sending invites:", error);
+    console.error("Error sending invites:", error);
     res.status(500).json({ message: "Error sending invitations" });
   }
 });

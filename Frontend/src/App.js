@@ -3,9 +3,8 @@ import { useAuth } from "./context/AuthContext";
 import LoginView from "./views/LoginView";
 import SignupView from "./views/SignupView";
 import DashboardView from "./views/DashboardView";
-import ViewInvitationView from "./views/ViewInvitationView";
 import EditGuestListView from "./views/EditGuestListView";
-import EditEventDetailsView from "./views/EditEventDetailsView";
+import InvitationView from "./views/InvitationView";
 import ChatBotView from "./views/ChatbotView";
 import SavedEventsView from "./views/SavedEventsView";
 
@@ -23,9 +22,9 @@ function App() {
         <Route path="/" element={currentUser ? <DashboardView /> : <Navigate to="/login" />} />
         <Route path="/chatbot" element={currentUser ? <ChatBotView /> : <Navigate to="/login" />} />
         <Route path="/events" element={currentUser ? <SavedEventsView /> : <Navigate to="/login" />} />
-        <Route path="/view-invitation/:eventId" element={currentUser ? <ViewInvitationView /> : <Navigate to="/login" />} />
+        <Route path="/view-invitation/:eventId" element={currentUser ? <InvitationView /> : <Navigate to="/login" />} />
         <Route path="/edit-guest-list/:eventId" element={currentUser ? <EditGuestListView /> : <Navigate to="/login" />} />
-        <Route path="/edit-event-details/:eventId" element={currentUser ? <EditEventDetailsView /> : <Navigate to="/login" />} />
+        {/* <Route path="/edit-event-details/:eventId" element={currentUser ? <EditEventDetailsView /> : <Navigate to="/login" />} /> */}
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />

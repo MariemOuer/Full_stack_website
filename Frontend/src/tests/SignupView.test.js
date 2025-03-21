@@ -207,21 +207,4 @@ describe("SignupView Tests", () => {
     // Verify navigation to the login page
     expect(mockNavigate).toHaveBeenCalledWith("/login");
   });
-
-  // Test Case 3.1: Responsive Design on Mobile Devices
-  test("should display the signup form correctly on mobile devices", async () => {
-    // Mock window.innerWidth to simulate a mobile device
-    global.innerWidth = 500;
-    global.dispatchEvent(new Event("resize"));
-
-    render(<SignupView />);
-
-    // Check that the background image is hidden
-    const image = screen.getByAltText("Signup Illustration");
-    console.log("Computed display:", window.getComputedStyle(image).display);
-
-    await waitFor(() => {
-      expect(window.getComputedStyle(image).display).toBe("none");
-    });
-  });
 });

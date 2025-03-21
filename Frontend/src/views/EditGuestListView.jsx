@@ -54,7 +54,7 @@ const EditGuestListView = () => {
   const handleSendInvites = async () => {
     try {
       await apiService.post(`/event/${eventId}/send-invites`, {
-        style: selectedStyle, // ✅ FIXED: Now sending selected style
+        style: selectedStyle,  
       });
       fetchGuests();
     } catch (error) {

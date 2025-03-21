@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseURL = "https://occ-ongoq50p0-studdybackends-projects.vercel.app/api";
+const baseURL = "http://localhost:3000/api";
+
 
 export const apiService = {
   // GET

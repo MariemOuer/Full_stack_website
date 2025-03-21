@@ -9,3 +9,4 @@ export type Invitation = {
   status: InvitationStatus | undefined;
   rsvpDeadline: Date;
 };
+

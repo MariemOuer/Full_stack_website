@@ -28,10 +28,7 @@ app.get("/test", (req, res) => {
   res.status(200).json({ message: "Test route works!" });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;
 
 /**
  * This is the main server file for the Occasio backend API, built using Express.
